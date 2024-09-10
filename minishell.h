@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/09/10 13:22:58 by bszikora         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:55:10 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -34,5 +34,8 @@ char *strtok(char *str, const char *delimiters); // https://cplusplus.com/refere
 
 // Input handling:
 int handle_input(char *input);
+
+// Signal handlind
+void setup_signal_handling();
 
 #endif
