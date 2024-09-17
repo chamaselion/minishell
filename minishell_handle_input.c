@@ -21,10 +21,7 @@ t_parsed_input	*parsing(char *input)
 	init_parsed_input(parsed_input);
 	parsed_input->token = ft_strtok(input, parsed_input->delimiters); //add token count to function, see struct
 	if (parsed_input->input == NULL)
-	{
-		free(parsed_input);
-		return NULL;
-	}
+		return (free(parsed_input), NULL);
 
 
 
