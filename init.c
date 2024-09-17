@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:57:00 by root              #+#    #+#             */
-/*   Updated: 2024/09/16 18:49:05 by root             ###   ########.fr       */
+/*   Updated: 2024/09/17 18:10:39 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_parsed_input(t_parsed_input parsed_input)
 {
-	parsed->token = NULL;
+	parsed_input.token = NULL;
 	parsed->delimiters = e_special_char[SPACE, TAB, NEWLINE, CARRIAGE_RETURN, END_OF_FILE];
 	parsed->commands = NULL;
 	parsed->token_count = 0;

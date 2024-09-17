@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/09/16 18:47:02 by root             ###   ########.fr       */
+/*   Updated: 2024/09/17 18:09:36 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_special_char_struct
 typedef struct s_parsed_input
 {
 	void	**token;
-	t_special_char
+	t_special_char_struct *special_char;
 	void	**commands;
 	int		token_count;
 }	t_parsed_input;
@@ -76,21 +76,22 @@ typedef enum e_special_char
 	DOUBLE_QUOTE = '"',
 	BACKTICK = '`',
 	BACKSLASH = '\\',
-	SPACE = ' ',
-	TAB = '\t',
-	NEWLINE = '\n',
+	T_SPACE = ' ',
+	T_TAB = '\t',
+	T_NEWLINE = '\n',
 	CARRIAGE_RETURN = '\r',
 	END_OF_FILE = '\0',
 }	e_special_char;
 
-void is_special_char(char *str, t_special_char *special_char);
+void is_special_char(char *str, t_special_char_struct *special_char);
 
 // Initialization:
 void init_parsed_input(t_parsed_input *parsed_input);
 void init_special_char_handling(t_special_char_struct *special_char);
 
 // Parsing:
-char **ft_strtok(char *str, const char *delimiters); // https://cplusplus.com/reference/cstring/strtok/
+char **ft_strtok(char *str, const char *delimiters); // https://cplusplus.com/reference/cstring/strtok/ 
+//add possibility to change struct values
 
 // Input handling:
 int handle_input(char *input);
