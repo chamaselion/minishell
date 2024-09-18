@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/09/18 10:41:16 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/09/18 11:12:06 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 // Special characters:
 typedef enum e_special_char
 {
+	DOLLAR = '$',
 	PIPE = '|',
 	REDIRECT = '>',
 	APPEND = '>>',

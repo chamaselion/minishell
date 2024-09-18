@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:57:00 by root              #+#    #+#             */
-/*   Updated: 2024/09/18 10:46:38 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/09/18 11:04:51 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_parsed_input(t_parsed_input *parsed_input)
 	static e_special_char delimiters[] = {T_SPACE, T_TAB, T_NEWLINE, END_OF_FILE};
 	
 	parsed_input->token = NULL;
-	parsed_input->delimiters =delimiters;
+	parsed_input->delimiters = delimiters;
 	parsed_input->commands = NULL;
 	parsed_input->token_count = 0;
 }
