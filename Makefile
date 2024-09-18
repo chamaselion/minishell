@@ -2,7 +2,11 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
-SRC = minishell_loop.c minishell_handle_input.c minishell_signal_handling.c
+SRC = minishell_loop.c\
+	minishell_handle_input.c\
+	minishell_signal_handling.c\
+	init.c\
+	utils.c
 OBJ = $(SRC:.c=.o)
 NAME = minishell
 LDFLAGS = -lreadline
