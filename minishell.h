@@ -39,7 +39,7 @@ typedef enum e_special_char
 	INPUT = '<',
 	QUOTE = '\'',
 	DOUBLE_QUOTE = '"',
-	BACKSLASH = '\\',
+	DASH = '-',
 	T_SPACE = ' ',
 	T_TAB = '\t',
 	T_NEWLINE = '\n',
