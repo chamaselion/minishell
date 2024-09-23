@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/09/18 11:12:06 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:34:02 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum e_special_char
 	INPUT = '<',
 	QUOTE = '\'',
 	DOUBLE_QUOTE = '"',
-	BACKSLASH = '\\',
+	DASH = '-',
 	T_SPACE = ' ',
 	T_TAB = '\t',
 	T_NEWLINE = '\n',
@@ -89,6 +89,7 @@ void init_parsed_input(t_parsed_input *parsed_input);
 void init_special_char_handling(t_special_char_struct *special_char);
 
 // Parsing:
+t_parsed_input *parsing(char *input);
 
 // Utils:
 char	**ft_strtok(char *str, const char *delimiters); //add possibility to change struct values
@@ -100,7 +101,10 @@ char	*ft_strtok_r(char *str, const char *delim, char **saveptr);
 // Input handling:
 int handle_input(char *input);
 
-// Signal handlind
+// Signal handling:
 void setup_signal_handling();
+
+// Freeing:
+void free_parsed_input(t_parsed_input *parsed_input);
 
 #endif
