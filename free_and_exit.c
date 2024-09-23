@@ -1,3 +1,5 @@
+#include "minishell.h"
+
 void free_parsed_input(t_parsed_input *parsed_input)
 {
     int i;

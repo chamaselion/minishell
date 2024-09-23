@@ -89,6 +89,7 @@ void init_parsed_input(t_parsed_input *parsed_input);
 void init_special_char_handling(t_special_char_struct *special_char);
 
 // Parsing:
+t_parsed_input *parsing(char *input);
 
 // Utils:
 char	**ft_strtok(char *str, const char *delimiters); //add possibility to change struct values
@@ -100,7 +101,10 @@ char	*ft_strtok_r(char *str, const char *delim, char **saveptr);
 // Input handling:
 int handle_input(char *input);
 
-// Signal handlind
+// Signal handling:
 void setup_signal_handling();
+
+// Freeing:
+void free_parsed_input(t_parsed_input *parsed_input);
 
 #endif
