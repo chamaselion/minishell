@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:57:00 by root              #+#    #+#             */
-/*   Updated: 2024/09/18 11:04:51 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:20:45 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_parsed_input(t_parsed_input *parsed_input)
 	static e_special_char delimiters[] = {T_SPACE, T_TAB, T_NEWLINE, END_OF_FILE};
 	
 	parsed_input->token = NULL;
-	parsed_input->delimiters = delimiters;
+	parsed_input->delimiters = (char*)delimiters;
 	parsed_input->commands = NULL;
 	parsed_input->token_count = 0;
 }
@@ -36,9 +36,14 @@ void	init_command(char *command_token)
 	command = malloc(sizeof(t_command));
 	if (command == NULL)
 		return ;
-	command->command = command_token;
+	command->command = ft_strdup(command_token);
 	command->input = NULL;
 	command->args = NULL;
 	command->output = NULL;
-	command->pipe = NULL;
+}
+
+void init_shell(t_shell *shell) 
+{
+    shell->commands = NULL;
+    getcwd(shell->cwd, sizeof(shell->cwd));
 }
