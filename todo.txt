@@ -85,3 +85,38 @@
 10.2. Perform thorough testing and debugging  
 
 10.3. Optimize for performance and memory usage 
+
+TODO Deadline 06/10
+
+- Get the parsing part compilable so the execution part can interact
+- ?handling void pointers in combo with printf :
+	- original with a wrapper function to get rid of output format errors
+	- OR alter the ft_printf to avoid that error (worked better with NULL pointers)
+		- think about a printf_error(to put out error messages, instead of doing it via perror)
+- different uses for $
+	- as a reference before a variable
+	- as just a string when within single quotes
+	- $? as a request for the last exit status the 
+		-"$?" has to be recognized as an int
+		- expr $? + $? has to yield 254 for a command not found.
+
+
+Further questions
+- exit status
+	- ? global variable? struct value of the minishell?
+	- wrapper struct that has integer for exit status? enum?
+		-struct or enum are the way
+
+- export and unset
+	- temp to swap 
+
+- ?env WITHOUT ANYTHING, so just getting a static list?
+	- difference to export: format and 
+	- last command called only shown with env
+	- think about doing it as a linked list (or our approach as a file)
+	- deleting a line is easier with linked list
+	- think about ls_colors (split only at 1st occurence)
+	- with export, even inputs that make no sense are listed as env entry
+- ?Piping as a linked list of functions and results? 
+	- execve prohibits using the original process and getting back to that. 
+	so no way around parent/child
