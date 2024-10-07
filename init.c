@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:57:00 by root              #+#    #+#             */
-/*   Updated: 2024/10/07 15:34:55 by root             ###   ########.fr       */
+/*   Updated: 2024/10/07 15:47:23 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void init_parsed_input(t_parsed_input *parsed_input)
 {
-    static char delimiters[] = {T_SPACE, T_TAB, T_NEWLINE, END_OF_FILE};
+    static char delimiters[] = {' ', '\t', '\n', END_OF_FILE};
     
     parsed_input->token = NULL;
     parsed_input->delimiters = delimiters;

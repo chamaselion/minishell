@@ -41,10 +41,7 @@ typedef enum e_special_char
     REDIR_IN = '<',
     QUOTE = '\'',
     DOUBLE_QUOTE = '"',
-    DASH = '-',
-    T_SPACE = ' ',
-    T_TAB = '\t',
-    T_NEWLINE = '\n',
+    DASH = '-', // Used for options
     END_OF_FILE = '\0',
 } e_special_char;
 
@@ -55,7 +52,6 @@ typedef struct s_special_char_struct
     int status; // -1 = not found, 0 = found, 1 = found 2 (or more = n -1) times,
                 // e.g. quotes opened and closed
     e_special_char type;
-
 } t_special_char_struct;
 
 typedef struct s_env
