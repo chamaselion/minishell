@@ -83,7 +83,7 @@ typedef struct s_parsed_input
     t_special_char_struct *special_char;
     t_command **commands;
     int token_count;
-    const char *delimiters;
+    char *delimiters;
 } t_parsed_input;
 
 typedef struct s_shell
@@ -97,7 +97,7 @@ int is_special_char(char *str, e_special_char type);
 // Initialization:
 void init_parsed_input(t_parsed_input *parsed_input);
 void init_special_char_handling(t_special_char_struct *special_char);
-void init_command(char *command_token);
+void init_command(t_command *cmd);
 
 // Parsing:
 t_parsed_input *parsing(char *input);

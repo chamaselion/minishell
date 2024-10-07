@@ -15,7 +15,7 @@
 static int count_and_allocate_tokens(t_parsed_input *parsed_input, char *input)
 {
     char *token;
-    const char *delim = " \t\n"; // Using standard delimiters instead of parsed_input->delimiters
+    const char *delim = parsed_input->delimiters;
 
     parsed_input->token_count = 0;
     token = ft_strtok(input, delim);
@@ -33,7 +33,7 @@ static int tokenize_input(t_parsed_input *parsed_input, char *input)
 {
     char *token;
     int i = 0;
-    const char *delim = " \t\n"; // Using standard delimiters instead of parsed_input->delimiters
+    const char *delim = parsed_input->delimiters;
 
     token = ft_strtok(input, delim);
     while (token != NULL)
