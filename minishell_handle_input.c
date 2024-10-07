@@ -16,17 +16,31 @@ static int count_and_allocate_tokens(t_parsed_input *parsed_input, char *input)
 {
     char *token;
     const char *delim = parsed_input->delimiters;
+    char *input_copy = ft_strdup(input);
+
+    if (!input_copy)
+    {
+        printf("Error: Failed to allocate memory for input copy\n");
+        return 0;
+    }
 
     parsed_input->token_count = 0;
-    token = ft_strtok(input, delim);
+    token = ft_strtok(input_copy, delim);
     while (token != NULL)
     {
         parsed_input->token_count++;
         token = ft_strtok(NULL, delim);
     }
 
+    free(input_copy);
+
     parsed_input->token = malloc(sizeof(char *) * (parsed_input->token_count + 1));
-    return (parsed_input->token != NULL);
+    if (!parsed_input->token)
+    {
+        printf("Error: Failed to allocate memory for tokens\n");
+        return 0;
+    }
+    return 1;
 }
 
 static int tokenize_input(t_parsed_input *parsed_input, char *input)
@@ -40,53 +54,15 @@ static int tokenize_input(t_parsed_input *parsed_input, char *input)
     {
         parsed_input->token[i] = ft_strdup(token);
         if (!parsed_input->token[i])
+        {
+            printf("Error: Failed to allocate memory for token\n");
             return 0;
+        }
         i++;
         token = ft_strtok(NULL, delim);
     }
     parsed_input->token[i] = NULL;
     return 1;
-}
-
-void process_special_char(char *token, t_special_char_struct *special_char)
-{
-    int count;
-
-    if ((count = is_special_char(token, PIPE)) > 0)
-    {
-        special_char->type = PIPE;
-        special_char->status = count;
-    }
-    else if ((count = is_special_char(token, REDIR_IN)) > 0)
-    {
-        special_char->type = REDIR_IN;
-        special_char->status = count;
-    }
-    else if ((count = is_special_char(token, REDIR_OUT)) > 0)
-    {
-        special_char->type = REDIR_OUT;
-        special_char->status = count;
-    }
-    else if ((count = is_special_char(token, DOLLAR)) > 0)
-    {
-        special_char->type = DOLLAR;
-        special_char->status = count;
-    }
-    else if ((count = is_special_char(token, QUOTE)) > 0)
-    {
-        special_char->type = QUOTE;
-        special_char->status = count;
-    }
-    else if ((count = is_special_char(token, DOUBLE_QUOTE)) > 0)
-    {
-        special_char->type = DOUBLE_QUOTE;
-        special_char->status = count;
-    }
-    else
-    {
-        special_char->type = END_OF_FILE;
-        special_char->status = -1;
-    }
 }
 
 static int process_special_chars(t_parsed_input *parsed_input)
@@ -112,11 +88,17 @@ static int create_commands(t_parsed_input *parsed_input)
 
     parsed_input->commands = malloc(sizeof(t_command *) * (parsed_input->token_count + 1));
     if (!parsed_input->commands)
+    {
+        printf("Error: Failed to allocate memory for commands\n");
         return 0;
+    }
 
     current_cmd = malloc(sizeof(t_command));
     if (!current_cmd)
+    {
+        printf("Error: Failed to allocate memory for current command\n");
         return 0;
+    }
     init_command(current_cmd);
     parsed_input->commands[0] = current_cmd;
 
@@ -126,7 +108,10 @@ static int create_commands(t_parsed_input *parsed_input)
         {
             current_cmd->next = malloc(sizeof(t_command));
             if (!current_cmd->next)
+            {
+                printf("Error: Failed to allocate memory for next command\n");
                 return 0;
+            }
             current_cmd = current_cmd->next;
             init_command(current_cmd);
             parsed_input->commands[i + 1] = current_cmd;
@@ -141,7 +126,17 @@ static int create_commands(t_parsed_input *parsed_input)
         }
         else
         {
+            if (current_cmd->arg_count >= MAX_ARGS)
+            {
+                printf("Error: Too many arguments\n");
+                return 0;
+            }
             current_cmd->args[current_cmd->arg_count] = ft_strdup(parsed_input->token[i]);
+            if (!current_cmd->args[current_cmd->arg_count])
+            {
+                printf("Error: Failed to allocate memory for argument\n");
+                return 0;
+            }
             current_cmd->arg_count++;
         }
     }
@@ -211,4 +206,45 @@ int handle_input(char *input)
     free_parsed_input(parsed_input);
     free(input);
     return 0;
+}
+
+void process_special_char(char *token, t_special_char_struct *special_char)
+{
+    int count;
+
+    if ((count = is_special_char(token, PIPE)) > 0)
+    {
+        special_char->type = PIPE;
+        special_char->status = count;
+    }
+    else if ((count = is_special_char(token, REDIR_IN)) > 0)
+    {
+        special_char->type = REDIR_IN;
+        special_char->status = count;
+    }
+    else if ((count = is_special_char(token, REDIR_OUT)) > 0)
+    {
+        special_char->type = REDIR_OUT;
+        special_char->status = count;
+    }
+    else if ((count = is_special_char(token, DOLLAR)) > 0)
+    {
+        special_char->type = DOLLAR;
+        special_char->status = count;
+    }
+    else if ((count = is_special_char(token, QUOTE)) > 0)
+    {
+        special_char->type = QUOTE;
+        special_char->status = count;
+    }
+    else if ((count = is_special_char(token, DOUBLE_QUOTE)) > 0)
+    {
+        special_char->type = DOUBLE_QUOTE;
+        special_char->status = count;
+    }
+    else
+    {
+        special_char->type = END_OF_FILE;
+        special_char->status = -1;
+    }
 }
