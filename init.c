@@ -3,42 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:57:00 by root              #+#    #+#             */
-/*   Updated: 2024/09/18 11:04:51 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:04:54 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_parsed_input(t_parsed_input *parsed_input)
+void init_parsed_input(t_parsed_input *parsed_input)
 {
-	static e_special_char delimiters[] = {T_SPACE, T_TAB, T_NEWLINE, END_OF_FILE};
-	
-	parsed_input->token = NULL;
-	parsed_input->delimiters = delimiters;
-	parsed_input->commands = NULL;
-	parsed_input->token_count = 0;
+    static char delimiters[] = {' ', '\t', '\n', END_OF_FILE};
+    
+    parsed_input->token = NULL;
+    parsed_input->delimiters = delimiters;
+    parsed_input->commands = NULL;
+    parsed_input->token_count = 0;
+    parsed_input->special_char = NULL;
+    parsed_input->special_char_count = 0;
 }
 
-void	init_special_char_handling(t_special_char_struct *special_char)
+void init_special_char_handling(t_special_char_struct *special_char)
 {
-	special_char->special_char = NULL;
-	special_char->function = NULL;
-	special_char->status = -1;
+    special_char->type = END_OF_FILE;
+    special_char->count = 0;
+    special_char->position = -1;
 }
 
-void	init_command(char *command_token)
+void init_command(t_command *command)
 {
-	t_command	*command;
+    command->command = NULL;
+    command->input = NULL;
+    command->args = malloc(sizeof(char *) * MAX_ARGS);
+    command->arg_count = 0;
+    command->output = NULL;
+    command->next = NULL;
+    command->append = 0;
+}
 
-	command = malloc(sizeof(t_command));
-	if (command == NULL)
-		return ;
-	command->command = command_token;
-	command->input = NULL;
-	command->args = NULL;
-	command->output = NULL;
-	command->pipe = NULL;
+void init_shell(t_shell *shell) 
+{
+    shell->commands = NULL;
+    getcwd(shell->cwd, sizeof(shell->cwd));
 }
