@@ -6,13 +6,15 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:12:45 by root              #+#    #+#             */
-/*   Updated: 2024/10/04 14:31:38 by root             ###   ########.fr       */
+/*   Updated: 2024/10/07 18:40:10 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_special_char(char *str, e_special_char type)
+//different approach seems to handle it easier
+
+/*int is_special_char(char *str, e_special_char type)
 {
     int count = 0;
 
@@ -55,6 +57,10 @@ int is_special_char(char *str, e_special_char type)
     }
 
     return -1;
+}*/
+int is_special_char(char c)
+{
+    return (c == '|' || c == '>' || c == '<' || c == '$' || c == '\'' || c == '"');
 }
 
 char *ft_strtok_r(char *str, const char *delim, char **saveptr)

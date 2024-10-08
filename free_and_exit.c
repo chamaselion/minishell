@@ -2,22 +2,12 @@
 
 void free_parsed_input(t_parsed_input *parsed_input)
 {
-    int i;
-
-    if (!parsed_input)
-        return;
-
-    if (parsed_input->token)
+    for (int i = 0; i < parsed_input->token_count; i++)
     {
-        for (i = 0; i < parsed_input->token_count; i++)
-            free(parsed_input->token[i]);
-        free(parsed_input->token);
+        free(parsed_input->token[i]);
     }
-
-    if (parsed_input->special_char)
-        free(parsed_input->special_char);
-
-    free(parsed_input);
+    free(parsed_input->token);
+    free(parsed_input->special_char);
 }
 
 void free_command(t_command *cmd) 

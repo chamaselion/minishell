@@ -41,26 +41,19 @@ typedef enum e_special_char
     REDIR_IN = '<',
     QUOTE = '\'',
     DOUBLE_QUOTE = '"',
-    DASH = '-', // Used for options
+    DASH = '-',
+    T_SPACE = ' ',
+    T_TAB = '\t',
+    T_NEWLINE = '\n',
     END_OF_FILE = '\0',
 } e_special_char;
 
 typedef struct s_special_char_struct
 {
-    char **special_char;
-    void (*function)(void **str);
-    int status; // -1 = not found, 0 = found, 1 = found 2 (or more = n -1) times,
-                // e.g. quotes opened and closed
     e_special_char type;
+    int count; // Number of occurrences
+    int position; // Position in the input string
 } t_special_char_struct;
-
-typedef struct s_env
-{
-    char *key;
-    void *value;
-    struct s_env *next;
-    int status;
-} t_env;
 
 typedef struct s_command
 {
@@ -79,6 +72,7 @@ typedef struct s_parsed_input
     t_special_char_struct *special_char;
     t_command **commands;
     int token_count;
+    int special_char_count;
     char *delimiters;
 } t_parsed_input;
 
@@ -88,12 +82,11 @@ typedef struct s_shell
     char cwd[MAX_PATH];
 } t_shell;
 
-int is_special_char(char *str, e_special_char type);
-
-// Initialization:
 void init_parsed_input(t_parsed_input *parsed_input);
 void init_special_char_handling(t_special_char_struct *special_char);
 void init_command(t_command *cmd);
+
+int is_special_char(char c);
 
 // Parsing:
 t_parsed_input *parsing(char *input);

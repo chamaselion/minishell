@@ -17,7 +17,7 @@ void write_parsed_input_to_file(t_parsed_input *parsed_input, const char *filena
     for (i = 0; i < parsed_input->token_count; i++)
     {
         write(fd, parsed_input->token[i], ft_strlen(parsed_input->token[i]));
-        if (parsed_input->special_char[i].status == 0)
+        if (parsed_input->special_char[i].count >= 1)
         {
             len = printf(buffer, sizeof(buffer), " (Special: %d)", parsed_input->special_char[i].type);
             write(fd, buffer, len);
