@@ -12,60 +12,233 @@
 
 #include "minishell.h"
 
-static int count_and_allocate_tokens(t_parsed_input *parsed_input, char *input)
+#include "minishell.h"
+
+static char *get_next_token(char **input, t_special_char_struct *special_char, int *position)
 {
-    char *token;
-    const char *delim = parsed_input->delimiters;
-    char *input_copy = ft_strdup(input);
+    char *start = *input;
+    char *token = start;
+    char quote_char = '\0';
 
-    if (!input_copy)
+    while (*start == ' ' || *start == '\t')
     {
-        printf("Error: Failed to allocate memory for input copy\n");
-        return 0;
+        start++;
+        (*position)++;
     }
 
-    parsed_input->token_count = 0;
-    token = ft_strtok(input_copy, delim);
-    while (token != NULL)
+    if (*start == '\'' || *start == '"')
     {
-        parsed_input->token_count++;
-        token = ft_strtok(NULL, delim);
+        quote_char = *start;
+        special_char->type = (quote_char == '\'') ? QUOTE : DOUBLE_QUOTE;
+        special_char->count = 2;
+        special_char->position = *position;
+        start++;
+        (*position)++;
+        token = start;
+        while (*start && *start != quote_char)
+        {
+            start++;
+            (*position)++;
+        }
+        if (*start == quote_char)
+        {
+            *start = '\0';
+            start++;
+            (*position)++;
+        }
+    }
+    else if (*start == '<' && *(start + 1) == '<')
+    {
+        special_char->type = REDIR_IN;
+        special_char->count = 2;
+        special_char->position = *position;
+        token = start;
+        start += 2;
+        (*position) += 2;
+        *start = '\0';
+        start++;
+        (*position)++;
+    }
+    else if (*start == '>' && *(start + 1) == '>')
+    {
+        special_char->type = REDIR_OUT;
+        special_char->count = 2;
+        special_char->position = *position;
+        token = start;
+        start += 2;
+        (*position) += 2;
+        *start = '\0';
+        start++;
+        (*position)++;
+    }
+    else if (is_special_char(*start))
+    {
+        special_char->type = (e_special_char)*start;
+        special_char->count = 1;
+        special_char->position = *position;
+        token = start;
+        start++;
+        (*position)++;
+        *start = '\0';
+        start++;
+        (*position)++;
+    }
+    else
+    {
+        while (*start && *start != ' ' && *start != '\t' && !is_special_char(*start))
+        {
+            start++;
+            (*position)++;
+        }
+        if (*start)
+        {
+            *start = '\0';
+            start++;
+            (*position)++;
+        }
     }
 
-    free(input_copy);
-
-    parsed_input->token = malloc(sizeof(char *) * (parsed_input->token_count + 1));
-    if (!parsed_input->token)
-    {
-        printf("Error: Failed to allocate memory for tokens\n");
-        return 0;
-    }
-    return 1;
+    *input = start;
+    return token;
 }
 
 static int tokenize_input(t_parsed_input *parsed_input, char *input)
 {
     char *token;
     int i = 0;
-    const char *delim = parsed_input->delimiters;
+    int position = 0;
 
-    token = ft_strtok(input, delim);
-    while (token != NULL)
+    while (*input && i < parsed_input->token_count)
     {
-        parsed_input->token[i] = ft_strdup(token);
-        if (!parsed_input->token[i])
+        token = get_next_token(&input, &parsed_input->special_char[i], &position);
+        if (*token)
         {
-            printf("Error: Failed to allocate memory for token\n");
-            return 0;
+            parsed_input->token[i] = strdup(token);
+            if (!parsed_input->token[i])
+            {
+                printf("Error: Failed to allocate memory for token\n");
+                return 0;
+            }
+            i++;
         }
-        i++;
-        token = ft_strtok(NULL, delim);
     }
+    parsed_input->token_count = i;
     parsed_input->token[i] = NULL;
     return 1;
 }
 
-static int process_special_chars(t_parsed_input *parsed_input)
+static int count_tokens(char *input)
+{
+    int count = 0;
+    char quote_char = 0;
+    int in_token = 0;
+
+    while (*input)
+    {
+        if (quote_char)
+        {
+            if (*input == quote_char)
+            {
+                quote_char = 0;
+            }
+        }
+        else if (*input == '\'' || *input == '"')
+        {
+            if (!in_token)
+            {
+                count++;
+                in_token = 1;
+            }
+            quote_char = *input;
+        }
+        else if (*input == ' ' || *input == '\t')
+        {
+            in_token = 0;
+        }
+        else if (!in_token)
+        {
+            count++;
+            in_token = 1;
+        }
+        input++;
+    }
+    return count;
+}
+
+static int allocate_tokens(t_parsed_input *parsed_input, char *input)
+{
+    parsed_input->token_count = count_tokens(input);
+
+    parsed_input->token = malloc(sizeof(char *) * (parsed_input->token_count + 1));
+    parsed_input->special_char = malloc(sizeof(t_special_char_struct) * parsed_input->token_count);
+    if (!parsed_input->token || !parsed_input->special_char)
+    {
+        printf("Error: Failed to allocate memory for tokens or special characters\n");
+        return 0;
+    }
+
+    for (int i = 0; i < parsed_input->token_count; i++)
+    {
+        init_special_char_handling(&parsed_input->special_char[i]);
+    }
+
+    return 1;
+}
+
+int handle_input(char *input)
+{
+    t_parsed_input parsed_input;
+    int i;
+
+    init_parsed_input(&parsed_input);
+
+    if (!allocate_tokens(&parsed_input, input))
+    {
+        printf("Error: Failed to allocate tokens\n");
+        return 1;
+    }
+
+    if (!tokenize_input(&parsed_input, input))
+    {
+        printf("Error: Failed to tokenize input\n");
+        free_parsed_input(&parsed_input);
+        return 1;
+    }
+
+    for (i = 0; i < parsed_input.token_count; i++)
+    {
+        printf("Token %d: %s\n", i, parsed_input.token[i]);
+        if (parsed_input.special_char[i].count > 0)
+        {
+            const char *position_desc = "";
+            switch (parsed_input.special_char[i].type)
+            {
+                case QUOTE:
+                case DOUBLE_QUOTE:
+                    position_desc = "(enclosing Token)";
+                    break;
+                case REDIR_IN:
+                case REDIR_OUT:
+                    position_desc = "(before Token)";
+                    break;
+                default:
+                    position_desc = "";
+            }
+            printf("special char: %c count: %d position: %s\n",
+                   parsed_input.special_char[i].type,
+                   parsed_input.special_char[i].count,
+                   position_desc);
+        }
+    }
+
+    free_parsed_input(&parsed_input);
+
+    return 0;
+}
+
+//not used yet for parsing
+
+/*static int process_special_chars(t_parsed_input *parsed_input)
 {
     int i;
 
@@ -79,9 +252,11 @@ static int process_special_chars(t_parsed_input *parsed_input)
         process_special_char(parsed_input->token[i], &parsed_input->special_char[i]);
     }
     return 1;
-}
+}*/
 
-static int create_commands(t_parsed_input *parsed_input)
+//not used yet for parsing
+
+/*static int create_commands(t_parsed_input *parsed_input)
 {
     int i;
     t_command *current_cmd;
@@ -141,9 +316,11 @@ static int create_commands(t_parsed_input *parsed_input)
         }
     }
     return 1;
-}
+}*/
 
-t_parsed_input *parsing(char *input)
+//most probably not needeed in newer approach
+
+/*t_parsed_input *parsing(char *input)
 {
     t_parsed_input *parsed_input;
 
@@ -177,38 +354,9 @@ t_parsed_input *parsing(char *input)
     }
 
     return parsed_input;
-}
+}*/
 
-int handle_input(char *input)
-{
-    t_parsed_input *parsed_input;
-    int i;
-
-    if (input == NULL)
-        return 1;
-
-    parsed_input = parsing(input);
-    if (!parsed_input)
-    {
-        printf("Error: Failed to parse input\n");
-        free(input);
-        return 1;
-    }
-
-    // Print parsed tokens (for debugging)
-    for (i = 0; i < parsed_input->token_count; i++)
-    {
-        printf("Token %d: %s\n", i, parsed_input->token[i]);
-    }
-
-    // TODO: Process the parsed input (execute commands, etc.)
-
-    free_parsed_input(parsed_input);
-    free(input);
-    return 0;
-}
-
-void process_special_char(char *token, t_special_char_struct *special_char)
+/*void process_special_char(char *token, t_special_char_struct *special_char)
 {
     int count;
 
@@ -247,4 +395,4 @@ void process_special_char(char *token, t_special_char_struct *special_char)
         special_char->type = END_OF_FILE;
         special_char->status = -1;
     }
-}
+}*/
