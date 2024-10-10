@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:57:00 by root              #+#    #+#             */
-/*   Updated: 2024/10/07 18:04:54 by root             ###   ########.fr       */
+/*   Updated: 2024/10/09 18:52:50 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,12 @@ void init_shell(t_shell *shell)
 {
     shell->commands = NULL;
     getcwd(shell->cwd, sizeof(shell->cwd));
+}
+
+void init_token(t_token *token)
+{
+    token->start = NULL;
+    token->length = 0;
+    token->next = NULL;
+    token->prev = NULL;
 }

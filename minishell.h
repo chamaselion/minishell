@@ -53,7 +53,15 @@ typedef struct s_special_char_struct
     e_special_char type;
     int count; // Number of occurrences
     int position; // Position in the input string
+    int end_position; // Position of the closing quote
 } t_special_char_struct;
+
+typedef struct s_token {
+    char *start;
+    int length;
+    struct s_token *next;
+    struct s_token *prev;
+} t_token;
 
 typedef struct s_command
 {
@@ -68,7 +76,7 @@ typedef struct s_command
 
 typedef struct s_parsed_input
 {
-    char **token;
+    t_token *token;
     t_special_char_struct *special_char;
     t_command **commands;
     int token_count;
@@ -85,13 +93,13 @@ typedef struct s_shell
 void init_parsed_input(t_parsed_input *parsed_input);
 void init_special_char_handling(t_special_char_struct *special_char);
 void init_command(t_command *cmd);
-
+void init_token(t_token *token);
 int is_special_char(char c);
 
 // Parsing:
-t_parsed_input *parsing(char *input);
+//t_parsed_input *parsing(char *input);
 void write_parsed_input_to_file(t_parsed_input *parsed_input, const char *filename);
-void process_special_char(char *token, t_special_char_struct *special_char);
+//void process_special_char(char *token, t_special_char_struct *special_char);
 
 // Utils:
 char *ft_strtok(char *str, const char *delimiters);
