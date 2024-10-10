@@ -5,11 +5,11 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRC = minishell_loop.c\
 	minishell_handle_input.c\
 	minishell_signal_handling.c\
-	free_and_exit.c\
-	write_to_file.c\
-	init.c\
-	utils.c
-OBJ = $(SRC:.c=.o)
+	minishell_free_and_exit.c\
+	minishell_write_to_file.c\
+	minishell_init.c\
+	minishell_utils.c
+OBJ = $(addprefix objects/, $(SRC:.c=.o))
 NAME = minishell
 LDFLAGS = -lreadline
 
@@ -21,7 +21,7 @@ $(LIBFT):
 $(NAME): $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LDFLAGS)
 
-%.o: %.c
+objects/%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
