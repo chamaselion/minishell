@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2024/09/10 14:54:16 by bszikora         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:40:04 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -69,6 +69,8 @@ int main_loop(void) // Function with the loop to keep looking for inputs, I trie
 			return 1;
 		input = read_input(prompt);
 		free(prompt);
+		if (strcmp("exit", input) == 0)
+			exit(0);
 		if (handle_input(input))
 			return 1;
 	}
