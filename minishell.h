@@ -72,6 +72,7 @@ typedef struct s_command
     char *output;
     struct s_command *next;
     int append;
+    int priority;
 } t_command;
 
 typedef struct s_parsed_input

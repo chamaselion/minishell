@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+void write_input_to_heredoc(const char *input, const char *filename)
+{
+    int fd;
+
+    fd = open()
+}
+
 void write_parsed_input_to_file(t_parsed_input *parsed_input, const char *filename)
 {
     int fd;
