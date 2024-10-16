@@ -6,7 +6,6 @@ SRC = minishell_loop.c\
 	minishell_handle_input.c\
 	minishell_signal_handling.c\
 	free_and_exit.c\
-	write_to_file.c\
 	init.c\
 	utils.c
 OBJ = $(SRC:.c=.o)

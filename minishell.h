@@ -82,6 +82,7 @@ typedef struct s_parsed_input
     t_command **commands;
     int token_count;
     int special_char_count;
+    int special_char_capacity;
     char *delimiters;
 } t_parsed_input;
 
