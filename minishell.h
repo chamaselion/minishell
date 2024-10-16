@@ -51,14 +51,15 @@ typedef enum e_special_char
 typedef struct s_special_char_struct
 {
     e_special_char type;
-    int count; // Number of occurrences
+    int count; // Number of occurrences - use it to enter interactive mode!!
     int position; // Position in the input string
-    int end_position; // Position of the closing quote
+    int end_position; // Position of the closing quote - get rid of it!!!!
 } t_special_char_struct;
 
 typedef struct s_token {
     char *start;
     int length;
+    int role; //0 = nothing special, 1 = command, 2 = executable, 3 = argument, 4 = string/variable to expand/read, -1 = error (not found)
     struct s_token *next;
     struct s_token *prev;
 } t_token;
@@ -82,7 +83,6 @@ typedef struct s_parsed_input
     t_command **commands;
     int token_count;
     int special_char_count;
-    int special_char_capacity;
     char *delimiters;
 } t_parsed_input;
 

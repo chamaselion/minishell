@@ -14,20 +14,6 @@
 
 static void add_special_char(t_parsed_input *parsed_input, e_special_char type, int position)
 {
-    if (parsed_input->special_char_count >= parsed_input->special_char_capacity)
-    {
-        size_t new_size = parsed_input->special_char_capacity * 2;
-        t_special_char_struct *new_special_char = realloc(parsed_input->special_char, 
-                                                          sizeof(t_special_char_struct) * new_size);
-        if (!new_special_char)
-        {
-            printf("Error: Failed to reallocate memory for special characters\n");
-            return;
-        }
-        parsed_input->special_char = new_special_char;
-        parsed_input->special_char_capacity = new_size;
-    }
-    
     parsed_input->special_char[parsed_input->special_char_count].type = type;
     parsed_input->special_char[parsed_input->special_char_count].position = position;
     parsed_input->special_char_count++;
@@ -50,7 +36,7 @@ static char *get_next_token(char **input, t_parsed_input *parsed_input, int *pos
     if (*start == '\'' || *start == '"')
     {
         quote_char = *start;
-        add_special_char(parsed_input, (quote_char == '\'') ? QUOTE : DOUBLE_QUOTE, *position);
+        add_special_char(parsed_input, (quote_char == '\'') ? QUOTE : DOUBLE_QUOTE, *position); //remove ternary
         start++;
         (*position)++;
         token = start;  // Set token start after the opening quote
@@ -65,7 +51,7 @@ static char *get_next_token(char **input, t_parsed_input *parsed_input, int *pos
         }
         if (*start == quote_char)
         {
-            add_special_char(parsed_input, (quote_char == '\'') ? QUOTE : DOUBLE_QUOTE, *position);
+            add_special_char(parsed_input, (quote_char == '\'') ? QUOTE : DOUBLE_QUOTE, *position); //remove ternary
             *start = '\0';  // Null-terminate the token here
             start++;
             (*position)++;
@@ -130,6 +116,7 @@ static int tokenize_input(t_parsed_input *parsed_input, char *input)
             }
             init_token(new_token);
             new_token->start = token_start;
+            //remove ternary
             new_token->length = input - token_start - (*input && (*(input-1) == '\'' || *(input-1) == '"') ? 1 : 0);
             if (last_token)
             {
@@ -153,8 +140,7 @@ int handle_input(char *input)
     int i;
 
     init_parsed_input(&parsed_input);
-    parsed_input.special_char_capacity = 20;  // Initial capacity
-    parsed_input.special_char = malloc(sizeof(t_special_char_struct) * parsed_input.special_char_capacity);
+    parsed_input.special_char = malloc(sizeof(t_special_char_struct) * 1024);
     if (!parsed_input.special_char)
     {
         printf("Error: Failed to allocate memory for special characters\n");
