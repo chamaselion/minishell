@@ -6,7 +6,6 @@ SRC = minishell_loop.c\
 	minishell_handle_input.c\
 	minishell_signal_handling.c\
 	minishell_free_and_exit.c\
-	minishell_write_to_file.c\
 	minishell_init.c\
 	minishell_utils.c
 OBJ = $(addprefix objects/, $(SRC:.c=.o))
