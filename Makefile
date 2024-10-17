@@ -5,9 +5,9 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRC = minishell_loop.c\
 	minishell_handle_input.c\
 	minishell_signal_handling.c\
-	free_and_exit.c\
-	init.c\
-	utils.c
+	minishell_free_and_exit.c\
+	minishell_init.c\
+	minishell_utils.c
 OBJ = $(SRC:.c=.o)
 NAME = minishell
 LDFLAGS = -lreadline
