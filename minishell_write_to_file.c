@@ -1,3 +1,15 @@
+/******************************************************************************/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_write_to_file.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/10 13:09:48 by bszikora          #+#    #+#             */
+/*   Updated: 2024/10/10 13:09:49 by bszikora         ###   ########.fr       */
+/*                                                                            */
+/******************************************************************************/
+
 #include "minishell.h"
 
 void write_input_to_heredoc(const char *input, const char *filename)

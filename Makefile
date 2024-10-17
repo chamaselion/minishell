@@ -8,7 +8,7 @@ SRC = minishell_loop.c\
 	minishell_free_and_exit.c\
 	minishell_init.c\
 	minishell_utils.c
-OBJ = $(SRC:.c=.o)
+OBJ = $(addprefix objects/, $(SRC:.c=.o))
 NAME = minishell
 LDFLAGS = -lreadline
 
@@ -20,7 +20,7 @@ $(LIBFT):
 $(NAME): $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LDFLAGS)
 
-%.o: %.c
+objects/%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
