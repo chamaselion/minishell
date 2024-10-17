@@ -53,7 +53,6 @@ typedef struct s_special_char_struct
     e_special_char type;
     int count; // Number of occurrences - use it to enter interactive mode!!
     int position; // Position in the input string
-    int end_position; // Position of the closing quote - get rid of it!!!!
 } t_special_char_struct;
 
 typedef struct s_token {

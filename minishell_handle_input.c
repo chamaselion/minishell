@@ -170,7 +170,7 @@ static char *get_next_token(char **input, t_parsed_input *parsed_input,
                 {
                     // Add << or >> as a single token
                     add_token_to_list(parsed_input, start, 2, last_token);
-                    add_special_char(parsed_input, (*start == '<') ? REDIR_IN : REDIR_OUT, *position);
+                    add_special_char(parsed_input, (*start == '<') ? REDIR_IN : REDIR_OUT, *position); //ternaries to be removed
                     add_special_char(parsed_input, (*start == '<') ? REDIR_IN : REDIR_OUT, *position + 1);
                     start += 2;
                     *position += 2;
