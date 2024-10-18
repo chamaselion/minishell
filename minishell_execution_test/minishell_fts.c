@@ -1,6 +1,6 @@
 #include "mshell_exec.h"
 
-void	ft_echo(t_command *cmd, t_shell *shell)
+char	*ft_echo(t_command *cmd, t_shell *shell)
 {
 	char *command;
     char **args;
@@ -8,9 +8,10 @@ void	ft_echo(t_command *cmd, t_shell *shell)
 	command = cmd->command;
 	args = cmd->args;
 
-	printf("\n%s\n%s\n", command, args[0]);
+	strcpy(cmd->output, command);
+    strcat(cmd->output, args[0]);
 }
-void	ft_cd(t_command *cmd, t_shell *shell)
+char	*ft_cd(t_command *cmd, t_shell *shell)
 {
 	char *command;
     char **args;
@@ -18,9 +19,10 @@ void	ft_cd(t_command *cmd, t_shell *shell)
 	command = cmd->command;
 	args = cmd->args;
 
-	printf("\n%s\n%s\n", command, args[0]);
+	strcpy(cmd->output, command);
+    strcat(cmd->output, args[0]);
 }
-void	ft_pwd(t_command *cmd, t_shell *shell)
+char	*ft_pwd(t_command *cmd, t_shell *shell)
 {
 	char *command;
     char **args;
@@ -28,9 +30,10 @@ void	ft_pwd(t_command *cmd, t_shell *shell)
 	command = cmd->command;
 	args = cmd->args;
 
-	printf("\n%s\n%s\n", command, args[0]);
+	strcpy(cmd->output, command);
+    strcat(cmd->output, args[0]);
 }
-void	ft_export(t_command *cmd, t_shell *shell)
+char	*ft_export(t_command *cmd, t_shell *shell)
 {
 	char *command;
     char **args;
@@ -38,9 +41,10 @@ void	ft_export(t_command *cmd, t_shell *shell)
 	command = cmd->command;
 	args = cmd->args;
 
-	printf("\n%s\n%s\n", command, args[0]);
+	strcpy(cmd->output, command);
+    strcat(cmd->output, args[0]);
 }
-void	ft_unset(t_command *cmd, t_shell *shell)
+char	*ft_unset(t_command *cmd, t_shell *shell)
 {
 	char *command;
     char **args;
@@ -48,9 +52,10 @@ void	ft_unset(t_command *cmd, t_shell *shell)
 	command = cmd->command;
 	args = cmd->args;
 
-	printf("\n%s\n%s\n", command, args[0]);
+	strcpy(cmd->output, command);
+    strcat(cmd->output, args[0]);
 }
-void	ft_env(t_command *cmd, t_shell *shell)
+char	*ft_env(t_command *cmd, t_shell *shell)
 {
 	char *command;
     char **args;
@@ -58,9 +63,10 @@ void	ft_env(t_command *cmd, t_shell *shell)
 	command = cmd->command;
 	args = cmd->args;
 
-	printf("\n%s\n%s\n", command, args[0]);
+	strcpy(cmd->output, command);
+    strcat(cmd->output, args[0]);
 }
-void	ft_exit(t_command *cmd, t_shell *shell)
+char	*ft_exit(t_command *cmd, t_shell *shell)
 {
 	char *command;
     char **args;
@@ -68,5 +74,6 @@ void	ft_exit(t_command *cmd, t_shell *shell)
 	command = cmd->command;
 	args = cmd->args;
 
-	printf("\n%s\n%s\n", command, args[0]);
+	strcpy(cmd->output, command);
+    strcat(cmd->output, args[0]);
 }
