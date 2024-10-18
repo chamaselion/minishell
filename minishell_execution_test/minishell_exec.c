@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 14:12:12 by bszikora          #+#    #+#             */
-/*   Updated: 2024/10/09 14:29:17 by bszikora         ###   ########.fr       */
+/*   Updated: 2024/10/17 11:37:36 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -110,9 +110,8 @@ void execute_command(t_command *cmd, t_shell *shell)
 		c++;
 		temp = temp->next;
 	}
+	free(exec_queue);
 }
-
-#include "mshell_exec.h"
 
 t_command *create_command_node(char *command, char *argus)
 {
@@ -163,10 +162,23 @@ void append_command_node(t_command **head, char *command, char *argus)
         t_command *temp = *head;
         while (temp->next != NULL)
         {
+			usleep(100);
             temp = temp->next;
         }
         temp->next = new_node;
     }
+}
+
+void	init_cmd(t_command *cmd)
+{
+	cmd->command = NULL;
+	cmd->input = NULL;
+	//cmd->args = NULL;
+	cmd->arg_count = 0;
+	cmd->output = NULL;
+	cmd->next = NULL;
+	cmd->append = 0;
+	cmd->priority;
 }
 
 int main()
@@ -174,6 +186,8 @@ int main()
     t_command *commands = NULL;
     t_shell shell;
 
+	//init_cmd(commands);
+	
     append_command_node(&commands, "echo", "1");
     append_command_node(&commands, "cd", "2");
     append_command_node(&commands, "pwd", "3");
