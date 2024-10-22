@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:37:57 by bszikora          #+#    #+#             */
-/*   Updated: 2024/10/18 11:11:00 by bszikora         ###   ########.fr       */
+/*   Updated: 2024/10/22 11:34:10 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -14,7 +14,9 @@
 
 void handle_input_redirection(t_token *token)
 {
-    int fd = open(token->start, O_RDONLY);
+    int fd;
+	
+	fd = open(token->start, O_RDONLY);
     if (fd < 0)
 	{
         ft_putstr_fd("Error", STDERR_FILENO);
@@ -26,7 +28,9 @@ void handle_input_redirection(t_token *token)
 
 void handle_output_redirection(t_token *token)
 {
-    int fd = open(token->start, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    int fd;
+	
+	fd = open(token->start, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd < 0)
 	{
     	ft_putstr_fd("Error", STDERR_FILENO);
@@ -38,7 +42,9 @@ void handle_output_redirection(t_token *token)
 
 void handle_append_redirection(t_token *token)
 {
-    int fd = open(token->start, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    int fd;
+	
+	fd = open(token->start, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd < 0) 
 	{
 		ft_putstr_fd("Error", STDERR_FILENO);
@@ -53,7 +59,9 @@ void handle_heredoc_redirection(t_token *token)
     char *delimiter = token->start;
     char buffer[1024];
     int bytes_read;
-    int temp_fd = open("/tmp/heredoc_tmp", O_RDWR | O_CREAT | O_TRUNC, 0600);
+    int temp_fd;
+	
+	temp_fd = open("/tmp/heredoc_tmp", O_RDWR | O_CREAT | O_TRUNC, 0600);
     if (temp_fd < 0)
 	{
         ft_putstr_fd("Error", STDERR_FILENO);
@@ -113,3 +121,4 @@ void handle_redirections(t_command *cmd) {
             token = token->next;
     }
 }
+
