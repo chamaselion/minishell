@@ -63,6 +63,14 @@ typedef struct s_token {
     struct s_token *prev;
 } t_token;
 
+typedef struct s_env_var {
+    char *string;
+    int length;
+    int format; //depending on if called via export, echo or env, 0 = export, 1 = env, 2 = echo, 3= echo -n
+    struct s_env_var *next;
+    struct s_env_var *prev;
+} t_env_var;
+
 typedef struct s_command
 {
     char *command;
