@@ -65,6 +65,8 @@ typedef struct s_token {
 
 typedef struct s_env_var {
     char *string;
+    char *key;
+    char *value;
     int length;
     int format; //depending on if called via export, echo or env, 0 = export, 1 = env, 2 = echo, 3= echo -n
     struct s_env_var *next;
@@ -91,6 +93,9 @@ typedef struct s_parsed_input
     int token_count;
     int special_char_count;
     char *delimiters;
+    int save_history; // 1 = save, 0 = don't save (used as boolean)
+    int interactive_mode; // 1 = interactive, 0 = non-interactive (used as boolean)
+    t_env_var *env;
 } t_parsed_input;
 
 typedef struct s_shell
