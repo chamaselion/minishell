@@ -6,15 +6,31 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 14:47:00 by bszikora          #+#    #+#             */
-/*   Updated: 2024/10/22 11:21:04 by bszikora         ###   ########.fr       */
+/*   Updated: 2024/10/25 14:28:10 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "mshell_exec.h"
 
+char	*ft_cd(t_command cmd);
+
 void	ft_putstr_fd(char *s, int fd)
 {
 	write(fd, s, strlen(s));
+}
+
+void handle_ft_command(t_command *cmd)
+{
+    if (strcmp(cmd->command, "cd") == 0)
+        ft_cd(cmd);
+	if (strcmp(cmd->command, "echo") == 0)
+        ft_echo(cmd);
+	if (strcmp(cmd->command, "exit") == 0)
+        ft_exit(cmd);
+	if (strcmp(cmd->command, "export") == 0)
+        ft_export(cmd);
+	if (strcmp(cmd->command, "pwd") == 0)
+        ft_pwd(cmd);
 }
 
 char *search_command(const char *command)
@@ -124,9 +140,16 @@ void handle_child_process(t_command *cmd, int in_fd, int pipefd[2])
 {
 	char **exec_args;
 
-    setup_redirection(cmd, in_fd, pipefd);
-    exec_args = construct_exec_args(cmd);
-    execute_command(cmd, exec_args);
+    if (cmd->is_ft == 1)
+    {
+        handle_internal_command(cmd);
+        exit(0);
+    }
+    else
+    {
+        exec_args = construct_exec_args(cmd);
+        execute_command(cmd, exec_args);
+    }
 }
 
 void handle_parent_process(pid_t pid, int *in_fd, int pipefd[2])
@@ -164,36 +187,87 @@ void handle_pipes(t_command *cmd)
     }
 }
 
+void test_memory_allocation_failure()
+{
+    // Allocate a large amount of memory to simulate memory allocation failure
+    while (malloc(1024 * 1024 * 1024) != NULL);
+
+    t_command cmd1;
+    cmd1.command = "ls";
+    cmd1.args = (char *[]){"-l", NULL}; // Exclude the command itself
+    cmd1.arg_count = 1;
+    cmd1.input = NULL;
+    cmd1.output = NULL;
+    cmd1.related_to = NULL;
+    cmd1.relation_type = 6;
+    cmd1.next = NULL;
+    cmd1.append = 0;
+    cmd1.priority = 0;
+
+    handle_pipes(&cmd1);
+}
+
+void test_fork_failure()
+{
+    // Create a large number of processes to simulate fork failure
+    for (int i = 0; i < 32768; i++)
+    {
+        if (fork() == 0)
+        {
+            // Child process
+            sleep(1);
+            exit(0);
+        }
+    }
+
+    t_command cmd1;
+    cmd1.command = "ls";
+    cmd1.args = (char *[]){"-l", NULL}; // Exclude the command itself
+    cmd1.arg_count = 1;
+    cmd1.input = NULL;
+    cmd1.output = NULL;
+    cmd1.related_to = NULL;
+    cmd1.relation_type = 6;
+    cmd1.next = NULL;
+    cmd1.append = 0;
+    cmd1.priority = 0;
+
+    handle_pipes(&cmd1);
+}
+
+void test_pipe_creation_failure()
+{
+    // Close all file descriptors to simulate pipe creation failure
+    for (int i = 3; i < 1024; i++) close(i);
+
+    t_command cmd1;
+    cmd1.command = "ls";
+    cmd1.args = (char *[]){"-l", NULL}; // Exclude the command itself
+    cmd1.arg_count = 1;
+    cmd1.input = NULL;
+    cmd1.output = NULL;
+    cmd1.related_to = NULL;
+    cmd1.relation_type = 6;
+    cmd1.next = NULL;
+    cmd1.append = 0;
+    cmd1.priority = 0;
+
+    handle_pipes(&cmd1);
+}
+
 int main()
 {
-	t_command cmd1;
-	cmd1.command = "who";
-	cmd1.args = (char *[]){NULL}; // Exclude the command itself
-	cmd1.arg_count = 0;
-	cmd1.input = NULL;
-	cmd1.output = NULL;
-	cmd1.related_to = NULL;
-	cmd1.relation_type = 6;
-	cmd1.next = NULL;
-	cmd1.append = 0;
-	cmd1.priority = 0;
-	t_command cmd2;
-	cmd2.command = "wc";
-	cmd2.args = (char *[]){"-l", NULL}; // Exclude the command itself
-	cmd2.arg_count = 1;
-	cmd2.input = NULL;
-	cmd2.output = NULL;
-	cmd2.related_to = NULL; // Set related command
-	cmd2.relation_type = 6; // Pipe
-	cmd2.next = NULL;
-	cmd2.append = 0;
-	cmd2.priority = 0;
+    printf("Test Case 1: Invalid Command\n");
+    //test_invalid_command();
 
-	cmd1.next = &cmd2;
-	cmd1.related_to = &cmd2;
-	printf("Executing commands with pipe:\n");
-	handle_pipes(&cmd1);
-	printf("done");
+    printf("\nTest Case 2: Pipe Creation Failure\n");
+    test_pipe_creation_failure();
 
-	return 0;
+    printf("\nTest Case 3: Fork Failure\n");
+    test_fork_failure();
+
+    printf("\nTest Case 4: Memory Allocation Failure\n");
+    test_memory_allocation_failure();
+
+    return 0;
 }
