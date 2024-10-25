@@ -120,3 +120,12 @@ Further questions
 - ?Piping as a linked list of functions and results? 
 	- execve prohibits using the original process and getting back to that. 
 	so no way around parent/child
+
+
+todo:
+tokenize substrings
+special chars are also token in the doubly linked list
+get rid of "end_position" and replace it with easy arithmetics where applicable (What about interactive mode?)
+think about using counter for entering interactive mode
+split 
+$VAR1=42 into  $  VAR1  =  42
