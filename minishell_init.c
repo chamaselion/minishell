@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   minishell_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:57:00 by root              #+#    #+#             */
-/*   Updated: 2024/10/16 19:09:32 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:00:00 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -37,9 +37,14 @@ void init_command(t_command *command)
     command->input = NULL;
     command->args = malloc(sizeof(char *) * MAX_ARGS);
     command->arg_count = 0;
-    command->output = NULL;
+    command->related_to = NULL;
+	command->relation_type = 0;
     command->next = NULL;
-    command->append = 0;
+    command->is_internal = 0;
+	command->input_redirection = NULL;
+	command->output_redirection = NULL;
+	command->append_redirection = NULL;
+	command->heredoc_redirection = NULL;
 }
 
 void init_shell(t_shell *shell) 
