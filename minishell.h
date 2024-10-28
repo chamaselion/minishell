@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/09/19 11:34:02 by root             ###   ########.fr       */
+/*   Updated: 2024/10/28 12:56:39 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
@@ -70,10 +70,15 @@ typedef struct s_command
     char **args;
     int arg_count;
     char *output;
+	void *related_to;
+    int	relation_type;
     struct s_command *next;
-    int append;
-    int priority;
-} t_command;
+    int is_internal;
+	t_token	*input_redirection;
+    t_token	*output_redirection;
+    t_token	*append_redirection;
+    t_token	*heredoc_redirection;
+} t_command;;
 
 typedef struct s_parsed_input
 {
