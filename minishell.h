@@ -48,6 +48,17 @@ typedef enum e_special_char
     END_OF_FILE = '\0',
 } e_special_char;
 
+typedef enum e_token_role {
+    ROLE_STRING = 0,        // Default role for plain strings
+    ROLE_BUILTIN = 1,       // Built-in commands (echo, cd, pwd, etc.)
+    ROLE_EXECUTABLE = 2,    // External executables (found in PATH)
+    ROLE_ARGUMENT = 3,      // Arguments to commands
+    ROLE_VARIABLE = 4,      // Variable to be expanded ($VAR)
+    ROLE_OPTION = 5,        // Command options/flags (-n)
+    ROLE_DELIMITER = 6,     // Quotes, pipes, redirections
+    ROLE_ERROR = -1        // For tokens that can't be properly categorized
+} t_token_role;
+
 typedef struct s_special_char_struct
 {
     e_special_char type;
