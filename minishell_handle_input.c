@@ -1,17 +1,49 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_handle_input.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:19:54 by bszikora          #+#    #+#             */
-/*   Updated: 2024/10/09 11:30:26 by mnaum            ###   ########.fr       */
+/*   Updated: 2024/10/29 12:37:24 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+//Search command function
+/////////////////////////////////////////////////////////////////////////////////////////////
+char *search_command(const char *command)
+{
+	char *path;
+	char *dir;
+	char full_path[4096];
+	char *result;
+	char *path_env;
+	
+	path_env = getenv("PATH");
+	if (!path_env)
+		return (ft_putstr_fd("Error", STDERR_FILENO), NULL);
+	path = strdup(path_env);
+	if (!path)
+		return (ft_putstr_fd("Error", STDERR_FILENO), NULL);
+	dir = strtok(path, ":");
+	while (dir != NULL)
+	{
+        strcpy(full_path, dir);
+        strcat(full_path, "/");
+        strcat(full_path, command);
+		if (access(full_path, X_OK) == 0)
+			return (result = strdup(full_path), free(path), result);
+		dir = strtok(NULL, ":");
+	}
+	return (free(path), NULL);
+}
+/////////////////////////////////////////////////////////////////////////////////////////////
+//Search command function ends
+/////////////////////////////////////////////////////////////////////////////////////////////
 static void add_special_char(t_parsed_input *parsed_input, e_special_char type, int position)
 {
     parsed_input->special_char[parsed_input->special_char_count].type = type;
@@ -269,6 +301,10 @@ static void assign_token_roles(t_parsed_input *parsed_input) {
                 current->role = ROLE_BUILTIN;
                 is_echo = (strcmp(current->start, "echo") == 0);
             } else {
+/*
+else if (search_command(char *str) != NULL)
+	then it is execuable and the function returns a pointer to the full path to later pass on to execve.
+*/
                 // Here you would check if it's an executable in PATH
                 current->role = ROLE_EXECUTABLE;
             }
