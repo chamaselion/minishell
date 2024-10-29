@@ -56,8 +56,17 @@ typedef enum e_token_role {
     ROLE_VARIABLE = 4,      // Variable to be expanded ($VAR)
     ROLE_OPTION = 5,        // Command options/flags (-n)
     ROLE_DELIMITER = 6,     // Quotes, pipes, redirections
-    ROLE_ERROR = -1        // For tokens that can't be properly categorized
+    ROLE_ERROR = -1,        // For tokens that can't be properly categorized
+    ROLE_DEFAULT = -2,      // New initial value
 } t_token_role;
+
+typedef enum e_cmd_type {
+    CMD_NONE = 0,
+    CMD_BUILTIN = 1,
+    CMD_EXECUTABLE = 2,
+    CMD_PIPE = 3,
+    CMD_REDIR = 4
+} t_cmd_type;
 
 typedef struct s_special_char_struct
 {
