@@ -49,15 +49,15 @@ typedef enum e_special_char
 } e_special_char;
 
 typedef enum e_token_role {
-    ROLE_STRING = 0,        // Default role for plain strings
+    ROLE_DELIMITER = 0,        // quotes, spaces..."
     ROLE_BUILTIN = 1,       // Built-in commands (echo, cd, pwd, etc.)
     ROLE_EXECUTABLE = 2,    // External executables (found in PATH)
     ROLE_ARGUMENT = 3,      // Arguments to commands
-    ROLE_VARIABLE = 4,      // Variable to be expanded ($VAR)
-    ROLE_OPTION = 5,        // Command options/flags (-n)
-    ROLE_DELIMITER = 6,     // Quotes, pipes, redirections
+    ROLE_ASSIGNMENTOPERATOR = 4,      // Variable to be expanded ($VAR)
+    ROLE_REDIRECT = 5,        // Command options/flags (-n)
+    ROLE_PIPE = 6,     // Quotes, pipes, redirections
     ROLE_ERROR = -1,        // For tokens that can't be properly categorized
-    ROLE_DEFAULT = -2,      // New initial value
+    ROLE_DEFAULT = -2      // New initial value
 } t_token_role;
 
 typedef enum e_cmd_type {
@@ -68,10 +68,20 @@ typedef enum e_cmd_type {
     CMD_REDIR = 4
 } t_cmd_type;
 
+typedef enum e_builtin {
+    echo = 0,
+    cd = 1,
+    pwd = 2,
+    export = 3,
+    unset = 4,
+    env = 5,
+    exit = 6
+} t_cmd_type;
+
 typedef struct s_special_char_struct
 {
     e_special_char type;
-    int count; // Number of occurrences - use it to enter interactive mode!!
+    int count; // Number of occurrences - use it to enter interactive mode!! see below for new approach
     int position; // Position in the input string
 } t_special_char_struct;
 
@@ -79,6 +89,7 @@ typedef struct s_token {
     char *start;
     int length;
     int role; //0 = nothing special, 1 = command, 2 = executable, 3 = argument, 4 = string/variable to expand/read, -1 = error (not found)
+    int quote_state; // 0 = no quotes, 1= within double quotes, 2 = within single quotes, 3 = unclosed single quote(-> interactive mode), 4 = unclosed double quote
     struct s_token *next;
     struct s_token *prev;
 } t_token;
@@ -103,6 +114,7 @@ typedef struct s_command
     struct s_command *next;
     int append;
     int priority;
+    t_cmd_type type;
 } t_command;
 
 typedef struct s_parsed_input

@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:17:29 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/10/30 09:19:16 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:38:16 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool is_builtin(const char *cmd)
 {
-    const char *builtins[] = {
+    !!! changed to enumconst char *builtins[] = {
         "echo", "cd", "pwd", "export", "unset", "env", "exit", NULL
     }; //would like to change to an enum as well to be consistent
     int i;

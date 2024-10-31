@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:27:50 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/10/30 09:20:08 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:01:55 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ int process_quoted_token(t_token *current, bool *in_quotes, char *quote_type)
 int process_quoted_content(t_token *current, char quote_type)
 {
     if (quote_type == '\'')
-        current->role = ROLE_STRING;
+        current->role = ROLE_DELIMITER;
     else if (current->start[0] == '$')
-        current->role = ROLE_VARIABLE;
+        current->role = ROLE_ASSIGNMENTOPERATOR;
     else
-        current->role = ROLE_STRING;
+        current->role = ROLE_DEFAULT;
     return (current->role);
 }
 
