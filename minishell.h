@@ -145,7 +145,7 @@ void init_token(t_token *token);
 int is_special_char(char c);
 
 
-//New Parsing:
+/*//New Parsing:
 void    assign_token_roles(t_parsed_input *parsed_input);
 int     process_token(t_token *current, bool *in_quotes, bool *expect_cmd,
          bool *is_echo, char *quote_type);
@@ -155,7 +155,7 @@ int     process_delimiter_token(t_token *current, bool *expect_cmd);
 int     process_command_token(t_token *current, bool *expect_cmd, bool *is_echo);
 int     process_argument_token(t_token *current, bool is_echo);
 int     init_parsing(t_parsed_input *parsed_input);
-void    print_parsing_results(t_parsed_input *parsed_input);
+void    print_parsing_results(t_parsed_input *parsed_input);*/
 
 // Parsing:
 //t_parsed_input *parsing(char *input);

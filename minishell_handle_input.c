@@ -61,8 +61,6 @@ static void add_token_to_list(t_parsed_input *parsed_input, char *token_start,
         return;
     }
     init_token(new_token);
-
-    // Allocate memory for the token content and copy it
     new_token->start = malloc(length + 1);
     if (!new_token->start)
     {
@@ -73,8 +71,6 @@ static void add_token_to_list(t_parsed_input *parsed_input, char *token_start,
     strncpy(new_token->start, token_start, length);
     new_token->start[length] = '\0';
     new_token->length = length;
-
-    // Link the token in the doubly linked list
     if (*last_token)
     {
         (*last_token)->next = new_token;
@@ -82,7 +78,6 @@ static void add_token_to_list(t_parsed_input *parsed_input, char *token_start,
     }
     else
         parsed_input->token = new_token;
-
     *last_token = new_token;
 }
 
