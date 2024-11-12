@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:38:48 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/11/12 12:19:34 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/11/12 12:24:57 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int assign_roles(t_parsed_input *parsed_input)
         {
             if (expect_command && !is_builtin_command)
             {
-                current->role = ROLE_COMMAND;
+                current->role = ROLE_EXECUTABLE;
                 expect_command = 0;
             }
             else if (is_operator(current->start))
