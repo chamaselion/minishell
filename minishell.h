@@ -148,11 +148,11 @@ typedef struct s_shell
 void init_parsed_input(t_parsed_input *parsed_input);
 void init_special_char_handling(t_special_char_struct *special_char);
 void init_command(t_command *cmd);
-void init_token(t_token *token);
-int is_special_char(char c);
+void    init_token(t_token *token);
+int     is_special_char(char c);
 
 
-//nu:
+/*nu:
 int check_unclosed_quotes(t_parsed_input *parsed_input);
 int refine_tokens(t_parsed_input *parsed_input);
 int initial_tokenization(t_parsed_input *parsed_input, char *input);
@@ -192,7 +192,7 @@ int add_subtoken(t_parsed_input *parsed_input, t_token **prev, char *start, int 
 int expand_variables_in_token(t_parsed_input *parsed_input, t_token *token);
 
 int process_double_quote_token(t_parsed_input *parsed_input, t_token *token);
-int process_no_quote_token(t_parsed_input *parsed_input, t_token *token);
+int process_no_quote_token(t_parsed_input *parsed_input, t_token *token); */
 
 
 
