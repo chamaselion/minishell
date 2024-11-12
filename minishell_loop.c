@@ -47,7 +47,7 @@ char *read_input(const char *prompt) // Getting the line from the user, adding i
 	if (input == NULL)
 	{
 		ft_putstr_fd("exit\n", STDERR_FILENO);
-		exit(0);
+		exit (0);
 	}
 	add_history(input);
 	return input;

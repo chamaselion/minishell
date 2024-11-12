@@ -332,8 +332,6 @@ static int tokenize_input(t_parsed_input *parsed_input, char *input)
     {
         get_next_token(&input, parsed_input, &position, &last_token);
     }
-
-    // Count total tokens
     t_token *current = parsed_input->token;
     parsed_input->token_count = 0;
     while (current)

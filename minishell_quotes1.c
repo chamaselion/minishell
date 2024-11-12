@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 15:15:08 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/11/06 15:32:33 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/11/11 12:11:50 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int toggle_quote_state(char c, int quote_state)
     return quote_state;
 }
 
-char *process_token_content(const char *str, int *quote_state)
+char *strip_quotes(const char *str, int *quote_state)
 {
     char *result;
     int i;
@@ -109,7 +109,7 @@ static int reprocess_token(t_token *token, char **new_input, int *quote_state)
      *quote_state = WITHIN_SINGLE_QUOTE;
     else 
      *quote_state = WITHIN_DOUBLE_QUOTE;
-    new_content = process_token_content(token->start, quote_state);
+    new_content = strip_quotes(token->start, quote_state);
     if (!new_content)
     {
         ft_putstr_fd("Error: Memory allocation failed\n", STDERR_FILENO);
@@ -179,7 +179,7 @@ int process_quotes(t_parsed_input *parsed_input)
     while (current)
     {
         quote_state = NO_QUOTE;
-        new_content = process_token_content(current->start, &quote_state);
+        new_content = strip_quotes(current->start, &quote_state);
         if (!new_content)
             return (ft_putstr_fd("Error: Memory allocation failed\n", 2), 0);
         free(current->start);

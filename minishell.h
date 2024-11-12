@@ -39,8 +39,6 @@ typedef enum e_special_char
     PIPE = '|',
     REDIR_OUT = '>',
     REDIR_IN = '<',
-    QUOTE = '\'',
-    DOUBLE_QUOTE = '"',
     DASH = '-',
     T_SPACE = ' ',
     T_TAB = '\t',
@@ -75,8 +73,8 @@ typedef enum e_builtin {
     export = 3,
     unset = 4,
     env = 5,
-    exit = 6
-} t_cmd_type;
+    exit_cmd = 6
+} t_builtin;
 
 typedef struct s_special_char_struct
 {
@@ -89,10 +87,18 @@ typedef struct s_token {
     char *start;
     int length;
     int role; //0 = nothing special, 1 = command, 2 = executable, 3 = argument, 4 = string/variable to expand/read, -1 = error (not found)
-    int quote_state; // 0 = no quotes, 1= within double quotes, 2 = within single quotes, 3 = unclosed single quote(-> interactive mode), 4 = unclosed double quote
+    int quote_state;
     struct s_token *next;
     struct s_token *prev;
 } t_token;
+
+typedef enum e_quote_state {
+    NO_QUOTE = 0,
+    WITHIN_SINGLE_QUOTE = 1,
+    WITHIN_DOUBLE_QUOTE = 2,
+    UNCLOSED_SINGLE_QUOTE = 3,
+    UNCLOSED_DOUBLE_QUOTE = 4
+} t_quote_state;
 
 typedef struct s_env_var {
     char *string;
@@ -123,6 +129,7 @@ typedef struct s_parsed_input
     t_special_char_struct *special_char;
     t_command **commands;
     int token_count;
+    t_token *last_token;
     int special_char_count;
     char *delimiters;
     int save_history; // 1 = save, 0 = don't save (used as boolean)
@@ -145,22 +152,55 @@ void init_token(t_token *token);
 int is_special_char(char c);
 
 
-/*//New Parsing:
-void    assign_token_roles(t_parsed_input *parsed_input);
-int     process_token(t_token *current, bool *in_quotes, bool *expect_cmd,
-         bool *is_echo, char *quote_type);
-int     process_quoted_token(t_token *current, bool *in_quotes, char *quote_type);
-int     process_quoted_content(t_token *current, char quote_type);
-int     process_delimiter_token(t_token *current, bool *expect_cmd);
-int     process_command_token(t_token *current, bool *expect_cmd, bool *is_echo);
-int     process_argument_token(t_token *current, bool is_echo);
-int     init_parsing(t_parsed_input *parsed_input);
-void    print_parsing_results(t_parsed_input *parsed_input);*/
+//nu:
+int check_unclosed_quotes(t_parsed_input *parsed_input);
+int refine_tokens(t_parsed_input *parsed_input);
+int initial_tokenization(t_parsed_input *parsed_input, char *input);
+int is_delimiter(char c);
+int is_quote_char(char c);
+int toggle_quote_state(char c, int quote_state);
+int assign_roles(t_parsed_input *parsed_input);
+void assign_role(t_token *token, int *expect_command);
+int is_builtin_command(const char *cmd);
+void skip_whitespace(char **input);
 
-// Parsing:
-//t_parsed_input *parsing(char *input);
+
+int		assign_roles(t_parsed_input *parsed_input);
+void	assign_role(t_token *token, int *expect_command);
+int add_token(t_parsed_input *parsed_input, char *start, int length, t_quote_state quote_state);
+int		process_quotes(t_parsed_input *parsed_input);
+int		handle_input(char *input);
+int split_and_add_token(t_parsed_input *parsed_input, char *content, t_token **prev, int quote_state);
+void remove_and_update_token(t_token **token_ptr, t_parsed_input *parsed_input, t_token *token);
+int get_quote_state(char c);
+int process_quoted_content(t_parsed_input *parsed_input, char *content, t_token **prev, int quote_state);
+int is_matching_quote(char c, int state);
+int add_segment(t_parsed_input *parsed_input, char *content, t_token **prev, int quote_state);
+int is_redirection(char *str);
+int free_and_fail(char *content, char *message);
+int add_variable_tokens(t_parsed_input *parsed_input, char *str, int *i,
+                        t_token **prev);
+int free_and_return(char *content, int ret);
+int add_token_segment(t_parsed_input *parsed_input, char *content, t_token *prev, int quote_state);
+void remove_token(t_parsed_input *parsed_input, t_token *token);
+char *strip_quotes(const char *str, int *quote_state);
+void add_new_token(t_token **head, t_token **tail, char *start, int length, int quote_state);
+void assign_role_based_on_position(t_token *token, int *expect_command);
+void insert_token(t_parsed_input *parsed_input, t_token *new_token, t_token *prev);
+void insert_token_after(t_parsed_input *parsed_input, t_token *prev, t_token *new_token);
+int add_subtoken(t_parsed_input *parsed_input, t_token **prev, char *start, int length, int quote_state);
+int expand_variables_in_token(t_parsed_input *parsed_input, t_token *token);
+
+int process_double_quote_token(t_parsed_input *parsed_input, t_token *token);
+int process_no_quote_token(t_parsed_input *parsed_input, t_token *token);
+
+
+
+
 void write_parsed_input_to_file(t_parsed_input *parsed_input, const char *filename);
-//void process_special_char(char *token, t_special_char_struct *special_char);
+
+
+void print_tokens(t_parsed_input *parsed_input);
 
 // Utils:
 char *ft_strtok(char *str, const char *delimiters);
@@ -168,6 +208,8 @@ int ft_atoi(const char *str);
 char *ft_strchr(const char *s, int c);
 char *ft_strncpy(char *dest, const char *src, size_t n);
 char *ft_strtok_r(char *str, const char *delim, char **saveptr);
+char *ft_strjoin_and_free(char *s1, char *s2);
+int ft_strcmp(const char *s1, const char *s2);
 
 // Input handling:
 int handle_input(char *input);
@@ -179,5 +221,6 @@ void setup_signal_handling();
 void free_parsed_input(t_parsed_input *parsed_input);
 void free_command(t_command *cmd);
 void free_commands(t_command *cmd);
+void free_tokens(t_token *token);
 
 #endif

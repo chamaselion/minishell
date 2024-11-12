@@ -51,3 +51,16 @@ void free_commands(t_command *cmd)
         cmd = next;
     }
 }
+
+int free_and_return(char *content, int ret)
+{
+    free(content);
+    return ret;
+}
+
+int free_and_fail(char *content, char *message)
+{
+    free(content);
+    ft_putstr_fd(message, STDERR_FILENO);
+    return 0;
+}
