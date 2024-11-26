@@ -37,8 +37,6 @@ typedef enum e_special_char
 {
     DOLLAR = '$',
     PIPE = '|',
-    REDIR_OUT = '>',
-    REDIR_IN = '<',
     DASH = '-',
     T_SPACE = ' ',
     T_TAB = '\t',
@@ -46,19 +44,21 @@ typedef enum e_special_char
     END_OF_FILE = '\0',
 } e_special_char;
 
-typedef enum e_token_role {
-    ROLE_DELIMITER = 0,        // quotes, spaces..."
-    ROLE_BUILTIN = 1,       // Built-in commands (echo, cd, pwd, etc.)
-    ROLE_EXECUTABLE = 2,    // External executables (found in PATH)
-    ROLE_ARGUMENT = 3,      // Arguments to commands
-    ROLE_ASSIGNMENTOPERATOR = 4,      // Variable to be expanded ($VAR)
-    ROLE_REDIRECT = 5,        // Command options/flags (-n)
-    ROLE_PIPE = 6,     // Quotes, pipes, redirections
-    ROLE_ERROR = -1,        // For tokens that can't be properly categorized
-    ROLE_DEFAULT = -2      // New initial value
+typedef enum e_token_role 
+{
+    ROLE_DELIMITER = 0,
+    ROLE_BUILTIN = 1,
+    ROLE_EXECUTABLE = 2,
+    ROLE_ARGUMENT = 3,
+    ROLE_VARIABLE = 4,
+    ROLE_REDIRECT = 5,
+    ROLE_PIPE = 6,
+    ROLE_ERROR = -1,
+    ROLE_DEFAULT = -2
 } t_token_role;
 
-typedef enum e_cmd_type {
+typedef enum e_cmd_type 
+{
     CMD_NONE = 0,
     CMD_BUILTIN = 1,
     CMD_EXECUTABLE = 2,
@@ -66,7 +66,8 @@ typedef enum e_cmd_type {
     CMD_REDIR = 4
 } t_cmd_type;
 
-typedef enum e_builtin {
+typedef enum e_builtin 
+{
     echo = 0,
     cd = 1,
     pwd = 2,
@@ -76,18 +77,27 @@ typedef enum e_builtin {
     exit_cmd = 6
 } t_builtin;
 
+typedef enum e_redir_type 
+{
+    REDIR_NONE = 0,
+    REDIR_IN = 1,
+    REDIR_OUT = 2,
+    REDIR_APPEND = 3,
+    REDIR_HEREDOC = 4
+} t_redir_type;
+
 typedef struct s_special_char_struct
 {
     e_special_char type;
-    int count; // Number of occurrences - use it to enter interactive mode!! see below for new approach
+    int count; // Number of occurrences - use it to enter interactive mode
     int position; // Position in the input string
 } t_special_char_struct;
 
 typedef struct s_token {
-    char *start;
-    int length;
+    char *content;
     int role; //0 = nothing special, 1 = command, 2 = executable, 3 = argument, 4 = string/variable to expand/read, -1 = error (not found)
     int quote_state;
+    int position;
     struct s_token *next;
     struct s_token *prev;
 } t_token;
@@ -113,29 +123,23 @@ typedef struct s_env_var {
 typedef struct s_command
 {
     char *command;
-    char *input;
     char **args;
     int arg_count;
+    char *input;
     char *output;
+    char *input_file;
+    char *output_file;
     struct s_command *next;
-    int append;
-    int priority;
     t_cmd_type type;
 } t_command;
 
-typedef struct s_parsed_input
-{
-    t_token *token;
-    t_special_char_struct *special_char;
-    t_command **commands;
-    int token_count;
-    t_token *last_token;
-    int special_char_count;
-    char *delimiters;
-    int save_history; // 1 = save, 0 = don't save (used as boolean)
-    int interactive_mode; // 1 = interactive, 0 = non-interactive (used as boolean)
-    t_env_var *env;
-} t_parsed_input;
+typedef struct s_raw_token {
+    char *segment;            // Original input segment
+    int quote_state;          // From e_quote_state enum
+    int position;             // Start position in original input
+    struct s_raw_token *next;
+    struct s_raw_token *prev;
+} t_raw_token;
 
 typedef struct s_shell
 {
@@ -143,64 +147,23 @@ typedef struct s_shell
     char cwd[MAX_PATH];
 } t_shell;
 
-
-//Init:
-void init_parsed_input(t_parsed_input *parsed_input);
+// Init:
 void init_special_char_handling(t_special_char_struct *special_char);
 void init_command(t_command *cmd);
-void    init_token(t_token *token);
-int     is_special_char(char c);
-
-
-/*nu:
-int check_unclosed_quotes(t_parsed_input *parsed_input);
-int refine_tokens(t_parsed_input *parsed_input);
-int initial_tokenization(t_parsed_input *parsed_input, char *input);
-int is_delimiter(char c);
-int is_quote_char(char c);
-int toggle_quote_state(char c, int quote_state);
-int assign_roles(t_parsed_input *parsed_input);
-void assign_role(t_token *token, int *expect_command);
-int is_builtin_command(const char *cmd);
-void skip_whitespace(char **input);
-
-
-int		assign_roles(t_parsed_input *parsed_input);
-void	assign_role(t_token *token, int *expect_command);
-int add_token(t_parsed_input *parsed_input, char *start, int length, t_quote_state quote_state);
-int		process_quotes(t_parsed_input *parsed_input);
-int		handle_input(char *input);
-int split_and_add_token(t_parsed_input *parsed_input, char *content, t_token **prev, int quote_state);
-void remove_and_update_token(t_token **token_ptr, t_parsed_input *parsed_input, t_token *token);
-int get_quote_state(char c);
-int process_quoted_content(t_parsed_input *parsed_input, char *content, t_token **prev, int quote_state);
-int is_matching_quote(char c, int state);
-int add_segment(t_parsed_input *parsed_input, char *content, t_token **prev, int quote_state);
-int is_redirection(char *str);
-int free_and_fail(char *content, char *message);
-int add_variable_tokens(t_parsed_input *parsed_input, char *str, int *i,
-                        t_token **prev);
-int free_and_return(char *content, int ret);
-int add_token_segment(t_parsed_input *parsed_input, char *content, t_token *prev, int quote_state);
-void remove_token(t_parsed_input *parsed_input, t_token *token);
-char *strip_quotes(const char *str, int *quote_state);
-void add_new_token(t_token **head, t_token **tail, char *start, int length, int quote_state);
-void assign_role_based_on_position(t_token *token, int *expect_command);
-void insert_token(t_parsed_input *parsed_input, t_token *new_token, t_token *prev);
-void insert_token_after(t_parsed_input *parsed_input, t_token *prev, t_token *new_token);
-int add_subtoken(t_parsed_input *parsed_input, t_token **prev, char *start, int length, int quote_state);
-int expand_variables_in_token(t_parsed_input *parsed_input, t_token *token);
-
-int process_double_quote_token(t_parsed_input *parsed_input, t_token *token);
-int process_no_quote_token(t_parsed_input *parsed_input, t_token *token); */
+void init_token(t_token *token);
 
 
 
+t_raw_token* handle_input(char *input);
 
-void write_parsed_input_to_file(t_parsed_input *parsed_input, const char *filename);
+void print_raw_tokens(t_raw_token *first_token);
 
-
-void print_tokens(t_parsed_input *parsed_input);
+int identify_env_var(char *str);
+t_token *allocate_token(int length);
+void fill_token_fields(t_token *token, char *start, int length, int quote_state);
+int is_command_expected(t_token *prev_token);
+int categorize_token(t_token *token, int command_expected);
+int check_unclosed_quotes(char *input);
 
 // Utils:
 char *ft_strtok(char *str, const char *delimiters);
@@ -211,16 +174,23 @@ char *ft_strtok_r(char *str, const char *delim, char **saveptr);
 char *ft_strjoin_and_free(char *s1, char *s2);
 int ft_strcmp(const char *s1, const char *s2);
 
+int is_quote_char(char c);
+int get_quote_type(char c);
+int is_whitespace(char c);
+int is_builtin_command(const char *cmd);
+int is_redirection(char *str);
+int is_pipe(char *str);
+int is_special_char(char c);
+
 // Input handling:
-int handle_input(char *input);
 
 // Signal handling:
 void setup_signal_handling();
 
 // Freeing:
-void free_parsed_input(t_parsed_input *parsed_input);
 void free_command(t_command *cmd);
 void free_commands(t_command *cmd);
 void free_tokens(t_token *token);
+void free_raw_tokens(t_raw_token *first_token);
 
 #endif
