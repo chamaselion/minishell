@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:23:34 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/11/26 18:54:09 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/11/29 15:07:42 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,16 +106,18 @@ t_raw_token* handle_single_quote_segment(const char **input, int *pos)
     return first;
 }
 
-char* expand_double_quote_variables(const char *content) {
+char* expand_double_quote_variables(const char *content) 
+{
     char expanded[1024] = {0};
     char *write_ptr = expanded;
+    char var_name[256] = {0};
+    int var_idx = 0;
     
-    while (*content) {
-        if (*content == '$') {
-            content++;
-            char var_name[256] = {0};
-            int var_idx = 0;
-            
+    while (*content) 
+    {
+        if (*content == '$') 
+        {
+            content++;            
             while (ft_isalnum(*content) || *content == '_')
                 var_name[var_idx++] = *content++;
             if (is_valid_env_var_name(var_name)) 

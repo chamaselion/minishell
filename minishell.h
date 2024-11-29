@@ -150,7 +150,7 @@ typedef struct s_shell
 // Init:
 void init_special_char_handling(t_special_char_struct *special_char);
 void init_command(t_command *cmd);
-void init_token(t_token *token);
+void init_token(t_token *token, t_raw_token *t_raw_token);
 
 
 
