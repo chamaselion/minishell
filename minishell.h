@@ -181,6 +181,8 @@ int is_builtin_command(const char *cmd);
 int is_redirection(char *str);
 int is_pipe(char *str);
 int is_special_char(char c);
+char *ft_strndup(const char *s1, size_t n);
+char *ft_strcpy(char *dst, const char *src);
 
 // Input handling:
 

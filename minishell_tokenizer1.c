@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:23:34 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/11/26 15:47:33 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:54:09 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_raw_token *handle_non_quote_segment(const char **input, int *pos)
     const char *start = *input;
     while (**input && !is_whitespace(**input) && !is_quote_char(**input)) 
         (*input)++;
-    char *segment = strndup(start, *input - start);
+    char *segment = ft_strndup(start, *input - start);
     t_raw_token *token = create_raw_token(segment, NO_QUOTE, *pos);
     free(segment);
     
@@ -123,15 +123,15 @@ char* expand_double_quote_variables(const char *content) {
                 char *env_value = expand_env_variable(var_name);
                 if (env_value) 
                 {
-                    strcpy(write_ptr, env_value);
-                    write_ptr += strlen(env_value);
+                    ft_strcpy(write_ptr, env_value);
+                    write_ptr += ft_strlen(env_value);
                 }
             } 
             else 
             {
                 *write_ptr++ = '$';
-                strcpy(write_ptr, var_name);
-                write_ptr += strlen(var_name);
+                ft_strcpy(write_ptr, var_name);
+                write_ptr += ft_strlen(var_name);
             }
         } 
         else 
@@ -156,7 +156,7 @@ t_raw_token* handle_double_quote_segment(const char **input, int *pos) {
         (*input)++;
     if (*input > content_start) 
     {
-        char *content = strndup(content_start, *input - content_start);
+        char *content = ft_strndup(content_start, *input - content_start);
         char *expanded_content = expand_double_quote_variables(content);
         append_raw_token(&first, &last, 
             create_raw_token(expanded_content, WITHIN_DOUBLE_QUOTE, *pos));

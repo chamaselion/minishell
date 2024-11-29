@@ -8,7 +8,8 @@ SRC = minishell_loop.c\
 	minishell_free_and_exit.c\
 	minishell_init.c\
 	minishell_utils.c\
-	minishell_utils2.c
+	minishell_utils2.c\
+	minishell_utils3.c\
 
 OBJ = $(addprefix objects/, $(SRC:.c=.o))
 NAME = minishell
