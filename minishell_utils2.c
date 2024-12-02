@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 10:52:31 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/11/26 15:45:49 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:07:35 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,17 @@ int get_quote_type(char c)
 int is_whitespace(char c)
 {
     return c == ' ' || c == '\t' || c == '\n';
+}
+
+int is_builtin_command(const char *cmd)
+{
+    const char *builtins[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
+    int i = 0;
+    while (i < 7)
+    {
+        if (ft_strcmp(cmd, builtins[i]) == 0)
+            return 1;
+        i++;
+    }
+    return 0;
 }

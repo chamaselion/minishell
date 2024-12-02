@@ -57,15 +57,6 @@ typedef enum e_token_role
     ROLE_DEFAULT = -2
 } t_token_role;
 
-typedef enum e_cmd_type 
-{
-    CMD_NONE = 0,
-    CMD_BUILTIN = 1,
-    CMD_EXECUTABLE = 2,
-    CMD_PIPE = 3,
-    CMD_REDIR = 4
-} t_cmd_type;
-
 typedef enum e_builtin 
 {
     echo = 0,
@@ -130,7 +121,7 @@ typedef struct s_command
     char *input_file;
     char *output_file;
     struct s_command *next;
-    t_cmd_type type;
+    //t_cmd_type type; left out here, to replace with your version
 } t_command;
 
 typedef struct s_raw_token {
@@ -162,8 +153,13 @@ int identify_env_var(char *str);
 t_token *allocate_token(int length);
 void fill_token_fields(t_token *token, char *start, int length, int quote_state);
 int is_command_expected(t_token *prev_token);
-int categorize_token(t_token *token, int command_expected);
+void categorize_token(t_token *token, int command_expected);
 int check_unclosed_quotes(char *input);
+
+t_token *convert_raw_token(t_raw_token *raw_token);
+int is_raw_token_list_empty(t_raw_token *raw_token_head);
+void link_token_to_list(t_token **new_head, t_token **current_new, t_token *new_token);
+t_token *convert_raw_token_list(t_raw_token *raw_token_head);
 
 // Utils:
 char *ft_strtok(char *str, const char *delimiters);

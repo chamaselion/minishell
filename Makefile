@@ -4,6 +4,7 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 SRC = minishell_loop.c\
 	minishell_tokenizer1.c\
+	minishell_tokenizer2.c\
 	minishell_signal_handling.c\
 	minishell_free_and_exit.c\
 	minishell_init.c\

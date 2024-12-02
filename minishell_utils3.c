@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 11:20:21 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/11/29 11:43:41 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/12/02 19:37:11 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,3 +48,13 @@ char *ft_strcpy(char *dst, const char *src)
     return dst;
 }
 
+int is_pipe(char *str)
+{
+    return ft_strcmp(str, "|") == 0;
+}
+
+int identify_env_var(char *str)
+{
+    return *str == '$' && (*(str + 1) == '?' || 
+           (*(str + 1) && !is_whitespace(*(str + 1))));
+}
