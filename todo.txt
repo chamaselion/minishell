@@ -130,6 +130,23 @@ todo:
 //split 
 //$VAR1=42 into  $  VAR1  =  42 -> changed into VAR1=42 and a call to split if and where needed
 
-- write to doc, heredoc
-- split up get_next_token functions
-- get rid of ternaries
+rework role assignment
+reintroduce command_expected
+--> OR (existing) variable
+
+
+(base) root@DESKTOP-F4AL6TI:/mnt/c/projects/minishell# export VAR1=x
+(base) root@DESKTOP-F4AL6TI:/mnt/c/projects/minishell# VAR1=y
+(base) root@DESKTOP-F4AL6TI:/mnt/c/projects/minishell# env | grep "VAR1"
+VAR1=y
+(base) root@DESKTOP-F4AL6TI:/mnt/c/projects/minishell# 
+
+(base) root@DESKTOP-F4AL6TI:/mnt/c/projects/minishell# echo "Hello" 'World$' Howdy pwd
+Hello World$ Howdy pwd
+(base) root@DESKTOP-F4AL6TI:/mnt/c/projects/minishell# echo "Hello" 'World$' Howdy | pwd
+/mnt/c/projects/minishell
+(base) root@DESKTOP-F4AL6TI:/mnt/c/projects/minishell# pwd | echo "Hello" 'World$' Howdy
+Hello World$ Howdy
+(base) root@DESKTOP-F4AL6TI:/mnt/c/projects/minishell# pwd | echo
+
+(base) root@DESKTOP-F4AL6TI:/mnt/c/projects/minishell# 

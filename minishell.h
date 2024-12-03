@@ -89,6 +89,7 @@ typedef struct s_token {
     int role; //0 = nothing special, 1 = command, 2 = executable, 3 = argument, 4 = string/variable to expand/read, -1 = error (not found)
     int quote_state;
     int position;
+    int command_expected;
     struct s_token *next;
     struct s_token *prev;
 } t_token;
