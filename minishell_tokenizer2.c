@@ -6,13 +6,13 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:12:59 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/02 19:30:45 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:25:50 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void categorize_token(t_token *token, int command_expected) 
+/*void categorize_token(t_token *token, int command_expected) 
 {
     if (is_pipe(token->content))
         token->role = ROLE_PIPE;
@@ -24,14 +24,14 @@ void categorize_token(t_token *token, int command_expected)
     {
         if (is_builtin_command(token->content))
             token->role = ROLE_BUILTIN;
-        else
+        else if (is_executable(token->content))
             token->role = ROLE_EXECUTABLE;
     }
-    if (token->prev->role == ROLE_BUILTIN || token->prev->role == ROLE_EXECUTABLE)
+    if (token->prev && (token->prev->role == ROLE_BUILTIN || token->prev->role == ROLE_EXECUTABLE))
         token->role = ROLE_ARGUMENT;
     else
         token->role = ROLE_DEFAULT;
-}
+}*/
 
 
 t_token *convert_raw_token(t_raw_token *raw_token) 

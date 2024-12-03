@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:57:00 by root              #+#    #+#             */
-/*   Updated: 2024/11/29 15:45:23 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/12/03 19:12:27 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ void init_token(t_token *token, t_raw_token *t_raw_token)
     token->next = NULL;
     token->prev = NULL;
     token->role = ROLE_DEFAULT;
+    token->command_expected = 0;
     token->quote_state = t_raw_token->quote_state;
 }
