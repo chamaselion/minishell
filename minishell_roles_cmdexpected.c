@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:28:30 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/04 18:10:51 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/12/04 18:39:47 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void assign_token_role(t_token *token_list)
 
     if (current)
         handle_first_token(current);
+
     while (current)
     {
         if (is_quote_char(*current->content))
@@ -53,7 +54,8 @@ void assign_token_role(t_token *token_list)
         else if (identify_env_var(current->content))
             current->role = ROLE_VARIABLE;
         else if (current->prev && 
-                 (current->prev->role == ROLE_EXECUTABLE || 
+                 (is_quote_char(*current->prev->content) ||
+                  current->prev->role == ROLE_EXECUTABLE || 
                   current->prev->role == ROLE_ARGUMENT))
             current->role = ROLE_ARGUMENT;
         else
