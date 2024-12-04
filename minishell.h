@@ -32,17 +32,6 @@
 #define MAX_ARGS 64
 #define MAX_PATH 1024
 
-typedef enum e_special_char
-{
-    DOLLAR = '$',
-    PIPE = '|',
-    DASH = '-',
-    T_SPACE = ' ',
-    T_TAB = '\t',
-    T_NEWLINE = '\n',
-    END_OF_FILE = '\0',
-} e_special_char;
-
 typedef enum e_token_syntax_state {
     SYNTAX_VALID = 0,
     SYNTAX_INCOMPLETE = 1,
@@ -51,15 +40,15 @@ typedef enum e_token_syntax_state {
 
 typedef enum e_token_role 
 {
-    ROLE_DELIMITER = 0,
-    ROLE_BUILTIN = 1,
-    ROLE_EXECUTABLE = 2,
-    ROLE_ARGUMENT = 3,
-    ROLE_VARIABLE = 4,
-    ROLE_REDIRECT = 5,
+    ROLE_DELIMITER = 0, //QUOTES!!!
+    ROLE_BUILTIN = 1,   //This not!
+    ROLE_EXECUTABLE = 2, //THIS!!!
+    ROLE_ARGUMENT = 3, //DEFAULT AFTER EXECUTABLE!
+    ROLE_VARIABLE = 4, //ENV VAR (don#t expand yet, function is there)
+    ROLE_REDIRECT = 5, //>, <, >>, <<
     ROLE_PIPE = 6,
-    ROLE_ERROR = -1,
-    ROLE_DEFAULT = -2
+    ROLE_ERROR = -1, // for command not found -> at another point or call function already there
+    ROLE_DEFAULT = -2 //maybe not needed, default to 3, first token defaults to 2
 } t_token_role;
 
 typedef enum e_builtin 
@@ -81,13 +70,6 @@ typedef enum e_redir_type
     REDIR_APPEND = 3,
     REDIR_HEREDOC = 4
 } t_redir_type;
-
-typedef struct s_special_char_struct
-{
-    e_special_char type;
-    int count; // Number of occurrences - use it to enter interactive mode
-    int position; // Position in the input string
-} t_special_char_struct;
 
 typedef struct s_token {
     char *content;
@@ -146,7 +128,6 @@ typedef struct s_shell
 } t_shell;
 
 // Init:
-void init_special_char_handling(t_special_char_struct *special_char);
 void init_command(t_command *cmd);
 void init_token(t_token *token, t_raw_token *t_raw_token);
 
@@ -160,7 +141,6 @@ int identify_env_var(char *str);
 t_token *allocate_token(int length);
 void fill_token_fields(t_token *token, char *start, int length, int quote_state);
 int is_command_expected(t_token *prev_token);
-//void categorize_token(t_token *token, int command_expected);
 int check_unclosed_quotes(char *input);
 
 t_token *convert_raw_token(t_raw_token *raw_token);
@@ -169,13 +149,16 @@ void link_token_to_list(t_token **new_head, t_token **current_new, t_token *new_
 t_token *convert_raw_token_list(t_raw_token *raw_token_head);
 
 t_token *process_token_list(t_token *token_list);
-void assign_token_role(t_token *token, int *command_expected);
-void handle_command_token(t_token *token, int *command_expected);
-void handle_redirect_token(t_token *token, int *command_expected);
-void handle_pipe_token(t_token *token, int *command_expected);
+void assign_token_role(t_token *token_list);
+void handle_command_token(t_token *token);
+void handle_redirect_token(t_token *token);
+void handle_pipe_token(t_token *token);
 
 
 int validate_token_syntax(t_token *token_list);
+
+
+void    print_token_list(t_token *token_list);
 
 // Utils:
 char *ft_strtok(char *str, const char *delimiters);

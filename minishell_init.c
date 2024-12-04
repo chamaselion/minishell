@@ -6,20 +6,13 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:57:00 by root              #+#    #+#             */
-/*   Updated: 2024/12/03 19:12:27 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:34:47 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void init_special_char_handling(t_special_char_struct *special_char)
-{
-    special_char->type = END_OF_FILE;
-    special_char->count = 0;
-    special_char->position = -1;
-}
-
-void init_command(t_command *command)
+/*void init_command(t_command *command)
 {
     command->command = NULL;
     command->input = NULL;
@@ -27,7 +20,7 @@ void init_command(t_command *command)
     command->arg_count = 0;
     command->output = NULL;
     command->next = NULL;
-}
+}*/
 
 void init_shell(t_shell *shell) 
 {

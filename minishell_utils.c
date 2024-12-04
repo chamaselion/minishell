@@ -6,16 +6,11 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:12:45 by root              #+#    #+#             */
-/*   Updated: 2024/11/06 13:39:35 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:45:14 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int is_special_char(char c)
-{
-    return (c == '|' || c == '>' || c == '<' || c == '$' || c == '\'' || c == '"');
-}
 
 char *ft_strtok_r(char *str, const char *delim, char **saveptr)
 {

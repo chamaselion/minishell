@@ -60,7 +60,7 @@ int main_loop(void) // Function with the loop to keep looking for inputs, I trie
 	char *prompt;
 	char *input;
 	t_raw_token *raw_tokens;
-	//t_token *tokens;
+	t_token *tokens;
 
 	setup_signal_handling();
 
@@ -73,8 +73,10 @@ int main_loop(void) // Function with the loop to keep looking for inputs, I trie
 		free(prompt);
 		raw_tokens = handle_input(input);
 		//print_raw_tokens(raw_tokens); Debugging print
-		//tokens = tokenize_input(raw_tokens);
+		tokens = convert_raw_token_list(raw_tokens);
+		assign_token_role(tokens);
 		free_raw_tokens(raw_tokens);
+		print_token_list(tokens);
         free(input);
 	}
 	return 0;

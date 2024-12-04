@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:12:59 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/03 18:25:50 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/12/04 18:13:52 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_token *convert_raw_token(t_raw_token *raw_token)
     new_token->quote_state = raw_token->quote_state;
     new_token->position = raw_token->position;
     new_token->role = 0;
+    new_token->command_expected = 0;
     new_token->next = NULL;
     new_token->prev = NULL;
     return new_token;
