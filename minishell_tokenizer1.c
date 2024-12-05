@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:23:34 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/04 18:16:00 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/12/05 14:51:23 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ int is_valid_env_var_name(const char *str) {
 
 char* expand_env_variable(const char *var_name) 
 {
-    if (!var_name) return NULL;
-    return getenv(var_name);
+    if (!var_name) 
+        return NULL;
+    return (getenv(var_name));
 }
 
 t_raw_token *handle_non_quote_segment(const char **input, int *pos) 
@@ -81,18 +82,19 @@ t_raw_token* handle_single_quote_segment(const char **input, int *pos)
 {
     t_raw_token *first = NULL;
     t_raw_token *last = NULL;
-    const char *content_start = *input;
-    
+    const char *content_start;
+    char *content;
     char quote_str[2] = {'\'', '\0'};
+
     append_raw_token(&first, &last, 
         create_raw_token(quote_str, NO_QUOTE, *pos));
     (*input)++;
-    (*pos)++;    
+    content_start = *input;
     while (**input && **input != '\'') 
         (*input)++;
     if (*input > content_start) 
     {
-        char *content = strndup(content_start, *input - content_start);
+        content = ft_strndup(content_start, *input - content_start);
         append_raw_token(&first, &last, 
             create_raw_token(content, WITHIN_SINGLE_QUOTE, *pos));
         free(content);
@@ -213,7 +215,7 @@ t_raw_token* handle_input(char *input)
     return first;
 }
 
-void print_raw_tokens(t_raw_token *first_token) 
+/*void print_raw_tokens(t_raw_token *first_token) 
 {
     int count = 0;
     while (first_token) 
@@ -225,7 +227,7 @@ void print_raw_tokens(t_raw_token *first_token)
                first_token->position);
         first_token = first_token->next;
     }
-}
+}*/
 
 void free_raw_tokens(t_raw_token *first_token) 
 {
