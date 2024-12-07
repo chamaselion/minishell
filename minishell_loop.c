@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2024/09/10 14:54:16 by bszikora         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:40:04 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -78,6 +78,10 @@ int main_loop(void) // Function with the loop to keep looking for inputs, I trie
 		free_raw_tokens(raw_tokens);
 		print_token_list(tokens);
         free(input);
+		if (strcmp("exit", input) == 0)
+			exit(0);
+		if (handle_input(input))
+			return 1;
 	}
 	return 0;
 }
