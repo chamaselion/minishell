@@ -1,23 +1,16 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_write_to_file.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:09:48 by bszikora          #+#    #+#             */
-/*   Updated: 2024/10/10 13:09:49 by bszikora         ###   ########.fr       */
+/*   Updated: 2024/11/29 11:46:22 by mnaumann         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
-
-void write_input_to_heredoc(const char *input, const char *filename)
-{
-    int fd;
-
-    fd = open()
-}
 
 void write_parsed_input_to_file(t_parsed_input *parsed_input, const char *filename)
 {
@@ -33,7 +26,6 @@ void write_parsed_input_to_file(t_parsed_input *parsed_input, const char *filena
         ft_putstr_fd("Error opening file\n", STDERR_FILENO);
         return;
     }
-
     current_token = parsed_input->token;
     while (current_token)
     {
@@ -48,6 +40,5 @@ void write_parsed_input_to_file(t_parsed_input *parsed_input, const char *filena
         i++;
     }
     write(fd, "---\n", 4);  // Separator between commands
-
     close(fd);
 }

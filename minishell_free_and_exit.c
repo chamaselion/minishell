@@ -13,20 +13,6 @@
 
 #include "minishell.h"
 
-void free_parsed_input(t_parsed_input *parsed_input)
-{
-    t_token *current = parsed_input->token;
-    t_token *next;
-
-    while (current)
-    {
-        next = current->next;
-        free(current);
-        current = next;
-    }
-    free(parsed_input->special_char);
-}
-
 void free_command(t_command *cmd) 
 {
     int i = 0;
@@ -49,5 +35,32 @@ void free_commands(t_command *cmd)
         t_command *next = cmd->next;
         free_command(cmd);
         cmd = next;
+    }
+}
+
+int free_and_return(char *content, int ret)
+{
+    free(content);
+    return ret;
+}
+
+int free_and_fail(char *content, char *message)
+{
+    free(content);
+    ft_putstr_fd(message, STDERR_FILENO);
+    return 0;
+}
+
+void free_tokens(t_token *token)
+{
+    t_token *current;
+    t_token *next;
+
+    current = token;
+    while (current)
+    {
+        next = current->next;
+        free(current);
+        current = next;
     }
 }

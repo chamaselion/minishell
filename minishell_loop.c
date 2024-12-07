@@ -47,7 +47,7 @@ char *read_input(const char *prompt) // Getting the line from the user, adding i
 	if (input == NULL)
 	{
 		ft_putstr_fd("exit\n", STDERR_FILENO);
-		exit(0);
+		exit (0);
 	}
 	add_history(input);
 	return input;
@@ -59,6 +59,8 @@ int main_loop(void) // Function with the loop to keep looking for inputs, I trie
 {
 	char *prompt;
 	char *input;
+	t_raw_token *raw_tokens;
+	t_token *tokens;
 
 	setup_signal_handling();
 
@@ -69,6 +71,13 @@ int main_loop(void) // Function with the loop to keep looking for inputs, I trie
 			return 1;
 		input = read_input(prompt);
 		free(prompt);
+		raw_tokens = handle_input(input);
+		//print_raw_tokens(raw_tokens); Debugging print
+		tokens = convert_raw_token_list(raw_tokens);
+		assign_token_role(tokens);
+		free_raw_tokens(raw_tokens);
+		print_token_list(tokens);
+        free(input);
 		if (strcmp("exit", input) == 0)
 			exit(0);
 		if (handle_input(input))
