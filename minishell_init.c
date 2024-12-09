@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:57:00 by root              #+#    #+#             */
-/*   Updated: 2024/12/09 13:48:27 by bszikora         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:19:22 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -87,7 +87,7 @@ void	check_order(t_token *tokens)
 	ct = tokens;
 	while (ct)
 	{
-		if (strcmp(ct->content, "order 66"))
+		if (strcmp(ct->content, "order_66") == 0)
 		{
 			order_extra();
 			exit(0);
