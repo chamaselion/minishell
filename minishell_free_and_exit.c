@@ -13,28 +13,43 @@
 
 #include "minishell.h"
 
-void free_command(t_command *cmd) 
+void free_command(t_command *cmd)
 {
-    int i = 0;
-
-    free(cmd->command);
-    while (cmd->args && cmd->args[i]) 
+    if (cmd->command)
+        free(cmd->command);
+    if (cmd->input)
+        free(cmd->input);
+    if (cmd->args)
     {
-        free(cmd->args[i]);
-        i++;
+        for (int i = 0; i < cmd->arg_count; i++)
+        {
+            if (cmd->args[i])
+                free(cmd->args[i]);
+        }
+        free(cmd->args);
     }
-    free(cmd->input);
-    free(cmd->output);
-    free(cmd);
+    if (cmd->output)
+        free(cmd->output);
+    if (cmd->input_redirection)
+        free(cmd->input_redirection);
+    if (cmd->output_redirection)
+        free(cmd->output_redirection);
+    if (cmd->append_redirection)
+        free(cmd->append_redirection);
+    if (cmd->heredoc_redirection)
+        free(cmd->heredoc_redirection);
 }
 
-void free_commands(t_command *cmd) 
+void free_commands(t_command *cmd)
 {
-    while (cmd) 
+    t_command *temp;
+
+    while (cmd != NULL)
     {
-        t_command *next = cmd->next;
-        free_command(cmd);
-        cmd = next;
+        temp = cmd;
+        cmd = cmd->next;
+        free_command(temp);
+        free(temp);
     }
 }
 
