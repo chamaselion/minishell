@@ -13,6 +13,11 @@ SRC = minishell_loop.c\
 	minishell_utils.c\
 	minishell_utils2.c\
 	minishell_utils3.c\
+	minishell_commandfill1.c\
+	minishell_commandfill2.c\
+	minishell_execution.c\
+	minishell_piping.c\
+	minishell_redirection.c\
 
 OBJ = $(addprefix objects/, $(SRC:.c=.o))
 NAME = minishell
