@@ -1,0 +1,6 @@
+
+*.o
+*.o
+objects/minishell_tokenizer1.o
+objects/new_tokenizer1.o
+objects/new_tokenizer2.o

@@ -6,33 +6,11 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:12:59 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/05 14:53:08 by mnaumann         ###   ########.fr       */
+/*   Updated: 2024/12/09 11:37:50 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*void categorize_token(t_token *token, int command_expected) 
-{
-    if (is_pipe(token->content))
-        token->role = ROLE_PIPE;
-    if (is_redirection(token->content))
-        token->role = ROLE_REDIRECT;
-    if (identify_env_var(token->content))
-        token->role = ROLE_VARIABLE;
-    if (command_expected) 
-    {
-        if (is_builtin_command(token->content))
-            token->role = ROLE_BUILTIN;
-        else if (is_executable(token->content))
-            token->role = ROLE_EXECUTABLE;
-    }
-    if (token->prev && (token->prev->role == ROLE_BUILTIN || token->prev->role == ROLE_EXECUTABLE))
-        token->role = ROLE_ARGUMENT;
-    else
-        token->role = ROLE_DEFAULT;
-}*/
-
 
 t_token *convert_raw_token(t_raw_token *raw_token) 
 {
@@ -45,7 +23,11 @@ t_token *convert_raw_token(t_raw_token *raw_token)
     new_token->content = ft_strdup(raw_token->segment);
     new_token->quote_state = raw_token->quote_state;
     new_token->position = raw_token->position;
-    new_token->role = 0;
+    if (new_token->quote_state == WITHIN_SINGLE_QUOTE ||
+        new_token->quote_state == WITHIN_DOUBLE_QUOTE)
+        new_token->role = 3;
+    else
+        new_token->role = 0;
     new_token->command_expected = 0;
     new_token->next = NULL;
     new_token->prev = NULL;

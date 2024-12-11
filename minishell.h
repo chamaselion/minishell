@@ -152,6 +152,15 @@ void fill_token_fields(t_token *token, char *start, int length, int quote_state)
 int is_command_expected(t_token *prev_token);
 int check_unclosed_quotes(char *input);
 
+void append_raw_token(t_raw_token **first, t_raw_token **last, t_raw_token *new_token);
+
+
+char* expand_env_variable(const char *var_name);
+void append_variable_value(const char *var_name, char **write_ptr);
+void append_character(char c, char **write_ptr);
+const char *extract_variable_name(const char *current, char *var_name);
+
+
 t_token *convert_raw_token(t_raw_token *raw_token);
 int is_raw_token_list_empty(t_raw_token *raw_token_head);
 void link_token_to_list(t_token **new_head, t_token **current_new, t_token *new_token);
@@ -184,9 +193,13 @@ int is_whitespace(char c);
 int is_builtin_command(const char *cmd);
 int is_redirection(char *str);
 int is_pipe(char *str);
-int is_special_char(char c);
 char *ft_strndup(const char *s1, size_t n);
 char *ft_strcpy(char *dst, const char *src);
+
+char *skip_whitespace(char *input);
+int is_valid_env_var_name(const char *str);
+char *expand_double_quote_content(const char *content);
+
 
 // Input handling:
 
