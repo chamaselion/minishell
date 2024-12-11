@@ -130,6 +130,7 @@ todo:
 //split 
 //$VAR1=42 into  $  VAR1  =  42 -> changed into VAR1=42 and a call to split if and where needed
 
+done:
 rework role assignment
 reintroduce command_expected
 --> OR (existing) variable
@@ -150,3 +151,7 @@ Hello World$ Howdy
 (base) root@DESKTOP-F4AL6TI:/mnt/c/projects/minishell# pwd | echo
 
 (base) root@DESKTOP-F4AL6TI:/mnt/c/projects/minishell# 
+
+reintroduce interactive mode
+final token list with or without quote marks? - CAN GO WITH
+ROLE check function to assign role 3 to everything WITHIN_XXXQUOTES

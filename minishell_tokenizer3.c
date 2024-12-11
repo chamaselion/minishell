@@ -169,6 +169,8 @@ t_raw_token *handle_non_quote_segment(const char **input, int *pos) {
 	{
         (*input)++;
     }
+    if (*input == start)
+        return NULL;
     segment = ft_strndup(start, *input - start);
     token = create_raw_token(segment, NO_QUOTE, *pos);
     free(segment);
