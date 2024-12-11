@@ -23,7 +23,11 @@ t_token *convert_raw_token(t_raw_token *raw_token)
     new_token->content = ft_strdup(raw_token->segment);
     new_token->quote_state = raw_token->quote_state;
     new_token->position = raw_token->position;
-    new_token->role = 0;
+    if (new_token->quote_state == WITHIN_SINGLE_QUOTE ||
+        new_token->quote_state == WITHIN_DOUBLE_QUOTE)
+        new_token->role = 3;
+    else
+        new_token->role = 0;
     new_token->command_expected = 0;
     new_token->next = NULL;
     new_token->prev = NULL;

@@ -45,7 +45,7 @@ void assign_token_role(t_token *token_list)
 
     while (current)
     {
-        if (is_quote_char(*current->content))
+        if (is_quote_char(*current->content) && current->quote_state == NO_QUOTE)
             handle_quote_token(current);
         else if (is_pipe(current->content))
             handle_pipe_token(current);
@@ -68,7 +68,7 @@ void    print_token_list(t_token *token_list)
     t_token *current = token_list;
     while (current != NULL)
     {
-        printf("Token: %s, Role: %d, Command Expected: %d\n", current->content, current->role, current->command_expected);
+        printf("Token: %s, Role: %d, Command Expected: %d, quote state: %d\n", current->content, current->role, current->command_expected, current->quote_state);
         current = current->next;
     }
 }
