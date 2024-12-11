@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2024/10/10 15:40:04 by bszikora         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:18:27 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -61,10 +61,13 @@ int main_loop(void) // Function with the loop to keep looking for inputs, I trie
 	char *input;
 	t_raw_token *raw_tokens;
 	t_token *tokens;
+	t_command *commands;
+	t_command *commandss;
+	int i = 0;
 
 	setup_signal_handling();
 
-	while (1)
+while (1)
 	{
 		prompt = get_prompt();
 		if (prompt == NULL)
@@ -74,14 +77,30 @@ int main_loop(void) // Function with the loop to keep looking for inputs, I trie
 		raw_tokens = handle_input(input);
 		//print_raw_tokens(raw_tokens); Debugging print
 		tokens = convert_raw_token_list(raw_tokens);
+		check_order(tokens);
 		assign_token_role(tokens);
 		free_raw_tokens(raw_tokens);
-		print_token_list(tokens);
+		fill_command_from_tokens(tokens, &commands);
+		link_commands_and_tokens(tokens, commands);
+		commandss = commands;
+		while (commandss)
+		{
+			printf("Command[%i]: %s, args: %s, relation type: %i\n", i, commandss->command, commandss->args[0], commandss->relation_type);
+			commandss = commandss->next;
+			i++;
+		}
+		handle_pipes(commands);
+		free_commands(commands);
+/*
+		while (commands)
+		{
+			printf("Command[%i]: %s, args: %s, relation type: %i\n", i, commands->command, commands->args[0], commands->relation_type);
+			commands = commands->next;
+			i++;
+		}
+		*/
+		//print_token_list(tokens);
         free(input);
-		if (strcmp("exit", input) == 0)
-			exit(0);
-		if (handle_input(input))
-			return 1;
 	}
 	return 0;
 }

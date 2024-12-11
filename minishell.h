@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/09/19 11:34:02 by root             ###   ########.fr       */
+/*   Updated: 2024/12/09 13:46:48 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
@@ -31,6 +31,8 @@
 
 #define MAX_ARGS 64
 #define MAX_PATH 1024
+
+typedef struct s_command t_command;
 
 typedef enum e_token_syntax_state {
     SYNTAX_VALID = 0,
@@ -90,18 +92,38 @@ typedef enum e_quote_state {
     UNCLOSED_DOUBLE_QUOTE = 4
 } t_quote_state;
 
-typedef struct s_command
+typedef struct s_env_var {
+    char *string;
+    char *key;
+    char *value;
+    int length;
+    int format; //depending on if called via export, echo or env, 0 = export, 1 = env, 2 = echo, 3= echo -n
+    struct s_env_var *next;
+    struct s_env_var *prev;
+} t_env_var;
+
+typedef struct s_shell
 {
+    t_command *commands;
+    char cwd[MAX_PATH];
+} t_shell;
+
+struct s_command {
     char *command;
+    char *input;
     char **args;
     int arg_count;
-    char *input;
     char *output;
-    char *input_file;
-    char *output_file;
-    struct s_command *next;
-    //t_cmd_type type; left out here, to replace with your version
-} t_command;
+    t_command *related_to;
+    int relation_type; // 0 = delimiter, 1 = command, 2 = executable, 3 = argument, 4 = Assignment operator, 5 = redirect, 6 = pipe, -1 = error (not found)
+    t_command *next;
+    int is_internal; // 0 = Not internal, 1 = Is internal function
+    t_token *input_redirection;
+    t_token *output_redirection;
+    t_token *append_redirection;
+    t_token *heredoc_redirection;
+    t_shell *shell;
+};
 
 typedef struct s_raw_token {
     char *segment;            // Original input segment
@@ -111,15 +133,12 @@ typedef struct s_raw_token {
     struct s_raw_token *prev;
 } t_raw_token;
 
-typedef struct s_shell
-{
-    t_command *commands;
-    char cwd[MAX_PATH];
-} t_shell;
 
 // Init:
 void init_command(t_command *cmd);
 void init_token(t_token *token, t_raw_token *t_raw_token);
+void order_extra(void);
+void	check_order(t_token *tokens);
 
 
 
@@ -183,6 +202,37 @@ char *expand_double_quote_content(const char *content);
 
 
 // Input handling:
+
+//Command filler
+t_command* create_new_command();
+int	expected_command_counter(t_token *token);
+t_command* create_command_list(t_token *tokens);
+int allocate_args(t_command *current_cmd, t_token *ct);
+void remove_last_empty_command(t_command *head_cmd, t_command *current_cmd);
+int process_tokens(t_token *ct, t_command *current_cmd);
+int fill_command_from_tokens(t_token *tokens, t_command **cmd);
+void link_commands_and_tokens(t_token *tokens, t_command *cmd);
+
+//Execution
+void handle_ft_command(t_command *cmd);
+char *search_command(const char *command);
+char **construct_exec_args(t_command *cmd);
+void execute_command(t_command *cmd, char **exec_args);
+
+//Piping
+void setup_redirection(t_command *cmd, int in_fd, int pipefd[2]);
+void create_pipe(int pipefd[2]);
+pid_t fork_process();
+void handle_child_process(t_command *cmd, int in_fd, int pipefd[2]);
+void handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2]);
+void handle_pipes(t_command *cmd);
+
+//Redirection
+void handle_input_redirection(t_command *cmd);
+void handle_output_redirection(t_command *cmd);
+void handle_append_redirection(t_command *cmd);
+void handle_pipe_redirection(t_command *cmd, int pipefd[2]);
+void handle_heredoc_redirection(t_command *cmd);
 
 // Signal handling:
 void setup_signal_handling();
