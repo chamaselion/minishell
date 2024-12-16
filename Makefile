@@ -10,6 +10,11 @@ SRC = minishell_loop.c\
 	minishell_syntax_check.c\
 	minishell_signal_handling.c\
 	minishell_free_and_exit.c\
+	minishell_commandfill1.c\
+	minishell_commandfill2.c\
+	minishell_redirection.c\
+	minishell_piping.c\
+	minishell_execution\
 	minishell_init.c\
 	minishell_utils.c\
 	minishell_utils2.c\
