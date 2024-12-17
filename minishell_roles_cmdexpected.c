@@ -14,8 +14,21 @@
 
 void handle_first_token(t_token *token)
 {
-    token->role = ROLE_EXECUTABLE;
-    token->command_expected = 1;
+    if (is_quote_char(*token->content))
+    {
+        token->role = ROLE_DELIMITER;
+        token->command_expected = 0;
+        if (token->next && token->next->quote_state == WITHIN_DOUBLE_QUOTE)
+        {
+            token->next->command_expected = 1;
+            token->next->role = ROLE_EXECUTABLE;
+        }
+    }
+    else
+    {
+        token->role = ROLE_EXECUTABLE;
+        token->command_expected = 1;
+    }
 }
 
 void handle_quote_token(t_token *token)
@@ -42,7 +55,6 @@ void assign_token_role(t_token *token_list)
 
     if (current)
         handle_first_token(current);
-
     while (current)
     {
         if (is_quote_char(*current->content) && current->quote_state == NO_QUOTE)
@@ -53,8 +65,7 @@ void assign_token_role(t_token *token_list)
             handle_redirect_token(current);
         else if (identify_env_var(current->content))
             current->role = ROLE_VARIABLE;
-        else if (current->prev && 
-                 (is_quote_char(*current->prev->content) ||
+        else if (current->prev && (
                   current->prev->role == ROLE_EXECUTABLE || 
                   current->prev->role == ROLE_ARGUMENT))
             current->role = ROLE_ARGUMENT;

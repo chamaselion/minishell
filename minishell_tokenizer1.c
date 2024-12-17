@@ -215,7 +215,7 @@ t_raw_token* handle_input(char *input)
     return first;
 }
 
-/*void print_raw_tokens(t_raw_token *first_token) 
+void print_raw_tokens(t_raw_token *first_token) 
 {
     int count = 0;
     while (first_token) 
@@ -227,7 +227,7 @@ t_raw_token* handle_input(char *input)
                first_token->position);
         first_token = first_token->next;
     }
-}*/
+}
 
 void free_raw_tokens(t_raw_token *first_token) 
 {

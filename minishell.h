@@ -145,6 +145,7 @@ void	check_order(t_token *tokens);
 t_raw_token* handle_input(char *input);
 
 void print_raw_tokens(t_raw_token *first_token);
+void print_tokens(t_token *first_token);
 
 int identify_env_var(char *str);
 t_token *allocate_token(int length);

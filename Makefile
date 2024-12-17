@@ -3,20 +3,26 @@ CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 SRC = minishell_loop.c\
-	minishell_tokenizer2.c\
-	minishell_tokenizer3.c\
-	minishell_variable_expansion.c\
-	minishell_roles_cmdexpected.c\
-	minishell_syntax_check.c\
-	minishell_signal_handling.c\
-	minishell_free_and_exit.c\
-	minishell_init.c\
-	minishell_utils.c\
-	minishell_utils2.c\
-	minishell_utils3.c\
-	minishell_utils4.c\
+    minishell_tokenizer2.c\
+    minishell_tokenizer3.c\
+    minishell_variable_expansion.c\
+    minishell_roles_cmdexpected.c\
+    minishell_syntax_check.c\
+    minishell_signal_handling.c\
+    minishell_free_and_exit.c\
+    minishell_execution.c\
+    minishell_init.c\
+    minishell_utils.c\
+    minishell_utils2.c\
+    minishell_utils3.c\
+    minishell_utils4.c\
+	minishell_commandfill1.c\
+	minishell_commandfill2.c\
+	minishell_piping.c\
+	minishell_redirection.c\
 
-OBJ = $(addprefix objects/, $(SRC:.c=.o))
+OBJ_DIR = objects
+OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 NAME = minishell
 LDFLAGS = -lreadline
 
@@ -28,8 +34,11 @@ $(LIBFT):
 $(NAME): $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LDFLAGS)
 
-objects/%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -I. -c $< -o $@
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean

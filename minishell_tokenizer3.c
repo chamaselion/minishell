@@ -65,58 +65,6 @@ int is_valid_env_var_name(const char *str) {
     return 1;
 }
 
-/* Expand variables and return the full combined string
-static char *expand_double_quote_content(const char *content) 
-{
-    char buffer[1024];
-    char var_name[256];
-    char *write_ptr;
-    int var_idx;
-    const char *current;
-
-    ft_memset(buffer, 0, sizeof(buffer));
-    write_ptr = buffer;
-
-    current = content;
-    while (*current != '\0') {
-        if (*current == '$') {
-            current++;
-            var_idx = 0;
-
-            while (ft_isalnum(*current) || *current == '_') 
-			{
-                var_name[var_idx] = *current;
-                var_idx++;
-                current++;
-            }
-            var_name[var_idx] = '\0';
-            if (is_valid_env_var_name(var_name)) 
-			{
-                char *env_value = expand_env_variable(var_name);
-                if (env_value != NULL) 
-				{
-                    ft_strcpy(write_ptr, env_value);
-                    write_ptr += ft_strlen(env_value);
-                }
-            } 
-			else 
-			{
-                *write_ptr = '$';
-                write_ptr++;
-                ft_strcpy(write_ptr, var_name);
-                write_ptr += ft_strlen(var_name);
-            }
-        } 
-		else 
-		{
-            *write_ptr = *current;
-            write_ptr++;
-            current++;
-        }
-    }
-    return ft_strdup(buffer);
-}*/
-
 t_raw_token *handle_single_quote_mark(int *pos) 
 {
     char quote_str[2];
@@ -251,7 +199,38 @@ t_raw_token *handle_input(char *input) {
         	append_raw_token(&first, &last, token);
 		}
     }
+    print_raw_tokens(first); //debug
     return first;
+}
+
+void print_raw_tokens(t_raw_token *first_token) 
+{
+    int count = 0;
+    while (first_token) 
+    {
+        printf("Token %d: '%s' (Quote State: %d, Position: %d)\n", 
+               count++, 
+               first_token->segment, 
+               first_token->quote_state, 
+               first_token->position);
+        first_token = first_token->next;
+    }
+}
+
+void print_tokens(t_token *first_token) 
+{
+    int count = 0;
+    while (first_token) 
+    {
+        printf("Token %d: '%s' (Quote State: %d, Position: %d, Command: %d, Role: %d)\n", 
+               count++, 
+               first_token->content, 
+               first_token->quote_state, 
+               first_token->position,
+               first_token->command_expected,
+               first_token->role);
+        first_token = first_token->next;
+    }
 }
 
 // Free raw token list
