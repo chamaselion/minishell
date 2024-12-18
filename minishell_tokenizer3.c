@@ -199,7 +199,6 @@ t_raw_token *handle_input(char *input) {
         	append_raw_token(&first, &last, token);
 		}
     }
-    print_raw_tokens(first); //debug
     return first;
 }
 

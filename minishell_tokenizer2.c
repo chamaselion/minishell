@@ -71,7 +71,7 @@ t_token *convert_raw_token_list(t_raw_token *raw_token_head)
         link_token_to_list(&new_head, &current_new, new_token);
         current_raw = current_raw->next;
     }
-    print_tokens(new_head);
+    //print_tokens(new_head);
     return (new_head);
 }
 

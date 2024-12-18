@@ -18,10 +18,11 @@ void handle_first_token(t_token *token)
     {
         token->role = ROLE_DELIMITER;
         token->command_expected = 0;
-        if (token->next && token->next->quote_state == WITHIN_DOUBLE_QUOTE)
+        if (token->next)
         {
             token->next->command_expected = 1;
             token->next->role = ROLE_EXECUTABLE;
+            token = token->next;
         }
     }
     else
@@ -39,8 +40,7 @@ void handle_quote_token(t_token *token)
 void handle_pipe_token(t_token *token)
 {
     token->role = ROLE_PIPE;
-    if (token->next)
-        token->next->command_expected = 1;
+    handle_first_token(token->next);
 }
 
 void handle_redirect_token(t_token *token)
@@ -55,7 +55,8 @@ void assign_token_role(t_token *token_list)
 
     if (current)
         handle_first_token(current);
-    while (current)
+    current = current->next;
+    while (current && current->next)
     {
         if (is_quote_char(*current->content) && current->quote_state == NO_QUOTE)
             handle_quote_token(current);
@@ -63,14 +64,17 @@ void assign_token_role(t_token *token_list)
             handle_pipe_token(current);
         else if (is_redirection(current->content))
             handle_redirect_token(current);
-        else if (identify_env_var(current->content))
+        else if (identify_env_var(current->content) && current->quote_state == 0)
             current->role = ROLE_VARIABLE;
-        else if (current->prev && (
+        else if (current->command_expected == 1)
+            current->role = ROLE_EXECUTABLE;
+        //only applicable after getting rid of quotes as tokens. That is the main problem
+        /*else if (current->prev && (*current->prev->content == '"' ||
                   current->prev->role == ROLE_EXECUTABLE || 
                   current->prev->role == ROLE_ARGUMENT))
-            current->role = ROLE_ARGUMENT;
+            current->role = ROLE_ARGUMENT;*/
         else
-            current->role = ROLE_EXECUTABLE;
+            current->role = ROLE_ARGUMENT;
         current = current->next;
     }
 }
