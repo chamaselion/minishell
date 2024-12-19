@@ -176,6 +176,11 @@ void handle_pipe_token(t_token *token);
 
 int validate_token_syntax(t_token *token_list);
 
+void check_for_unclosed(t_token *token_list);
+t_token *pop_quotemark_tokens(t_token **token_list);
+t_token *finalizing_token_list(t_token *token_list);
+
+void remove_token(t_token **head, t_token *token);
 
 void    print_token_list(t_token *token_list);
 

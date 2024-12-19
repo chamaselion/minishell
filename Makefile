@@ -20,6 +20,7 @@ SRC = minishell_loop.c\
 	minishell_commandfill2.c\
 	minishell_piping.c\
 	minishell_redirection.c\
+    minishell_purging_quotemarks.c\
 
 OBJ_DIR = objects
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

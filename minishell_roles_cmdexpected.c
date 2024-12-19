@@ -78,6 +78,14 @@ void assign_token_role(t_token *token_list)
         current = current->next;
     }
 }
+
+t_token  *finalizing_token_list(t_token *token_list)
+{
+    assign_token_role(token_list);
+    check_for_unclosed(token_list);
+    pop_quotemark_tokens(&token_list);
+    return (token_list);
+}
 void    print_token_list(t_token *token_list)
 {
     t_token *current = token_list;
