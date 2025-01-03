@@ -151,7 +151,6 @@ int identify_env_var(char *str);
 t_token *allocate_token(int length);
 void fill_token_fields(t_token *token, char *start, int length, int quote_state);
 int is_command_expected(t_token *prev_token);
-int check_unclosed_quotes(char *input);
 
 void append_raw_token(t_raw_token **first, t_raw_token **last, t_raw_token *new_token);
 
@@ -167,7 +166,6 @@ int is_raw_token_list_empty(t_raw_token *raw_token_head);
 void link_token_to_list(t_token **new_head, t_token **current_new, t_token *new_token);
 t_token *convert_raw_token_list(t_raw_token *raw_token_head);
 
-t_token *process_token_list(t_token *token_list);
 void assign_token_role(t_token *token_list);
 void handle_command_token(t_token *token);
 void handle_redirect_token(t_token *token);

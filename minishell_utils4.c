@@ -12,18 +12,18 @@
 
 #include "minishell.h"
 
-char *skip_whitespace(char *input) 
+char	*skip_whitespace(char *input)
 {
-	while (*input && is_whitespace(*input)) 
+	while (*input && is_whitespace(*input))
 	{
 		input++;
 	}
-	return input;
+	return (input);
 }
 
-char* expand_env_variable(const char *var_name) 
+char	*expand_env_variable(const char *var_name)
 {
-    if (!var_name) 
-        return NULL;
-    return (getenv(var_name));
+	if (!var_name)
+		return (NULL);
+	return (getenv(var_name));
 }

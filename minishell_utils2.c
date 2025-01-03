@@ -14,7 +14,7 @@
 
 int get_quote_state(char c)
 {
-    if (c == '\'')
+if (c == '\'')
         return WITHIN_SINGLE_QUOTE;
     else
         return WITHIN_DOUBLE_QUOTE;
@@ -26,13 +26,6 @@ int is_matching_quote(char c, int state)
             (c == '\"' && state == WITHIN_DOUBLE_QUOTE));
 }
 
-int is_redirection(char *str)
-{
-    if (ft_strcmp(str, "<") == 0 || ft_strcmp(str, ">") == 0 ||
-        ft_strcmp(str, "<<") == 0 || ft_strcmp(str, ">>") == 0)
-        return 1;
-    return 0;
-}
 
 int is_quote_char(char c)
 {

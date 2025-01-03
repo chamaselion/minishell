@@ -152,6 +152,8 @@ Hello World$ Howdy
 
 (base) root@DESKTOP-F4AL6TI:/mnt/c/projects/minishell# 
 
-reintroduce interactive mode
-final token list with or without quote marks? - CAN GO WITH
-ROLE check function to assign role 3 to everything WITHIN_XXXQUOTES
+DROPPED			reintroduce interactive mode
+DONE			final token list with or without quote marks? - CAN GO WITH
+DONE			ROLE check function to assign role 3 to everything WITHIN_XXXQUOTES
+
+Handle Errror unclosed_quotes (find in minishell_purging_quotemarks.c)
