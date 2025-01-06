@@ -152,6 +152,7 @@ t_token *allocate_token(int length);
 void fill_token_fields(t_token *token, char *start, int length, int quote_state);
 int is_command_expected(t_token *prev_token);
 
+t_raw_token *create_raw_token(const char *segment, t_quote_state quote_state, int position);
 void append_raw_token(t_raw_token **first, t_raw_token **last, t_raw_token *new_token);
 
 
@@ -175,12 +176,24 @@ void handle_pipe_token(t_token *token);
 int validate_token_syntax(t_token *token_list);
 
 void check_for_unclosed(t_token *token_list);
-t_token *pop_quotemark_tokens(t_token **token_list);
+
 t_token *finalizing_token_list(t_token *token_list);
 
 void remove_token(t_token **head, t_token *token);
 
 void    print_token_list(t_token *token_list);
+// Quote handling:
+t_token *pop_quotemark_tokens(t_token **token_list);
+void	single_quote_wrapper(const char **input, int *pos, t_raw_token **first,
+		t_raw_token **last);
+void	double_quote_wrapper(const char **input, int *pos, t_raw_token **first,
+        t_raw_token **last);
+t_raw_token	*handle_double_quote_segment(const char **input, int *pos);
+t_raw_token	*handle_single_quote_segment(const char **input, int *pos); 
+t_raw_token	*handle_single_quote_mark(int *pos);
+t_raw_token	*handle_double_quote_mark(int *pos);
+t_raw_token	*handle_non_quote_segment(const char **input, int *pos);
+
 
 // Utils:
 char *ft_strtok(char *str, const char *delimiters);

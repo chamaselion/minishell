@@ -81,7 +81,7 @@ while (1)
 		tokens = finalizing_token_list(tokens);
 		//assign_token_role(tokens);
 		free_raw_tokens(raw_tokens);
-		print_token_list(tokens);
+		//print_token_list(tokens);
 		fill_command_from_tokens(tokens, &commands);
 		link_commands_and_tokens(tokens, commands);
 		commandss = commands;
