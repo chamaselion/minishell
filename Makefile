@@ -27,6 +27,7 @@ SRC = minishell_loop.c\
 
 OBJ_DIR = objects
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
+
 NAME = minishell
 LDFLAGS = -lreadline
 
