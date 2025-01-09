@@ -78,12 +78,14 @@ while (1)
 		//print_raw_tokens(raw_tokens); Debugging print
 		tokens = convert_raw_token_list(raw_tokens);
 		check_order(tokens);
-		assign_token_role(tokens);
+		tokens = finalizing_token_list(tokens);
+		//assign_token_role(tokens);
 		free_raw_tokens(raw_tokens);
+		//print_token_list(tokens);
 		fill_command_from_tokens(tokens, &commands);
 		link_commands_and_tokens(tokens, commands);
 		commandss = commands;
-		while (commandss)
+		while (commandss && commandss->next)
 		{
 			printf("Command[%i]: %s, args: %s, relation type: %i\n", i, commandss->command, commandss->args[0], commandss->relation_type);
 			commandss = commandss->next;
