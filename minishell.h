@@ -191,7 +191,7 @@ void	check_for_unclosed(t_token *token_list);
 
 // Utils:
 char	*ft_strtok(char *str, const char *delimiters);
-int	ft_atoi(const char *str);
+int		ft_atoi(const char *str);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strncpy(char *dest, const char *src, size_t n);
 char	*ft_strtok_r(char *str, const char *delim, char **saveptr);
