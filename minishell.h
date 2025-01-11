@@ -248,4 +248,9 @@ void	free_commands(t_command *cmd);
 void	free_tokens(t_token *token);
 void	free_raw_tokens(t_raw_token *first_token);
 
+//debugging:
+void	print_raw_tokens(t_raw_token *first_token);
+void	print_tokens(t_token *first_token);
+
+
 #endif

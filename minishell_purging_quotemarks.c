@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:35:22 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/19 11:02:12 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/11 12:22:15 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,18 @@
 
 void check_for_unclosed(t_token *token_list)
 {
-	while (token_list->next)
-		token_list = token_list->next;
-	if (token_list->prev->quote_state != 0 && !(is_quote_char(*token_list->content)))
-		return ; //implement error handling "unclosed quotes" (in my opinion just a subcase of syntax error)
+    printf("check entered\n");
+    t_token *current = token_list;
+
+    while (current) 
+    {
+        if (current->quote_state != 0 && !(is_quote_char(*current->content)))
+        {
+            printf("Unclosed quote\n"); //implement error handling
+            return;
+        }
+        current = current->next;
+    }
 }
 
 void remove_token(t_token **head, t_token *token)
@@ -38,6 +46,7 @@ t_token *pop_quotemark_tokens(t_token **token_list)
     t_token *next;
 
     current = *token_list;
+    printf("pop entered\n");
     while (current)
     {
         next = current->next;
@@ -47,6 +56,8 @@ t_token *pop_quotemark_tokens(t_token **token_list)
                 *token_list = next;
             remove_token(token_list, current);
         }
+        if (current->next == NULL)
+            break ;
         current = next;
     }
 	return(*token_list);

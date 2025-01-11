@@ -63,15 +63,17 @@ t_token *convert_raw_token_list(t_raw_token *raw_token_head)
     current_raw = raw_token_head;
     if (is_raw_token_list_empty(raw_token_head))
         return (NULL);
-    while (current_raw != NULL) 
+    while (current_raw != NULL && current_raw->segment != NULL) 
     {
         new_token = convert_raw_token(current_raw);
         if (new_token == NULL)
             return (NULL);
         link_token_to_list(&new_head, &current_new, new_token);
-        current_raw = current_raw->next;
+        if (current_raw->next)
+            current_raw = current_raw->next;
+        else
+            break;
     }
-    //print_tokens(new_head);
     return (new_head);
 }
 

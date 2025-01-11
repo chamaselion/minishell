@@ -75,13 +75,13 @@ while (1)
 		input = read_input(prompt);
 		free(prompt);
 		raw_tokens = handle_input(input);
-		//print_raw_tokens(raw_tokens); Debugging print
+		print_raw_tokens(raw_tokens);
 		tokens = convert_raw_token_list(raw_tokens);
 		check_order(tokens);
+		print_tokens(tokens);
 		tokens = finalizing_token_list(tokens);
-		//assign_token_role(tokens);
+		print_tokens(tokens);
 		free_raw_tokens(raw_tokens);
-		//print_token_list(tokens);
 		fill_command_from_tokens(tokens, &commands);
 		link_commands_and_tokens(tokens, commands);
 		commandss = commands;
@@ -101,7 +101,6 @@ while (1)
 			i++;
 		}
 		*/
-		//print_token_list(tokens);
         free(input);
 	}
 	return 0;
