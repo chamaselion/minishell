@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:30:29 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/13 15:05:41 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:41:06 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -50,6 +50,12 @@ int fill_command_from_tokens(t_token *tokens, t_command **cmd)
 {
     t_token *ct = tokens;
     t_command *current_cmd;
+	
+	if (!tokens)
+	{
+		*cmd = NULL;
+		return (-1);
+	}
 	
 	current_cmd = create_command_list(tokens);
     if (!current_cmd)

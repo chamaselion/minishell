@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/13 14:35:57 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:42:04 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -91,8 +91,11 @@ while (1)
 			commandss = commandss->next;
 			i++;
 		}
+		if (commands)
+		{
 		handle_pipes(commands);
 		free_commands(commands);
+		}
 /*
 		while (commands)
 		{
