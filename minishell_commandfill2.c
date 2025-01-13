@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:30:29 by bszikora          #+#    #+#             */
-/*   Updated: 2024/12/09 13:05:26 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:05:41 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -67,57 +67,58 @@ int fill_command_from_tokens(t_token *tokens, t_command **cmd)
         }
         ct = ct->next;
     }
+	if (current_cmd != NULL)
+    {
+        current_cmd->next = NULL;
+    }
     return (expected_command_counter(tokens));
 }
 
-void handle_builtin(t_token *ct, t_command *current_cmd)
+void	handle_redirect_link(t_token *ct, t_command *current_cmd)
 {
-	(void)ct;
-	(void)current_cmd;
-	
-}
-
-void handle_redirect(t_token *ct, t_command *current_cmd)
-{
-    if (strcmp(ct->content, ">") == 0)
-        current_cmd->output_redirection = ct->next;
-    else if (strcmp(ct->content, "<") == 0)
+	if (strcmp(ct->content, ">") == 0)
+		current_cmd->output_redirection = ct->next;
+	else if (strcmp(ct->content, "<") == 0)
         current_cmd->input_redirection = ct->next;
-    else if (strcmp(ct->content, ">>") == 0)
+	else if (strcmp(ct->content, ">>") == 0)
         current_cmd->append_redirection = ct->next;
-    else if (strcmp(ct->content, "<<") == 0)
+	else if (strcmp(ct->content, "<<") == 0)
         current_cmd->heredoc_redirection = ct->next;
-    current_cmd->relation_type = 5;
 }
 
-void handle_pipe(t_command *current_cmd)
+void	handle_pipe_link(t_command *current_cmd)
 {
-    if (current_cmd->next)
-    {
-        current_cmd->relation_type = 6; // Pipe
-        current_cmd->related_to = current_cmd->next;
-        current_cmd = current_cmd->next;
-    }
+	current_cmd->relation_type = 6;
+    current_cmd->related_to = current_cmd->next;
 }
 
 void link_commands_and_tokens(t_token *tokens, t_command *cmd)
 {
-    t_token *ct = tokens;
-    t_command *current_cmd = cmd;
+    t_token *ct;
+    t_command *current_cmd;
 	
 	ct = tokens;
-    current_cmd = cmd;
+	current_cmd = cmd;
+
     while (ct)
-    {
+	{
         if (ct->role == 4)
-            handle_builtin(ct, current_cmd);
-        else if (ct->role == 5)
-        {
-            handle_redirect(ct, current_cmd);
-            ct = ct->next;
+		{
         }
-        else if (ct->role == 6)
-            handle_pipe(current_cmd);
+		else if (ct->role == 5)
+		{
+			handle_redirect_link(ct, current_cmd);
+			ct = ct->next;
+			current_cmd->relation_type = 5;
+        }
+		else if (ct->role == 6)
+		{
+            if (current_cmd->next)
+			{
+				handle_pipe_link(current_cmd);
+				current_cmd = current_cmd->next;
+			}
+        }
         ct = ct->next;
     }
 }
