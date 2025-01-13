@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2024/12/09 17:18:27 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/13 14:35:57 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -85,7 +85,7 @@ while (1)
 		fill_command_from_tokens(tokens, &commands);
 		link_commands_and_tokens(tokens, commands);
 		commandss = commands;
-		while (commandss && commandss->next)
+		while (commandss)
 		{
 			printf("Command[%i]: %s, args: %s, relation type: %i\n", i, commandss->command, commandss->args[0], commandss->relation_type);
 			commandss = commandss->next;
