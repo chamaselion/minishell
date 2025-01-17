@@ -28,11 +28,10 @@ char	*expand_env_variable(const char *var_name)
 
 int	is_builtin_command(const char *cmd)
 {
-	const char	*builtins[7];
+	const char	*builtins = {"echo", "cd", "pwd", "export",
+		"unset", "env", "exit"};
 	int			i;
 
-	builtins = {"echo", "cd", "pwd", "export",
-		"unset", "env", "exit"};
 	i = 0;
 	while (i < 7)
 	{

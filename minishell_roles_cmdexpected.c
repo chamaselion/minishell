@@ -51,8 +51,9 @@ void	handle_redirect_token(t_token *token)
 
 void	assign_token_role(t_token *token_list)
 {
-	t_token *current = token_list;
+	t_token	*current;
 
+	current = token_list;
 	if (current)
 		handle_first_token(current);
 	current = current->next;
