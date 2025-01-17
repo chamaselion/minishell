@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+
+//still a for loop!
 void	free_command(t_command *cmd)
 {
 	if (cmd->command)

@@ -54,7 +54,7 @@ void	print_bold(const char *text)
 void	print_event(const char *events[256], int index, int isBold)
 {
 	if (isBold)
-		printBold(events[index]);
+		print_bold(events[index]);
 	else
 		printf("%s", events[index]);
 	printf("\n");
@@ -70,14 +70,14 @@ void	order_extra(void)
 	events = order_init();
 	i = 0;
 	printf("\n======= EXECUTING ORDER 66 =======\n");
-	dramaticPause(3000);
+	dramatic_pause(3000);
 	while (i < 20)
 	{
 		isBold = (events[i][0] == '*');
 		if (isBold)
-			printEvent(events, i, 1);
+			print_event(events, i, 1);
 		else
-			printEvent(events, i, 0);
+			print_event(events, i, 0);
 		i++;
 	}
 	printf("\n======= ORDER 66 EXECUTED =======\n");

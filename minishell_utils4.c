@@ -28,8 +28,8 @@ char	*expand_env_variable(const char *var_name)
 
 int	is_builtin_command(const char *cmd)
 {
-	const char	*builtins = {"echo", "cd", "pwd", "export",
-		"unset", "env", "exit"};
+	const char	*builtins[7] = {"echo", "cd", "pwd", "export", "unset",
+		"env", "exit"};
 	int			i;
 
 	i = 0;
@@ -41,6 +41,7 @@ int	is_builtin_command(const char *cmd)
 	}
 	return (0);
 }
+
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
