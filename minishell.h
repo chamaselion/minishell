@@ -33,6 +33,7 @@
 # define MAX_PATH 1024
 
 typedef struct s_command	t_command;
+typedef unsigned long long	t_size_t;
 
 typedef enum e_token_syntax_state
 {

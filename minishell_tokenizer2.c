@@ -12,9 +12,10 @@
 
 #include "minishell.h"
 
-t_token *convert_raw_token(t_raw_token *raw_token) 
+t_token *convert_raw_token(t_raw_token *raw_token)
 {
     t_token *new_token;
+
     if (raw_token == NULL) 
         return NULL;
     new_token = malloc(sizeof(t_token));
@@ -34,36 +35,39 @@ t_token *convert_raw_token(t_raw_token *raw_token)
     return new_token;
 }
 
-int is_raw_token_list_empty(t_raw_token *raw_token_head)
+int     is_raw_token_list_empty(t_raw_token *raw_token_head)
 {
     if (raw_token_head == NULL)
         return (1);
     return (0);
 }
-void link_token_to_list(t_token **new_head, t_token **current_new, t_token *new_token)
+
+void    link_token_to_list(t_token **new_head, t_token **current_new,
+            t_token *new_token)
 {
     if (!(*new_head))
         *new_head = new_token;
-    else 
+    else
     {
         (*current_new)->next = new_token;
         new_token->prev = *current_new;
     }
     *current_new = new_token;
 }
+
 t_token *convert_raw_token_list(t_raw_token *raw_token_head)
-{    
-    t_token *new_head;
-    t_token *current_new;
+{
+    t_token     *new_head;
+    t_token     *current_new;
     t_raw_token *current_raw;
-    t_token *new_token;
-    
+    t_token     *new_token;
+
     new_head = NULL;
     current_new = NULL;
     current_raw = raw_token_head;
     if (is_raw_token_list_empty(raw_token_head))
         return (NULL);
-    while (current_raw != NULL) 
+    while (current_raw != NULL)
     {
         new_token = convert_raw_token(current_raw);
         if (new_token == NULL)
@@ -71,7 +75,5 @@ t_token *convert_raw_token_list(t_raw_token *raw_token_head)
         link_token_to_list(&new_head, &current_new, new_token);
         current_raw = current_raw->next;
     }
-    //print_tokens(new_head);
     return (new_head);
 }
-
