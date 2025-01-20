@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/09 13:46:48 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/20 19:15:39 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -110,6 +110,7 @@ typedef struct s_shell
 {
 	t_command *commands;
 	char cwd[MAX_PATH];
+	t_env_var *env_vars;
 } t_shell;
 
 struct s_command
@@ -139,15 +140,26 @@ typedef struct s_raw_token
 	struct s_raw_token *prev;
 } t_raw_token;
 
+void	ft_echo(t_command *cmd);
+void	ft_env(t_command *cmd);
+void	ft_export(t_command *cmd);
+void	ft_unset(t_command *cmd);
+int		ft_pwd(void);
+void	ft_cd(t_command *cmd);
+
+void set_or_create_env_var(t_env_var **env_vars, const char *key, const char *value);
+
 // Init:
 void	init_token(t_token *token, t_raw_token *t_raw_token);
 void	order_extra(void);
 void	check_order(t_token *tokens);
+void init_shell(t_shell *shell, t_env_var *env_vars);
 
 // env_var:
-int     identify_env_var(char *str);
-char	*expand_env_variable(const char *var_name);
-void	append_variable_value(const char *var_name, char **write_ptr);
+t_env_var	*init_env_vars(char **envp);
+int     	identify_env_var(char *str);
+char		*expand_env_variable(const char *var_name);
+void		append_variable_value(const char *var_name, char **write_ptr);
 
 // Parsing:
 t_raw_token *handle_input(char *input);
@@ -247,6 +259,8 @@ void	free_command(t_command *cmd);
 void	free_commands(t_command *cmd);
 void	free_tokens(t_token *token);
 void	free_raw_tokens(t_raw_token *first_token);
+void	free_env_vars(t_env_var *env_vars);
+void	free_shell(t_shell *shell);
 
 //debugging:
 void	print_raw_tokens(t_raw_token *first_token);
