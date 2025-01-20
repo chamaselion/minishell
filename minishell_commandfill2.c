@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:30:29 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/13 15:41:06 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/20 18:32:52 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -45,22 +45,52 @@ int process_tokens(t_token *ct, t_command *current_cmd)
     current_cmd->args[current_cmd->arg_count] = NULL;
     return (0);
 }
-
+/*
 int fill_command_from_tokens(t_token *tokens, t_command **cmd)
 {
-    t_token *ct = tokens;
+    t_token *ct;
     t_command *current_cmd;
 	
+	ct = tokens;
 	if (!tokens)
 	{
 		*cmd = NULL;
 		return (-1);
 	}
-	
 	current_cmd = create_command_list(tokens);
     if (!current_cmd)
         return (-1);
     *cmd = current_cmd;
+	while (ct)
+    {
+        if (ct->role == 1 || ct->role == 2)
+        {
+            current_cmd->command = ct->content;
+            if (process_tokens(ct->next, current_cmd) == -1)
+                return (-1);
+            if (current_cmd->next)
+                current_cmd = current_cmd->next;
+        }
+        ct = ct->next;
+    }
+    return (0);
+	if (current_cmd != NULL)
+        current_cmd->next = NULL;
+    return (expected_command_counter(tokens));
+}*/
+
+static int validate_tokens(t_token *tokens, t_command **cmd)
+{
+    if (!tokens)
+    {
+        *cmd = NULL;
+        return (-1);
+    }
+    return (0);
+}
+
+static int process_token_loop(t_token *ct, t_command *current_cmd)
+{
     while (ct)
     {
         if (ct->role == 1 || ct->role == 2)
@@ -73,11 +103,41 @@ int fill_command_from_tokens(t_token *tokens, t_command **cmd)
         }
         ct = ct->next;
     }
-	if (current_cmd != NULL)
-    {
-        current_cmd->next = NULL;
-    }
-    return (expected_command_counter(tokens));
+    return (0);
+}
+
+static int setup_command_list(t_token *tokens, t_command **cmd)
+{
+    t_command *current_cmd;
+
+    current_cmd = create_command_list(tokens);
+    if (!current_cmd)
+        return (-1);
+    *cmd = current_cmd;
+    return (0);
+}
+
+int fill_command_from_tokens(t_token *tokens, t_command **cmd)
+{
+    t_command *current_cmd;
+    
+    if (validate_tokens(tokens, cmd) == -1)
+        return (-1);
+    if (setup_command_list(tokens, cmd) == -1)
+        return (-1);
+    current_cmd = *cmd;
+    if (process_token_loop(tokens, current_cmd) == -1)
+        return (-1);
+    return (0);
+}
+
+void	ft_function_marker(t_command *cmd)
+{
+	while (cmd)
+	{
+		cmd->is_internal = is_builtin_command(cmd->command);
+		cmd = cmd->next;		
+	}
 }
 
 void	handle_redirect_link(t_token *ct, t_command *current_cmd)
@@ -108,10 +168,7 @@ void link_commands_and_tokens(t_token *tokens, t_command *cmd)
 
     while (ct)
 	{
-        if (ct->role == 4)
-		{
-        }
-		else if (ct->role == 5)
+		if (ct->role == 5)
 		{
 			handle_redirect_link(ct, current_cmd);
 			ct = ct->next;
@@ -127,4 +184,5 @@ void link_commands_and_tokens(t_token *tokens, t_command *cmd)
         }
         ct = ct->next;
     }
+	ft_function_marker(cmd);
 }
