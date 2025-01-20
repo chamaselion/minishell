@@ -1,30 +1,38 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_execution.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:24:59 by bszikora          #+#    #+#             */
-/*   Updated: 2024/12/16 12:04:34 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/20 19:20:00 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
 void handle_ft_command(t_command *cmd)
 {
-	(void)cmd;
-   /* if (strcmp(cmd->command, "cd") == 0)
+    if (!cmd || !cmd->command)
+        return;
+        
+    if (strcmp(cmd->command, "cd") == 0)
         ft_cd(cmd);
-	if (strcmp(cmd->command, "echo") == 0)
+    else if (strcmp(cmd->command, "echo") == 0)
         ft_echo(cmd);
-	if (strcmp(cmd->command, "exit") == 0)
-        ft_exit(cmd);
-	if (strcmp(cmd->command, "export") == 0)
+    //else if (strcmp(cmd->command, "exit") == 0)
+        //ft_exit(cmd);
+    else if (strcmp(cmd->command, "export") == 0)
         ft_export(cmd);
-	if (strcmp(cmd->command, "pwd") == 0)
-        ft_pwd(cmd);*/
+    else if (strcmp(cmd->command, "pwd") == 0)
+        ft_pwd();
+    else if (strcmp(cmd->command, "env") == 0)
+        ft_env(cmd);
+    else if (strcmp(cmd->command, "unset") == 0)
+        ft_unset(cmd);
+    
+    return;
 }
 
 char *search_command(const char *command)
