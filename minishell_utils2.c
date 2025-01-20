@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 10:52:31 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/02 18:07:35 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/16 11:51:01 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -48,7 +48,7 @@ int is_whitespace(char c)
 
 int is_builtin_command(const char *cmd)
 {
-    const char *builtins[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
+    const char *builtins[] = {"echo", "cd", "pwd", "unset", "export", "env", "exit"};
     int i = 0;
     while (i < 7)
     {
