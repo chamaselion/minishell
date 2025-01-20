@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:57:00 by root              #+#    #+#             */
-/*   Updated: 2024/12/09 17:19:22 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:08:35 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -97,9 +97,10 @@ void	check_order(t_token *tokens)
 	
 }
 
-void init_shell(t_shell *shell) 
+void init_shell(t_shell *shell, t_env_var *env_vars) 
 {
     shell->commands = NULL;
+	shell->env_vars = env_vars;
     getcwd(shell->cwd, sizeof(shell->cwd));
 }
 
