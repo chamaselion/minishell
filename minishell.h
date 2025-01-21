@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/20 19:15:39 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:31:32 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -111,6 +111,7 @@ typedef struct s_shell
 	t_command *commands;
 	char cwd[MAX_PATH];
 	t_env_var *env_vars;
+	int last_exit_code;
 } t_shell;
 
 struct s_command
@@ -140,12 +141,13 @@ typedef struct s_raw_token
 	struct s_raw_token *prev;
 } t_raw_token;
 
-void	ft_echo(t_command *cmd);
-void	ft_env(t_command *cmd);
-void	ft_export(t_command *cmd);
-void	ft_unset(t_command *cmd);
+int	ft_echo(t_command *cmd);
+int	ft_env(t_command *cmd);
+int	ft_export(t_command *cmd);
+int	ft_unset(t_command *cmd);
 int		ft_pwd(void);
-void	ft_cd(t_command *cmd);
+int	ft_cd(t_command *cmd);
+int ft_exit(t_command *cmd);
 
 void set_or_create_env_var(t_env_var **env_vars, const char *key, const char *value);
 
@@ -160,6 +162,8 @@ t_env_var	*init_env_vars(char **envp);
 int     	identify_env_var(char *str);
 char		*expand_env_variable(const char *var_name);
 void		append_variable_value(const char *var_name, char **write_ptr);
+void		update_exit_code(t_shell *shell, int exit_code);
+char		*get_exit_code_str(t_shell *shell);
 
 // Parsing:
 t_raw_token *handle_input(char *input);
@@ -232,7 +236,7 @@ void        link_commands_and_tokens(t_token *tokens, t_command *cmd);
 
 // Execution
 void	handle_ft_command(t_command *cmd);
-char	*search_command(const char *command);
+char	*search_command(const char *command, t_env_var *env_var);
 char	**construct_exec_args(t_command *cmd);
 void	execute_command(t_command *cmd, char **exec_args);
 
