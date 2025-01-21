@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:57:00 by root              #+#    #+#             */
-/*   Updated: 2025/01/20 16:08:35 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:06:45 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -97,11 +97,13 @@ void	check_order(t_token *tokens)
 	
 }
 
-void init_shell(t_shell *shell, t_env_var *env_vars) 
+void init_shell(t_shell *shell, t_env_var *env_vars)
 {
     shell->commands = NULL;
-	shell->env_vars = env_vars;
-    getcwd(shell->cwd, sizeof(shell->cwd));
+    shell->env_vars = env_vars;
+    shell->last_exit_code = 0;
+    if (getcwd(shell->cwd, MAX_PATH) == NULL)
+        ft_putstr_fd("getcwd() error", STDERR_FILENO);
 }
 
 void init_token(t_token *token, t_raw_token *t_raw_token)
