@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/20 16:28:49 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:19:11 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -107,6 +107,7 @@ while (1)
 		shell_to_command(&commands, shell);
 		handle_pipes(commands);
 		free_commands(commands);
+		printf("Exit: %i\n", shell->last_exit_code);
 		}
         free(input);
 	}
