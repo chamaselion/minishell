@@ -32,14 +32,14 @@
 # define MAX_ARGS 64
 # define MAX_PATH 1024
 
-typedef struct  s_command t_command;
+typedef struct s_command	t_command;
 
 typedef enum e_token_syntax_state
 {
 	SYNTAX_VALID = 0,
 	SYNTAX_INCOMPLETE = 1,
 	SYNTAX_ERROR = 2
-}   t_token_syntax_state;
+}	t_token_syntax_state;
 
 typedef enum e_token_role
 {
@@ -52,7 +52,7 @@ typedef enum e_token_role
 	ROLE_PIPE = 6,
 	ROLE_ERROR = -1,
 	ROLE_DEFAULT = -2
-}   t_token_role;
+}	t_token_role;
 
 typedef enum e_builtin
 {
@@ -63,7 +63,7 @@ typedef enum e_builtin
 	unset = 4,
 	env = 5,
 	exit_cmd = 6
-}   t_builtin;
+}	t_builtin;
 
 typedef enum e_redir_type
 {
@@ -72,19 +72,19 @@ typedef enum e_redir_type
 	REDIR_OUT = 2,
 	REDIR_APPEND = 3,
 	REDIR_HEREDOC = 4
-} t_redir_type;
+}	t_redir_type;
 
 typedef struct s_token
 {
-	char            *content;
-	int             role;
-	int             quote_state;
-	int             position;
-	int             command_expected;
-	int             syntax_state;
-	struct s_token  *next;
-	struct s_token  *prev;
-} t_token;
+	char			*content;
+	int				role;
+	int				quote_state;
+	int				position;
+	int				command_expected;
+	int				syntax_state;
+	struct s_token	*next;
+	struct s_token	*prev;
+}	t_token;
 
 typedef enum e_quote_state
 {
@@ -93,7 +93,7 @@ typedef enum e_quote_state
 	WITHIN_DOUBLE_QUOTE = 2,
 	UNCLOSED_SINGLE_QUOTE = 3,
 	UNCLOSED_DOUBLE_QUOTE = 4
-} t_quote_state;
+}	t_quote_state;
 
 typedef struct s_env_var
 {
@@ -153,7 +153,7 @@ void set_or_create_env_var(t_env_var **env_vars, const char *key, const char *va
 void	init_token(t_token *token, t_raw_token *t_raw_token);
 void	order_extra(void);
 void	check_order(t_token *tokens);
-void init_shell(t_shell *shell, t_env_var *env_vars);
+void 	init_shell(t_shell *shell, t_env_var *env_vars);
 
 // env_var:
 t_env_var	*init_env_vars(char **envp);
@@ -265,6 +265,6 @@ void	free_shell(t_shell *shell);
 //debugging:
 void	print_raw_tokens(t_raw_token *first_token);
 void	print_tokens(t_token *first_token);
-
+void	print_commands(t_command *first_command);
 
 #endif

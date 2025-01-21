@@ -53,20 +53,20 @@ void assign_token_role(t_token *token_list)
 {
     t_token *current = token_list;
 
-    printf("Entered assign_token_role\n");
+    //printf("Entered assign_token_role\n");
     if (current && !current->prev) {
-        printf("Handling first token: %s\n", current->content);
+        //printf("Handling first token: %s\n", current->content);
         handle_first_token(current);
         if (current->next) {
             current = current->next;
         } else {
-            printf("Only one token in the list.\n");
+            //printf("Only one token in the list.\n");
             return;
         }
     }
 
     while (current) {
-        printf("Handling token: %s\n", current->content);
+        //printf("Handling token: %s\n", current->content);
         if (is_quote_char(*current->content) && current->quote_state == NO_QUOTE) {
             handle_quote_token(current);
         } else if (is_pipe(current->content)) {
@@ -80,10 +80,10 @@ void assign_token_role(t_token *token_list)
         } else {
             current->role = ROLE_ARGUMENT;
         }
-        printf("Role: %d, Content: %s\n", current->role, current->content);
+        //printf("Role: %d, Content: %s\n", current->role, current->content);
         current = current->next;
     }
-    printf("Exited assign_token_role\n");
+    //printf("Exited assign_token_role\n");
 }
 
 /* for debugging

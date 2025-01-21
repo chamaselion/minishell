@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:35:22 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/11 12:22:15 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/20 20:36:44 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void check_for_unclosed(t_token *token_list)
 {
-    printf("check entered\n");
+    //printf("check entered\n");
     t_token *current = token_list;
 
     while (current) 
     {
         if (current->quote_state != 0 && !(is_quote_char(*current->content)))
         {
-            printf("Unclosed quote\n"); //implement error handling
+            //printf("Unclosed quote\n"); //implement error handling
             return;
         }
         current = current->next;
@@ -46,7 +46,7 @@ t_token *pop_quotemark_tokens(t_token **token_list)
     t_token *next;
 
     current = *token_list;
-    printf("pop entered\n");
+    //printf("pop entered\n");
     while (current)
     {
         next = current->next;

@@ -68,6 +68,6 @@ foreground pipeline.
 
 test inputs:
 echo "Current directory is $(pwd) and home is $HOME" < input.txt > output.txt
-export $VAR1=42 | echo 'VAR$1'
+export $VAR1=42 | echo 'VAR$1' "$VAR1"
 
 "echo \" khef $HOME\" | pwd | echo 'safdh $ORG *\"'"
