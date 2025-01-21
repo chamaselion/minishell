@@ -6,24 +6,26 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:44:25 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/15 15:28:15 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:04:38 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "minishell.h"
 
-void ft_echo(t_command *cmd)
+int ft_echo(t_command *cmd)
 {
-    int t_newline = 1;
-    int i = 0; // Start from the first argument
+    int t_newline;
+    int i;
 
-	printf("ftyay:");
+	t_newline = 1;
+	i = 0;
+	if (!cmd)
+		return (1);
     if (cmd->args[0] && strcmp(cmd->args[0], "-n") == 0)
     {
         t_newline = 0;
-        i = 1; // Skip the "-n" argument
+        i = 1;
     }
-
     while (cmd->args[i])
     {
         printf("%s", cmd->args[i]);
@@ -31,7 +33,10 @@ void ft_echo(t_command *cmd)
             printf(" ");
         i++;
     }
-
+	
     if (t_newline)
-        printf("\n");
+	{
+    	printf("\n");
+	}
+	return (0);
 }
