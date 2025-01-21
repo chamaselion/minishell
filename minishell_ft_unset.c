@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:50:41 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/20 18:53:25 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:57:40 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -26,14 +26,13 @@ static void remove_env_var(t_env_var **env_vars, t_env_var *var)
     free(var);
 }
 
-void ft_unset(t_command *cmd)
+int ft_unset(t_command *cmd)
 {
     t_env_var *current;
     int i;
 
     if (!cmd->args[0])
-        return;
-
+        return (1);
     i = 0;
     while (cmd->args[i])
     {
@@ -49,4 +48,5 @@ void ft_unset(t_command *cmd)
         }
         i++;
     }
+	return 0;
 }
