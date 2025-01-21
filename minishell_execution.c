@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:24:59 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/20 19:20:00 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:30:37 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -14,28 +14,45 @@
 
 void handle_ft_command(t_command *cmd)
 {
+    int status = 0;
+
     if (!cmd || !cmd->command)
         return;
-        
     if (strcmp(cmd->command, "cd") == 0)
-        ft_cd(cmd);
+        status = ft_cd(cmd);
     else if (strcmp(cmd->command, "echo") == 0)
-        ft_echo(cmd);
-    //else if (strcmp(cmd->command, "exit") == 0)
-        //ft_exit(cmd);
+        status = ft_echo(cmd);
     else if (strcmp(cmd->command, "export") == 0)
-        ft_export(cmd);
+        status = ft_export(cmd);
     else if (strcmp(cmd->command, "pwd") == 0)
-        ft_pwd();
+        status = ft_pwd();
     else if (strcmp(cmd->command, "env") == 0)
-        ft_env(cmd);
+        status = ft_env(cmd);
     else if (strcmp(cmd->command, "unset") == 0)
-        ft_unset(cmd);
-    
+        status = ft_unset(cmd);
+    else if (strcmp(cmd->command, "exit") == 0)
+        status = ft_exit(cmd);
+    update_exit_code(cmd->shell, status);
     return;
 }
 
-char *search_command(const char *command)
+char *ft_getenv(t_env_var *env_vars, const char *name)
+{
+	t_env_var *current;
+	
+    if (!env_vars || !name)
+        return NULL;
+    current = env_vars;
+    while (current)
+    {
+        if (current->key && strcmp(current->key, name) == 0)
+            return current->value;
+        current = current->next;
+    }
+    return NULL;
+}
+
+char *search_command(const char *command, t_env_var *env_var)
 {
 	char *path;
 	char *dir;
@@ -43,7 +60,13 @@ char *search_command(const char *command)
 	char *result;
 	char *path_env;
 	
-	path_env = getenv("PATH");
+	if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
+	{
+        if (access(command, X_OK) == 0)
+            return strdup(command);
+        return NULL;
+    }
+	path_env = ft_getenv(env_var, "PATH");
 	if (!path_env)
 		return (ft_putstr_fd("Error", STDERR_FILENO), NULL);
 	path = strdup(path_env);
@@ -88,7 +111,7 @@ void execute_command(t_command *cmd, char **exec_args)
 {
     char *full_path;
 	
-	full_path = search_command(cmd->command);
+	full_path = search_command(cmd->command, cmd->shell->env_vars);
     if (full_path)
     {
         execve(full_path, exec_args, NULL);
