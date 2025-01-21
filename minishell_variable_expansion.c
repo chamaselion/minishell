@@ -2,12 +2,9 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_variable_expansion.c                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:17:27 by mnaumann          #+#    #+#             */
 /*   Updated: 2024/12/10 13:22:02 by mnaumann         ###   ########.fr       */
 /*                                                                            */
@@ -17,7 +14,7 @@
 
 const char	*extract_variable_name(const char *current, char *var_name)
 {
-	int var_idx;
+	int	var_idx;
 
 	var_idx = 0;
 	while (*current != '\0' && (ft_isalnum(*current) || *current == '_'))
@@ -32,7 +29,7 @@ const char	*extract_variable_name(const char *current, char *var_name)
 
 void	append_variable_value(const char *var_name, char **write_ptr)
 {
-	char    *env_value;
+	char	*env_value;
 
 	if (is_valid_env_var_name(var_name))
 	{
@@ -60,10 +57,10 @@ void	append_character(char c, char **write_ptr)
 
 char	*expand_double_quote_content(const char *content)
 {
-	char        buffer[1024];
-	char        var_name[256];
-	char        *write_ptr;
-	const char  *current;
+	char		buffer[1024];
+	char		var_name[256];
+	char		*write_ptr;
+	const char	*current;
 
 	ft_memset(buffer, 0, sizeof(buffer));
 	write_ptr = buffer;
@@ -88,7 +85,7 @@ char	*expand_double_quote_content(const char *content)
 
 int	is_valid_env_var_name(const char *str)
 {
-	const char  *current;
+	const char	*current;
 
 	if (str == NULL || *str == '\0')
 		return (0);

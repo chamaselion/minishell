@@ -2,12 +2,9 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_utils3.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 11:20:21 by mnaumann          #+#    #+#             */
 /*   Updated: 2024/12/09 12:56:36 by mnaumann         ###   ########.fr       */
 /*                                                                            */
@@ -15,12 +12,10 @@
 
 #include "minishell.h"
 
-typedef unsigned long long t_size_t;
-
 char	*ft_strndup(const char *s1, size_t n)
 {
-	size_t  i;
-	char    *s1cc;
+	size_t	i;
+	char	*s1cc;
 
 	i = 0;
 	s1cc = (char *)malloc((n + 1) * sizeof(char));
@@ -39,7 +34,7 @@ char	*ft_strndup(const char *s1, size_t n)
 
 char	*ft_strcpy(char *dst, const char *src)
 {
-	size_t  i;
+	size_t	i;
 
 	i = 0;
 	while (src[i] != '\0')
