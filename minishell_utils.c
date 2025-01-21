@@ -1,67 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:12:45 by root              #+#    #+#             */
-/*   Updated: 2024/10/07 18:40:10 by root             ###   ########.fr       */
+/*   Updated: 2024/12/04 17:45:14 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//different approach seems to handle it easier
-
-/*int is_special_char(char *str, e_special_char type)
-{
-    int count = 0;
-
-    if (str == NULL || *str == '\0')
-        return -1;
-
-    // Handle double and single quotes
-    if (type == QUOTE || type == DOUBLE_QUOTE)
-    {
-        char *ptr = str;
-        while ((ptr = ft_strchr(ptr, (char)type)) != NULL)
-        {
-            count++;
-            ptr++;
-        }
-        return count;
-    }
-
-    // Handle << and >>
-    if (type == REDIR_IN && str[0] == '<' && str[1] == '<')
-        return 2;
-    if (type == REDIR_OUT && str[0] == '>' && str[1] == '>')
-        return 2;
-
-    // Handle single character special types
-    if (*str == (char)type)
-    {
-        count = 1;
-        while (*(++str) == (char)type)
-            count++;
-        return count;
-    }
-
-    // Handle $ within double quotes
-    if (type == DOLLAR && *str == DOLLAR)
-    {
-        if (str[1] == '?')
-            return 127; // Return the last exit code
-        return 1;
-    }
-
-    return -1;
-}*/
-int is_special_char(char c)
-{
-    return (c == '|' || c == '>' || c == '<' || c == '$' || c == '\'' || c == '"');
-}
 
 char *ft_strtok_r(char *str, const char *delim, char **saveptr)
 {
@@ -141,4 +90,23 @@ int ft_itoa_base(int value, int base, char *buffer, int size)
 
     buffer[j] = '\0';
     return j;
+}
+
+char *ft_strjoin_and_free(char *s1, char *s2)
+{
+    char *result;
+
+    result = ft_strjoin(s1, s2);
+    free(s1);
+    return result;
+}
+
+int ft_strcmp(const char *s1, const char *s2)
+{
+    size_t i;
+
+    i = 0;
+    while ((unsigned char)s1[i] && (unsigned char)s1[i] == (unsigned char)s2[i])
+        i++;
+    return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

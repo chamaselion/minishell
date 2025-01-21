@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2024/10/10 15:40:04 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:28:49 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -47,41 +47,85 @@ char *read_input(const char *prompt) // Getting the line from the user, adding i
 	if (input == NULL)
 	{
 		ft_putstr_fd("exit\n", STDERR_FILENO);
-		exit(0);
+		exit (0);
 	}
 	add_history(input);
 	return input;
 }
 
-int main_loop(void) // Function with the loop to keep looking for inputs, I tried to keep it as small as possible,
+void shell_to_command(t_command **cmd, t_shell *shell)
+{
+    t_command *current_cmd = *cmd;
+
+    while (current_cmd)
+    {
+        current_cmd->shell = shell;
+        current_cmd = current_cmd->next;
+    }
+}
+
+int main_loop(t_shell *shell) // Function with the loop to keep looking for inputs, I tried to keep it as small as possible,
 					// as I think it will contain lots of stuff like handling signals, getting values etc..
 					//'CTRL + D' sets the prompt to NULL, so it is handled here
 {
 	char *prompt;
 	char *input;
+	t_raw_token *raw_tokens;
+	t_token *tokens;
+	t_command *commands;
+	t_command *commandss;
+	int i = 0;
 
 	setup_signal_handling();
 
-	while (1)
+while (1)
 	{
 		prompt = get_prompt();
 		if (prompt == NULL)
 			return 1;
 		input = read_input(prompt);
 		free(prompt);
-		if (strcmp("exit", input) == 0)
-			exit(0);
-		if (handle_input(input))
-			return 1;
+		raw_tokens = handle_input(input);
+		//print_raw_tokens(raw_tokens);
+		tokens = convert_raw_token_list(raw_tokens);
+		check_order(tokens);
+		//print_tokens(tokens);
+		tokens = finalizing_token_list(tokens);
+		//print_tokens(tokens);
+		free_raw_tokens(raw_tokens);
+		fill_command_from_tokens(tokens, &commands);
+		link_commands_and_tokens(tokens, commands);
+		commandss = commands;
+		while (commandss)
+		{
+			printf("Command[%i]: %s, args: %s, relation type: %i\n", i, commandss->command, commandss->args[0], commandss->relation_type);
+			commandss = commandss->next;
+			i++;
+		}
+		if (commands)
+		{
+		shell_to_command(&commands, shell);
+		handle_pipes(commands);
+		free_commands(commands);
+		}
+        free(input);
 	}
+	free_shell(shell);
 	return 0;
 }
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
 	int i;
+	t_env_var	*env_vars;
+	t_shell shell;
+	(void)argc;
+	(void)argv;
 
-	i = main_loop();
+	
+	env_vars = init_env_vars(envp);
+	init_shell(&shell, env_vars);
+	i = main_loop(&shell);
 	if (i > 0)
 	{
 		ft_putstr_fd("Error", STDERR_FILENO);
