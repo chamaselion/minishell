@@ -6,13 +6,13 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:28:41 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/20 18:48:17 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:58:34 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "minishell.h"
 
-void ft_export(t_command *cmd)
+int ft_export(t_command *cmd)
 {
     t_env_var *current;
     int i;
@@ -23,7 +23,8 @@ void ft_export(t_command *cmd)
 	i = 0;
     current = cmd->shell->env_vars;
 
-    // If no arguments are provided, print all environment variables
+	if (!cmd)
+		return (1);
     if (cmd->args[0] == NULL)
     {
         while (current)
@@ -55,4 +56,5 @@ void ft_export(t_command *cmd)
 			i++;
         }
     }
+	return (0);
 }
