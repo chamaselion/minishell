@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:56 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/21 14:17:51 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:52:50 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -105,12 +105,13 @@ char *get_exit_code_str(t_shell *shell)
 
 void handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2])
 {
-    if (cmd == NULL)
+    int status;
+    pid_t wait_result;
+	if (cmd == NULL)
     {
         ft_putstr_fd("Error, command is NULL in handle_parent_process", STDERR_FILENO);
         return;
     }
-    int status;
     if (*in_fd != 0)
         close(*in_fd);
     if (cmd->relation_type == 6 && cmd->related_to != NULL)
@@ -119,14 +120,14 @@ void handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2])
         *in_fd = pipefd[0];
     }
     else
-    {
         *in_fd = 0;
-    }
-    waitpid(-1, &status, 0);
-	if (WIFEXITED(status))
-        update_exit_code(cmd->shell, WEXITSTATUS(status));
-    else if (WIFSIGNALED(status))
-        update_exit_code(cmd->shell, 128 + WTERMSIG(status));
+    wait_result = waitpid(-1, &status, 0);
+    if (wait_result == -1)
+        return;
+    if ((status & 0x7F) == 0)
+        update_exit_code(cmd->shell, (status >> 8) & 0xFF);
+    else
+    	update_exit_code(cmd->shell, 128 + (status & 0x7F));
 }
 
 void execute_builtin(t_command *cmd)
