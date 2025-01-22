@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:24:59 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/21 19:30:37 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:34:23 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -106,7 +106,7 @@ char **construct_exec_args(t_command *cmd)
     exec_args[cmd->arg_count + 1] = NULL;
     return exec_args;
 }
-
+/*
 void execute_command(t_command *cmd, char **exec_args)
 {
     char *full_path;
@@ -126,4 +126,30 @@ void execute_command(t_command *cmd, char **exec_args)
         free(exec_args);
         exit(EXIT_FAILURE);
     }
+}*/
+void execute_command(t_command *cmd, char **exec_args)
+{
+    char *full_path;
+    
+    full_path = search_command(cmd->command, cmd->shell->env_vars);
+    if (!full_path)
+    {
+        ft_putstr_fd(cmd->command, STDERR_FILENO);
+        ft_putstr_fd(": command not found\n", STDERR_FILENO);
+        free(exec_args);
+        exit(127);
+    }
+    if (access(full_path, X_OK) != 0)
+    {
+        ft_putstr_fd(cmd->command, STDERR_FILENO);
+        ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+        free(full_path);
+        free(exec_args);
+        exit(126);
+    }
+    execve(full_path, exec_args, NULL);
+    ft_putstr_fd("Error: execve failed\n", STDERR_FILENO);
+    free(full_path);
+    free(exec_args);
+    exit(1);
 }
