@@ -68,6 +68,8 @@ t_raw_token	*handle_double_quote_mark(int *pos)
 	return (token);
 }
 
+#include "minishell.h"
+
 t_raw_token *handle_non_quote_segment(const char **input, int *pos)
 {
     const char *start = *input;
@@ -75,6 +77,13 @@ t_raw_token *handle_non_quote_segment(const char **input, int *pos)
     t_raw_token *token;
     int in_quotes = 0;
     char quote_char = 0;
+    char var_name[256];
+    char *write_ptr;
+
+    segment = malloc(MAX_PATH);
+    if (!segment)
+        return NULL;
+    write_ptr = segment;
 
     while (**input && (!is_whitespace(**input) || in_quotes))
     {
@@ -92,48 +101,44 @@ t_raw_token *handle_non_quote_segment(const char **input, int *pos)
                     if (**input == quote_char)
                         (*input)++;
                 }
-				else if (**input == '$')
+                else if (**input == '$')
                 {
-                    add_env_var_token(input, pos);
+                    (*input)++;
+                    *input = extract_variable_name(*input, var_name);
+                    append_variable_value(var_name, &write_ptr);
                 }
                 else
+                {
+                    *write_ptr++ = **input;
                     (*input)++;
+                }
             }
             break;
         }
         else if (**input == '"' || **input == '\'')
             break;
-        (*input)++;
+        else if (**input == '$')
+        {
+            (*input)++;
+            *input = extract_variable_name(*input, var_name);
+            append_variable_value(var_name, &write_ptr);
+        }
+        else
+        {
+            *write_ptr++ = **input;
+            (*input)++;
+        }
     }
     if (*input == start)
+    {
+        free(segment);
         return NULL;
-    segment = ft_strndup(start, *input - start);
+    }
+    *write_ptr = '\0';
     token = create_raw_token(segment, NO_QUOTE, *pos);
     free(segment);
     return token;
 }
-
-/*
-t_raw_token	*handle_non_quote_segment(const char **input, int *pos)
-{
-	const char	*start;
-	char		*segment;
-	t_raw_token	*token;
-
-	start = *input;
-	while (**input != '\0' && !is_whitespace(**input)
-		&& !is_quote_char(**input))
-	{
-		(*input)++;
-	}
-	if (*input == start)
-		return (NULL);
-	segment = ft_strndup(start, *input - start);
-	token = create_raw_token(segment, NO_QUOTE, *pos);
-	free(segment);
-	return (token);
-}*/
-
 
 void	print_raw_tokens(t_raw_token *first_token)
 {
