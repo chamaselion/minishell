@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/21 14:19:11 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:39:14 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -64,6 +64,14 @@ void shell_to_command(t_command **cmd, t_shell *shell)
     }
 }
 
+int	sigint_checker(int original)
+{
+	if (g_received_signal ==  SIGINT)
+		return (130);
+	else
+		return (original);
+}
+
 int main_loop(t_shell *shell) // Function with the loop to keep looking for inputs, I tried to keep it as small as possible,
 					// as I think it will contain lots of stuff like handling signals, getting values etc..
 					//'CTRL + D' sets the prompt to NULL, so it is handled here
@@ -80,6 +88,7 @@ int main_loop(t_shell *shell) // Function with the loop to keep looking for inpu
 
 while (1)
 	{
+		shell->last_exit_code = sigint_checker(shell->last_exit_code);
 		prompt = get_prompt();
 		if (prompt == NULL)
 			return 1;
