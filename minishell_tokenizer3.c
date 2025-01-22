@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_tokenizer3.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 11:55:23 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/02 16:49:23 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/21 22:27:45 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -68,6 +68,48 @@ t_raw_token	*handle_double_quote_mark(int *pos)
 	return (token);
 }
 
+t_raw_token *handle_non_quote_segment(const char **input, int *pos)
+{
+    const char *start = *input;
+    char *segment;
+    t_raw_token *token;
+    int in_quotes = 0;
+    char quote_char = 0;
+
+    while (**input && (!is_whitespace(**input) || in_quotes))
+    {
+        if (**input == '=' && !in_quotes)
+        {
+            (*input)++;
+            while (**input && !is_whitespace(**input))
+            {
+                if (**input == '"' || **input == '\'')
+                {
+                    quote_char = **input;
+                    (*input)++;
+                    while (**input && **input != quote_char)
+                        (*input)++;
+                    if (**input == quote_char)
+                        (*input)++;
+                }
+                else
+                    (*input)++;
+            }
+            break;
+        }
+        else if (**input == '"' || **input == '\'')
+            break;
+        (*input)++;
+    }
+    if (*input == start)
+        return NULL;
+    segment = ft_strndup(start, *input - start);
+    token = create_raw_token(segment, NO_QUOTE, *pos);
+    free(segment);
+    return token;
+}
+
+/*
 t_raw_token	*handle_non_quote_segment(const char **input, int *pos)
 {
 	const char	*start;
@@ -86,7 +128,7 @@ t_raw_token	*handle_non_quote_segment(const char **input, int *pos)
 	token = create_raw_token(segment, NO_QUOTE, *pos);
 	free(segment);
 	return (token);
-}
+}*/
 
 
 void	print_raw_tokens(t_raw_token *first_token)
