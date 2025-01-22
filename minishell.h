@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/21 19:31:32 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:58:04 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -32,6 +32,8 @@
 # define MAX_ARGS 64
 # define MAX_PATH 1024
 
+
+extern int g_received_signal;
 typedef struct  s_command t_command;
 
 typedef enum e_token_syntax_state
