@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_execution.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:24:59 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/22 14:34:23 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:36:31 by mnaumann         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -130,6 +130,7 @@ void execute_command(t_command *cmd, char **exec_args)
 void execute_command(t_command *cmd, char **exec_args)
 {
     char *full_path;
+    char **environment;
     
     full_path = search_command(cmd->command, cmd->shell->env_vars);
     if (!full_path)
@@ -147,7 +148,9 @@ void execute_command(t_command *cmd, char **exec_args)
         free(exec_args);
         exit(126);
     }
-    execve(full_path, exec_args, NULL);
+    environment = convertEnvironmentToArray(cmd->shell->env_vars);
+    execve(full_path, exec_args, environment);
+    free_split_array(environment);
     ft_putstr_fd("Error: execve failed\n", STDERR_FILENO);
     free(full_path);
     free(exec_args);

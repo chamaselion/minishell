@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_executables.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:47:01 by bszikora          #+#    #+#             */
-/*   Updated: 2024/10/28 13:00:25 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:37:18 by mnaumann         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -66,11 +66,14 @@ char **construct_exec_args(t_command *cmd)
 void execute_command(t_command *cmd, char **exec_args)
 {
     char *full_path;
-	
+	char **environment;
+    
 	full_path = search_command(cmd->command);
     if (full_path)
     {
-        execve(full_path, exec_args, NULL);
+        environment = convertEnvironmentToArray(cmd->shell->env_vars);
+        execve(full_path, exec_args, environment);
+        free_split_array(environment);
         ft_putstr_fd("Error", STDERR_FILENO);
         free(full_path);
         free(exec_args);

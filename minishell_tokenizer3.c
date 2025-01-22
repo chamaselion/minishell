@@ -92,6 +92,10 @@ t_raw_token *handle_non_quote_segment(const char **input, int *pos)
                     if (**input == quote_char)
                         (*input)++;
                 }
+				else if (**input == '$')
+                {
+                    add_env_var_token(input, pos);
+                }
                 else
                     (*input)++;
             }

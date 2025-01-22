@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_tokenizer4.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:36:44 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/18 10:45:01 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:26:05 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

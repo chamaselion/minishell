@@ -16,8 +16,6 @@
 # include "libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -28,6 +26,8 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 # define MAX_ARGS 64
 # define MAX_PATH 1024
@@ -225,6 +225,9 @@ char	*ft_strndup(const char *s1, size_t n);
 char	*ft_strcpy(char *dst, const char *src);
 char	*skip_whitespace(char *input);
 int     is_valid_env_var_name(const char *str);
+char **convertEnvironmentToArray(t_env_var* environment);
+void free_split_array(char **array);
+int ft_lstsize(t_env_var *lst);
 
 // Command filler
 t_command	*create_new_command(void);
