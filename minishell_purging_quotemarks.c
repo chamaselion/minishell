@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_purging_quotemarks.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:35:22 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/20 20:36:44 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:05:19 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -22,6 +22,7 @@ void check_for_unclosed(t_token *token_list)
         if (current->quote_state != 0 && !(is_quote_char(*current->content)))
         {
             //printf("Unclosed quote\n"); //implement error handling
+			
             return;
         }
         current = current->next;

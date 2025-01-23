@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/22 13:39:14 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/23 13:27:03 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -95,12 +95,12 @@ while (1)
 		input = read_input(prompt);
 		free(prompt);
 		raw_tokens = handle_input(input);
-		//print_raw_tokens(raw_tokens);
+		print_raw_tokens(raw_tokens);
 		tokens = convert_raw_token_list(raw_tokens);
 		check_order(tokens);
 		//print_tokens(tokens);
 		tokens = finalizing_token_list(tokens);
-		//print_tokens(tokens);
+		print_tokens(tokens);
 		free_raw_tokens(raw_tokens);
 		fill_command_from_tokens(tokens, &commands);
 		link_commands_and_tokens(tokens, commands);
