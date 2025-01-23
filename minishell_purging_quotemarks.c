@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:35:22 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/23 16:56:46 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/23 20:23:28 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,25 @@ void check_for_unclosed(t_token *token_list)
 {
     //printf("check entered\n");
     t_token *current = token_list;
+    int quote_state = NO_QUOTE;
 
     while (current) 
     {
-        if (current->quote_state != 0 && !(is_quote_char(*current->content)))
+        if (is_quote_char(*current->content))
         {
-            //printf("Unclosed quote\n"); //implement error handling
-			
-            return;
+            if (quote_state == NO_QUOTE)
+                quote_state = (*current->content == '\'') ? WITHIN_SINGLE_QUOTE : WITHIN_DOUBLE_QUOTE;
+            else if ((quote_state == WITHIN_SINGLE_QUOTE && *current->content == '\'') ||
+                     (quote_state == WITHIN_DOUBLE_QUOTE && *current->content == '"'))
+                quote_state = NO_QUOTE;
         }
         current = current->next;
+    }
+
+    if (quote_state != NO_QUOTE)
+    {
+        printf("Unclosed quote\n"); // Implement error handling
+        exit(1);
     }
 }
 
@@ -47,7 +56,7 @@ t_token *pop_quotemark_tokens(t_token **token_list)
     t_token *next;
 
     current = *token_list;
-    printf("pop entered\n");
+    //printf("pop entered\n");
     while (current)
     {
         next = current->next;

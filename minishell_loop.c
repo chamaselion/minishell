@@ -81,8 +81,8 @@ int main_loop(t_shell *shell) // Function with the loop to keep looking for inpu
 	t_raw_token *raw_tokens;
 	t_token *tokens;
 	t_command *commands;
-	t_command *commandss;
-	int i = 0;
+	//t_command *commandss;
+	//int i = 0;
 
 	setup_signal_handling();
 
@@ -95,28 +95,28 @@ while (1)
 		input = read_input(prompt);
 		free(prompt);
 		raw_tokens = handle_input(input,shell);
-		print_raw_tokens(raw_tokens);
+		//print_raw_tokens(raw_tokens);
 		tokens = convert_raw_token_list(raw_tokens);
 		check_order(tokens);
-		print_tokens(tokens);
+		//print_tokens(tokens);
 		tokens = finalizing_token_list(tokens);
-		print_tokens(tokens);
+		//print_tokens(tokens);
 		free_raw_tokens(raw_tokens);
 		fill_command_from_tokens(tokens, &commands);
 		link_commands_and_tokens(tokens, commands);
-		commandss = commands;
+		/*commandss = commands;
 		while (commandss)
 		{
 			printf("Command[%i]: %s, args: %s, relation type: %i\n", i, commandss->command, commandss->args[0], commandss->relation_type);
 			commandss = commandss->next;
 			i++;
-		}
+		}*/
 		if (commands)
 		{
 		shell_to_command(&commands, shell);
 		handle_pipes(commands);
 		free_commands(commands);
-		printf("Exit: %i\n", shell->last_exit_code);
+		//printf("Exit: %i\n", shell->last_exit_code);
 		}
         free(input);
 	}

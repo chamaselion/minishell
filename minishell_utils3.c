@@ -2,12 +2,9 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_utils3.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 11:20:21 by mnaumann          #+#    #+#             */
 /*   Updated: 2024/12/09 12:56:36 by mnaumann         ###   ########.fr       */
 /*                                                                            */
