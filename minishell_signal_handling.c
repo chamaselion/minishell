@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_signal_handling.c                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/09/10 14:53:55 by bszikora          #+#    #+#             */
 /*   Updated: 2025/01/22 13:26:22 by bszikora         ###   ########.fr       */
 /*                                                                            */
@@ -12,25 +15,25 @@
 
 #include "minishell.h"
 
-int g_received_signal;
+int	g_received_signal;
 
-void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
-    g_received_signal = sig;
-    ft_putstr_fd("\n", STDERR_FILENO);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
+	g_received_signal = sig;
+	ft_putstr_fd("\n", STDERR_FILENO);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-void handle_sigquit(int sig)
+void	handle_sigquit(int sig)
 {
-    g_received_signal = sig;
+	g_received_signal = sig;
 }
 
-void setup_signal_handling() // Function to handle 'CTRL + C' and 'CTRL + D'
+void	setup_signal_handling(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	g_received_signal = 0;
 	sa.sa_handler = handle_sigint;
