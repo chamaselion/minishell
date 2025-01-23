@@ -166,9 +166,10 @@ char		*expand_env_variable(const char *var_name);
 void		append_variable_value(const char *var_name, char **write_ptr);
 void		update_exit_code(t_shell *shell, int exit_code);
 char		*get_exit_code_str(t_shell *shell);
+char* get_env_var(const char *key, t_env_var *env_vars);
 
 // Parsing:
-t_raw_token *handle_input(char *input);
+t_raw_token *handle_input(char *input, t_shell* shell);
 t_token     *allocate_token(int length);
 void        fill_token_fields(t_token *token, char *start, int length,
 		        int quote_state);
@@ -206,6 +207,8 @@ t_raw_token	*handle_single_quote_mark(int *pos);
 t_raw_token	*handle_double_quote_mark(int *pos);
 t_raw_token	*handle_non_quote_segment(const char **input, int *pos);
 void	check_for_unclosed(t_token *token_list);
+char **purge_quotes_from_args(t_command *cmd);
+char *purge_quotes_from_arg(char *args);
 
 // Utils:
 char	*ft_strtok(char *str, const char *delimiters);
@@ -228,6 +231,7 @@ int     is_valid_env_var_name(const char *str);
 char **convertEnvironmentToArray(t_env_var* environment);
 void free_split_array(char **array);
 int ft_lstsize(t_env_var *lst);
+char *ft_strjoin_and_free2(char *s1, char *s2);
 
 // Command filler
 t_command	*create_new_command(void);

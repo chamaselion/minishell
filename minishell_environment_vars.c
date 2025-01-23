@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_environment_vars.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:48:20 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/21 13:50:18 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/23 15:43:38 by mnaumann         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -170,4 +170,17 @@ void set_or_create_env_var(t_env_var **env_vars, const char *key, const char *va
         current = current->next;
     }
     create_new_env_var(env_vars, key, value);
+}
+char* get_env_var(const char *key, t_env_var *env_vars)
+{
+    t_env_var *current;
+
+    current = env_vars;
+    while (current)
+    {
+        if (strcmp(current->key, key) == 0)
+            return current->value;
+        current = current->next;
+    }
+    return NULL;
 }

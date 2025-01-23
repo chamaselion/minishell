@@ -94,11 +94,11 @@ while (1)
 			return 1;
 		input = read_input(prompt);
 		free(prompt);
-		raw_tokens = handle_input(input);
+		raw_tokens = handle_input(input,shell);
 		print_raw_tokens(raw_tokens);
 		tokens = convert_raw_token_list(raw_tokens);
 		check_order(tokens);
-		//print_tokens(tokens);
+		print_tokens(tokens);
 		tokens = finalizing_token_list(tokens);
 		print_tokens(tokens);
 		free_raw_tokens(raw_tokens);

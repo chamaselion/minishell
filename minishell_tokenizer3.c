@@ -73,32 +73,11 @@ t_raw_token *handle_non_quote_segment(const char **input, int *pos)
     const char *start = *input;
     char *segment;
     t_raw_token *token;
-    int in_quotes = 0;
-    char quote_char = 0;
+    //int in_quotes = 0;
+    //char quote_char = 0;
 
-    while (**input && (!is_whitespace(**input) || in_quotes))
+    while (**input && (!is_whitespace(**input)))
     {
-        if (**input == '=' && !in_quotes)
-        {
-            (*input)++;
-            while (**input && !is_whitespace(**input))
-            {
-                if (**input == '"' || **input == '\'')
-                {
-                    quote_char = **input;
-                    (*input)++;
-                    while (**input && **input != quote_char)
-                        (*input)++;
-                    if (**input == quote_char)
-                        (*input)++;
-                }
-                else
-                    (*input)++;
-            }
-            break;
-        }
-        else if (**input == '"' || **input == '\'')
-            break;
         (*input)++;
     }
     if (*input == start)

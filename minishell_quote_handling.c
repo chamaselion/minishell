@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_quote_handling.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:40:32 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/02 16:44:56 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/23 15:02:12 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

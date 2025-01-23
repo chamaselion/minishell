@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_commandfill2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:30:29 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/20 18:32:52 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:00:30 by mnaumann         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -43,6 +43,7 @@ int process_tokens(t_token *ct, t_command *current_cmd)
     if (current_cmd->args == NULL)
         return (-1);
     current_cmd->args[current_cmd->arg_count] = NULL;
+    current_cmd->args = purge_quotes_from_args(current_cmd);
     return (0);
 }
 /*

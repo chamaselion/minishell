@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_purging_quotemarks.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:35:22 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/22 18:05:19 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:56:46 by mnaumann         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -47,7 +47,7 @@ t_token *pop_quotemark_tokens(t_token **token_list)
     t_token *next;
 
     current = *token_list;
-    //printf("pop entered\n");
+    printf("pop entered\n");
     while (current)
     {
         next = current->next;
@@ -62,4 +62,45 @@ t_token *pop_quotemark_tokens(t_token **token_list)
         current = next;
     }
 	return(*token_list);
+}
+
+char **purge_quotes_from_args(t_command *cmd)
+{
+    char **purged_args;
+    char **args;
+    int i = 0;
+
+    args = cmd->args;
+    purged_args = (char **)malloc(sizeof(char *) * (cmd->arg_count + 1));
+    while (*args)
+    {
+        purged_args[i] = purge_quotes_from_arg(*args);
+        i++;
+        args++;
+        
+    }
+    purged_args[i] = NULL;
+    free_split_array(cmd->args);
+    return (purged_args);
+}
+
+char *purge_quotes_from_arg(char *arg)
+{
+    char *purged_arg;
+    char *current;
+    char *write_ptr;
+
+    purged_arg = (char *)malloc(sizeof(char) * (ft_strlen(arg) + 1));
+    current = arg;
+    write_ptr = purged_arg;
+    while (*current)
+    {
+        if (!is_quote_char(*current))
+        {
+            *write_ptr++ = *current;
+        }
+        current++;
+    }
+    *write_ptr = '\0';
+    return (purged_arg);
 }
