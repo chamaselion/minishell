@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:35:22 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/24 15:59:41 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/24 17:47:32 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,33 @@
 
 void	check_for_unclosed(t_token *token_list)
 {
-	t_token	*current;
-	int		quote_state;
+    t_token	*current;
+    int		quote_state;
 
-	current = token_list;
-	quote_state = NO_QUOTE;
-	while (current)
-	{
-		if (is_quote_char(*current->content))
-		{
-			if (quote_state == NO_QUOTE)
-				quote_state = (*current->content == '\'') ? WITHIN_SINGLE_QUOTE : WITHIN_DOUBLE_QUOTE;
-			else if ((quote_state == WITHIN_SINGLE_QUOTE
-					&& *current->content == '\'')
-				|| (quote_state == WITHIN_DOUBLE_QUOTE
-					&& *current->content == '"'))
-				quote_state = NO_QUOTE;
-		}
-		current = current->next;
-	}
-	if (quote_state != NO_QUOTE)
-	{
-		printf("Unclosed quote\n");
-		exit(1);
-	}
+    quote_state = NO_QUOTE;
+    current = token_list;
+    while (current != NULL)
+    {
+        const char *p = current->content;
+        while (*p)
+        {
+            if (*p == '\'' && quote_state == NO_QUOTE)
+                quote_state = WITHIN_SINGLE_QUOTE;
+            else if (*p == '"' && quote_state == NO_QUOTE)
+                quote_state = WITHIN_DOUBLE_QUOTE;
+            else if (*p == '\'' && quote_state == WITHIN_SINGLE_QUOTE)
+                quote_state = NO_QUOTE;
+            else if (*p == '"' && quote_state == WITHIN_DOUBLE_QUOTE)
+                quote_state = NO_QUOTE;
+            p++;
+        }
+        current = current->next;
+    }
+    if (quote_state != NO_QUOTE)
+    {
+        printf("Unclosed quote\n");
+        exit(1);
+    }
 }
 
 void	remove_token(t_token **head, t_token *token)
