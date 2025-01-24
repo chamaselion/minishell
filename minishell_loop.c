@@ -79,6 +79,7 @@ int	main_loop(t_shell *shell)
 	char		*input;
 	t_raw_token	*raw_tokens;
 	t_token		*tokens;
+	//t_token		*final_token;	
 	t_command	*commands;
 	// t_command *commandss;
 	// int i = 0;
@@ -93,12 +94,8 @@ int	main_loop(t_shell *shell)
 		input = read_input(prompt);
 		free(prompt);
 		raw_tokens = handle_input(input, shell);
-		print_raw_tokens(raw_tokens);
+		//print_raw_tokens(raw_tokens);
 		tokens = convert_raw_token_list(raw_tokens);
-		// print_tokens(tokens);
-		tokens = finalizing_token_list(tokens);
-		print_tokens(tokens);
-		//free_raw_tokens(raw_tokens);
 		fill_command_from_tokens(tokens, &commands);
 		link_commands_and_tokens(tokens, commands);
 		/*commandss = commands;

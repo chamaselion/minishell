@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_purging_quotemarks.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:35:22 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/24 00:09:49 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:59:41 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	check_for_unclosed(t_token *token_list)
 	t_token	*current;
 	int		quote_state;
 
-	// printf("check entered\n");
 	current = token_list;
 	quote_state = NO_QUOTE;
 	while (current)
@@ -28,7 +27,7 @@ void	check_for_unclosed(t_token *token_list)
 				quote_state = (*current->content == '\'') ? WITHIN_SINGLE_QUOTE : WITHIN_DOUBLE_QUOTE;
 			else if ((quote_state == WITHIN_SINGLE_QUOTE
 					&& *current->content == '\'')
-					|| (quote_state == WITHIN_DOUBLE_QUOTE
+				|| (quote_state == WITHIN_DOUBLE_QUOTE
 					&& *current->content == '"'))
 				quote_state = NO_QUOTE;
 		}
@@ -36,7 +35,7 @@ void	check_for_unclosed(t_token *token_list)
 	}
 	if (quote_state != NO_QUOTE)
 	{
-		printf("Unclosed quote\n"); // Implement error handling
+		printf("Unclosed quote\n");
 		exit(1);
 	}
 }
@@ -59,7 +58,6 @@ t_token	*pop_quotemark_tokens(t_token **token_list)
 	t_token	*next;
 
 	current = *token_list;
-	// printf("pop entered\n");
 	while (current)
 	{
 		next = current->next;

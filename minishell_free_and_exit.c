@@ -74,7 +74,9 @@ void	free_tokens(t_token *token)
 	while (current)
 	{
 		next = current->next;
-		free(current);
-		current = next;
+		free(current->content);
+		current->content = NULL;
 	}
+	free(current);
+	current = NULL;
 }

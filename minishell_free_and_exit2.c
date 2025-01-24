@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_free_and_exit2.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:16:20 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/23 22:45:29 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:09:53 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	free_raw_tokens(t_raw_token *first_token)
 {
 	t_raw_token	*temp;
 
+	temp = NULL;
 	while (first_token != NULL)
 	{
 		temp = first_token;
