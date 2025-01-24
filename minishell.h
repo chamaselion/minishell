@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/24 13:47:56 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:09:37 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -114,6 +114,9 @@ typedef struct s_shell
 	char cwd[MAX_PATH];
 	t_env_var *env_vars;
 	int last_exit_code;
+	int saved_stdin;   // Add these fields
+    int saved_stdout;  // Add these fields
+    int saved_stderr;
 } t_shell;
 
 struct s_command

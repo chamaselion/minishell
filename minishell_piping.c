@@ -6,15 +6,42 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:56 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/24 13:55:56 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:08:37 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
-
 #include "minishell.h"
+
+void	save_shell_fds(t_shell *shell)
+{
+	shell->saved_stdin = dup(STDIN_FILENO);
+	shell->saved_stdout = dup(STDOUT_FILENO);
+	shell->saved_stderr = dup(STDERR_FILENO);
+}
+
+void	restore_shell_fds(t_shell *shell)
+{
+	if (shell->saved_stdin != -1)
+	{
+		dup2(shell->saved_stdin, STDIN_FILENO);
+		close(shell->saved_stdin);
+	}
+	if (shell->saved_stdout != -1)
+	{
+		dup2(shell->saved_stdout, STDOUT_FILENO);
+		close(shell->saved_stdout);
+	}
+	if (shell->saved_stderr != -1)
+	{
+		dup2(shell->saved_stderr, STDERR_FILENO);
+		close(shell->saved_stderr);
+	}
+}
 
 void	setup_redirection(t_command *cmd, int in_fd, int pipefd[2])
 {
+
+	save_shell_fds(cmd->shell);
 	handle_input_redirection(cmd);
 	if (!cmd->input_redirection && in_fd != 0)
 	{
@@ -181,8 +208,8 @@ void	deserialize_and_update_env(t_shell *shell, int pipe_fd)
 		equal_sign = ft_strchr(buffer, '=');
 		if (equal_sign)
 		{
-			key = strndup(buffer, equal_sign - buffer);
-			value = strdup(equal_sign + 1);
+			key = ft_strndup(buffer, equal_sign - buffer);
+			value = ft_strdup(equal_sign + 1);
 			set_or_create_env_var(&shell->env_vars, key, value);
 			free(key);
 			free(value);
@@ -190,7 +217,7 @@ void	deserialize_and_update_env(t_shell *shell, int pipe_fd)
 	}
 }
 
-void execute_builtin_child_process(t_command *cmd, int in_fd, int pipefd[2], int env_pipe[2])
+void	execute_builtin_child_process(t_command *cmd, int in_fd, int pipefd[2], int env_pipe[2])
 {
 	t_env_var	*current;
 
@@ -204,10 +231,11 @@ void execute_builtin_child_process(t_command *cmd, int in_fd, int pipefd[2], int
 		current = current->next;
 	}
 	close(env_pipe[1]);
+	restore_shell_fds(cmd->shell);
 	exit(0);
 }
 
-void execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2])
+void	execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2])
 {
 	int		env_pipe[2];
 	pid_t	pid;
@@ -232,6 +260,7 @@ void execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2])
 	{
 		setup_redirection(cmd, 0, NULL);
 		handle_ft_command(cmd);
+		restore_shell_fds(cmd->shell);
 	}
 }
 
@@ -279,27 +308,3 @@ void	handle_pipes(t_command *cmd)
 	while (wait(NULL) > 0)
 		;
 }
-/*
-void	handle_pipes(t_command *cmd) VERSION 1
-{
-	int pipefd[2];
-	pid_t pid;
-	int in_fd = 0;
-
-	if (cmd == NULL)
-	{
-		fprintf(stderr, "Error: cmd is NULL in handle_pipes\n");
-		return ;
-	}
-	while (cmd != NULL)
-	{
-		if (cmd->relation_type == 6 && cmd->related_to != NULL)
-			create_pipe(pipefd);
-		pid = fork_process();
-		if (pid == 0)
-			handle_child_process(cmd, in_fd, pipefd);
-		else
-			handle_parent_process(cmd, &in_fd, pipefd);
-		cmd = cmd->related_to;
-	}
-}*/
