@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/22 12:58:04 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:47:56 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -150,6 +150,9 @@ int	ft_unset(t_command *cmd);
 int		ft_pwd(void);
 int	ft_cd(t_command *cmd);
 int ft_exit(t_command *cmd);
+
+void	*ft_realloc(void *ptr, int old_size, int new_size);
+char *ft_strcat(char *dest, const char *src);
 
 void set_or_create_env_var(t_env_var **env_vars, const char *key, const char *value);
 
