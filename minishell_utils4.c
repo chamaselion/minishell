@@ -21,13 +21,6 @@ char	*skip_whitespace(char *input)
 	return (input);
 }
 
-/*char	*expand_env_variable(const char *var_name)
-{
-	if (!var_name)
-		return (NULL);
-	return (get_env_var(var_name, shell->env_vars));
-}*/
-
 char **convertEnvironmentToArray(t_env_var* environment) {
 	char **envarr;
 	t_env_var *current;

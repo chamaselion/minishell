@@ -70,6 +70,7 @@ void	free_tokens(t_token *token)
 	t_token *current;
 	t_token *next;
 
+	next = NULL;
 	current = token;
 	while (current)
 	{
