@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_piping.c                                 :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:56 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/24 00:09:29 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:55:56 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 
 #include "minishell.h"
@@ -178,7 +178,7 @@ void	deserialize_and_update_env(t_shell *shell, int pipe_fd)
 
 	while ((bytes_read = read(pipe_fd, buffer, sizeof(buffer))) > 0)
 	{
-		equal_sign = strchr(buffer, '=');
+		equal_sign = ft_strchr(buffer, '=');
 		if (equal_sign)
 		{
 			key = strndup(buffer, equal_sign - buffer);

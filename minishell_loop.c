@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/23 13:27:03 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:55:22 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -35,7 +35,7 @@ char	*get_prompt(void)
 		return (NULL);
 	}
 	ft_strcpy(prompt, cwd);
-	return (strcat(prompt, suffix), free(cwd), prompt);
+	return (ft_strcat(prompt, suffix), free(cwd), prompt);
 }
 
 char	*read_input(const char *prompt)
