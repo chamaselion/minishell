@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/24 13:55:22 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:04:35 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -120,6 +120,7 @@ int	main_loop(t_shell *shell)
 		free(input);
 	}
 	free_shell(shell);
+	rl_clear_history();
 	return (0);
 }
 
