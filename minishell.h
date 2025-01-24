@@ -163,10 +163,10 @@ void 	init_shell(t_shell *shell, t_env_var *env_vars);
 t_env_var	*init_env_vars(char **envp);
 int     	identify_env_var(char *str);
 char		*expand_env_variable(const char *var_name);
-void		append_variable_value(const char *var_name, char **write_ptr);
+void		append_variable_value(const char *var_name, char **write_ptr, t_env_var *env);
 void		update_exit_code(t_shell *shell, int exit_code);
 char		*get_exit_code_str(t_shell *shell);
-char* get_env_var(const char *key, t_env_var *env_vars);
+char		*ft_getenv(t_env_var *env_vars, const char *name);
 
 // Parsing:
 t_raw_token *handle_input(char *input, t_shell* shell);
@@ -179,8 +179,8 @@ t_raw_token *create_raw_token(const char *segment, t_quote_state quote_state,
 void        append_raw_token(t_raw_token **first, t_raw_token **last,
 		t_raw_token *new_token);
 void        append_character(char c, char **write_ptr);
-const char  *extract_variable_name(const char *current, char *var_name);
-char        *expand_double_quote_content(const char *content);
+const char	*extract_variable_name(const char *current, char *var_name);
+char	*expand_double_quote_content(const char *content, t_env_var *env);
 t_token     *convert_raw_token(t_raw_token *raw_token);
 int         is_raw_token_list_empty(t_raw_token *raw_token_head);
 void        link_token_to_list(t_token **new_head, t_token **current_new,
@@ -200,8 +200,8 @@ t_token	    *pop_quotemark_tokens(t_token **token_list);
 void	    single_quote_wrapper(const char **input, int *pos, t_raw_token **first,
 		t_raw_token **last);
 void	    double_quote_wrapper(const char **input, int *pos, t_raw_token **first,
-		t_raw_token **last);
-t_raw_token	*handle_double_quote_segment(const char **input, int *pos);
+		t_raw_token **last, t_env_var *env);
+t_raw_token	*handle_double_quote_segment(const char **input, int *pos, t_env_var *env);
 t_raw_token	*handle_single_quote_segment(const char **input, int *pos);
 t_raw_token	*handle_single_quote_mark(int *pos);
 t_raw_token	*handle_double_quote_mark(int *pos);
