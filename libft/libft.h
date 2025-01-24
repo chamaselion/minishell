@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 19:37:51 by bszikora          #+#    #+#             */
-/*   Updated: 2024/03/16 16:39:09 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:01:45 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -20,7 +20,7 @@ typedef struct s_list
 	struct s_list			*next;
 }							t_list;
 
-char						*ft_strjoin(char const *s1, char const *s2);
+char						*ft_strjoin(char *s1, char *s2);
 char						*ft_substr(char const *s, unsigned int start,
 								t_size_t len);
 void						ft_bzero(void *str, t_size_t len);

@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
@@ -6,16 +6,16 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 18:15:26 by bszikora          #+#    #+#             */
-/*   Updated: 2024/03/15 15:47:22 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:02:21 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "libft.h"
 #include <stdlib.h>
 
 typedef unsigned long long	t_size_t;
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char		*r;
 	t_size_t	c;
@@ -39,5 +39,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		c1++;
 	}
 	r[c + c1] = '\0';
+	//free(s1);
 	return (r);
 }
