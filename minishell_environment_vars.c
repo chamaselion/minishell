@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_environment_vars.c                       :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:48:20 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/23 22:25:37 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:43:25 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -20,19 +20,19 @@ t_env_var	*create_env_var(const char *env_str)
 	env_var = (t_env_var *)malloc(sizeof(t_env_var));
 	if (!env_var)
 		return (NULL);
-	equal_sign = strchr(env_str, '=');
+	equal_sign = ft_strchr(env_str, '=');
 	if (equal_sign)
 	{
-		env_var->key = strndup(env_str, equal_sign - env_str);
-		env_var->value = strdup(equal_sign + 1);
+		env_var->key = ft_strndup(env_str, equal_sign - env_str);
+		env_var->value = ft_strdup(equal_sign + 1);
 	}
 	else
 	{
-		env_var->key = strdup(env_str);
+		env_var->key = ft_strdup(env_str);
 		env_var->value = NULL;
 	}
-	env_var->string = strdup(env_str);
-	env_var->length = strlen(env_str);
+	env_var->string = ft_strdup(env_str);
+	env_var->length = ft_strlen(env_str);
 	env_var->format = (equal_sign != NULL);
 	env_var->next = NULL;
 	env_var->prev = NULL;
@@ -124,9 +124,9 @@ static void	update_env_var(t_env_var *current, const char *key,
 	size_t	len;
 
 	free(current->value);
-	current->value = strdup(value);
+	current->value = ft_strdup(value);
 	free(current->string);
-	len = strlen(key) + strlen(value) + 2;
+	len = ft_strlen(key) + ft_strlen(value) + 2;
 	current->string = (char *)malloc(len);
 	ft_strlcpy(current->string, key, len);
 	ft_strlcat(current->string, "=", len);
@@ -143,9 +143,9 @@ static void	create_new_env_var(t_env_var **env_vars, const char *key,
 	new_var = (t_env_var *)malloc(sizeof(t_env_var));
 	if (!new_var)
 		return ;
-	new_var->key = strdup(key);
-	new_var->value = strdup(value);
-	len = strlen(key) + strlen(value) + 2;
+	new_var->key = ft_strdup(key);
+	new_var->value = ft_strdup(value);
+	len = ft_strlen(key) + ft_strlen(value) + 2;
 	new_var->string = (char *)malloc(len);
 	ft_strlcpy(new_var->string, key, len);
 	ft_strlcat(new_var->string, "=", len);
@@ -167,7 +167,7 @@ void	set_or_create_env_var(t_env_var **env_vars, const char *key,
 	current = *env_vars;
 	while (current)
 	{
-		if (strcmp(current->key, key) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 		{
 			update_env_var(current, key, value);
 			return ;
@@ -184,7 +184,7 @@ char	*get_env_var(const char *key, t_env_var *env_vars)
 	current = env_vars;
 	while (current)
 	{
-		if (strcmp(current->key, key) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 			return (current->value);
 		current = current->next;
 	}

@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_execution.c                              :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:24:59 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/23 22:35:41 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:45:21 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -19,19 +19,19 @@ void	handle_ft_command(t_command *cmd)
 	status = 0;
 	if (!cmd || !cmd->command)
 		return ;
-	if (strcmp(cmd->command, "cd") == 0)
+	if (ft_strcmp(cmd->command, "cd") == 0)
 		status = ft_cd(cmd);
-	else if (strcmp(cmd->command, "echo") == 0)
+	else if (ft_strcmp(cmd->command, "echo") == 0)
 		status = ft_echo(cmd);
-	else if (strcmp(cmd->command, "export") == 0)
+	else if (ft_strcmp(cmd->command, "export") == 0)
 		status = ft_export(cmd);
-	else if (strcmp(cmd->command, "pwd") == 0)
+	else if (ft_strcmp(cmd->command, "pwd") == 0)
 		status = ft_pwd();
-	else if (strcmp(cmd->command, "env") == 0)
+	else if (ft_strcmp(cmd->command, "env") == 0)
 		status = ft_env(cmd);
-	else if (strcmp(cmd->command, "unset") == 0)
+	else if (ft_strcmp(cmd->command, "unset") == 0)
 		status = ft_unset(cmd);
-	else if (strcmp(cmd->command, "exit") == 0)
+	else if (ft_strcmp(cmd->command, "exit") == 0)
 		status = ft_exit(cmd);
 	update_exit_code(cmd->shell, status);
 	return ;
@@ -46,7 +46,7 @@ char	*ft_getenv(t_env_var *env_vars, const char *name)
 	current = env_vars;
 	while (current)
 	{
-		if (current->key && strcmp(current->key, name) == 0)
+		if (current->key && ft_strcmp(current->key, name) == 0)
 			return (current->value);
 		current = current->next;
 	}
@@ -59,15 +59,15 @@ char	*find_executable_in_path(const char *command, char *path,
 	char	*dir;
 	char	*result;
 
-	dir = strtok(path, ":");
+	dir = ft_strtok(path, ":");
 	while (dir != NULL)
 	{
-		strcpy(full_path, dir);
-		strcat(full_path, "/");
-		strcat(full_path, command);
+		ft_strcpy(full_path, dir);
+		ft_strcat(full_path, "/");
+		ft_strcat(full_path, command);
 		if (access(full_path, X_OK) == 0)
-			return (result = strdup(full_path), free(path), result);
-		dir = strtok(NULL, ":");
+			return (result = ft_strdup(full_path), free(path), result);
+		dir = ft_strtok(NULL, ":");
 	}
 	return (NULL);
 }
@@ -81,13 +81,13 @@ char	*search_command(const char *command, t_env_var *env_var)
 	if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
 	{
 		if (access(command, X_OK) == 0)
-			return (strdup(command));
+			return (ft_strdup(command));
 		return (NULL);
 	}
 	path_env = ft_getenv(env_var, "PATH");
 	if (!path_env)
 		return (ft_putstr_fd("Error", STDERR_FILENO), NULL);
-	path = strdup(path_env);
+	path = ft_strdup(path_env);
 	if (!path)
 		return (ft_putstr_fd("Error", STDERR_FILENO), NULL);
 	return (find_executable_in_path(command, path, full_path));

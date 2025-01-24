@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_executables.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 12:47:01 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/22 16:37:18 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:44:07 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -23,18 +23,18 @@ char *search_command(const char *command)
 	path_env = getenv("PATH");
 	if (!path_env)
 		return (ft_putstr_fd("Error", STDERR_FILENO), NULL);
-	path = strdup(path_env);
+	path = ft_strdup(path_env);
 	if (!path)
 		return (ft_putstr_fd("Error", STDERR_FILENO), NULL);
-	dir = strtok(path, ":");
+	dir = ft_strtok(path, ":");
 	while (dir != NULL)
 	{
-        strcpy(full_path, dir);
-        strcat(full_path, "/");
-        strcat(full_path, command);
+        ft_strcpy(full_path, dir);
+        ft_strcat(full_path, "/");
+        ft_strcat(full_path, command);
 		if (access(full_path, X_OK) == 0)
-			return (result = strdup(full_path), free(path), result);
-		dir = strtok(NULL, ":");
+			return (result = ft_strdup(full_path), free(path), result);
+		dir = ft_strtok(NULL, ":");
 	}
 	return (free(path), NULL);
 }
