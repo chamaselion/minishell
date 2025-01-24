@@ -32,6 +32,7 @@ SRC = minishell_loop.c\
 	minishell_ft_pwd.c\
 	minishell_ft_cd.c\
 	minishell_ft_exit.c\
+	minishell_ft_functions.c\
 
 OBJ_DIR = objects
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
