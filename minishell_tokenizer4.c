@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:36:44 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/24 11:44:29 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:35:00 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char	*resolve_variables_str(char *str, t_shell *shell)
 			idx++;
 		}
 	}
-	output_str = ft_strjoin_and_free(output_str, "\0");
+	output_str = ft_strjoin(output_str, "\0");
 	return (output_str);
 }
 

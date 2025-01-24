@@ -109,7 +109,6 @@ char	*ft_strjoin_and_free2(char *s1, char *s2)
 	char *result;
 
 	result = ft_strjoin(s1, s2);
-	free(s1);
 	free(s2);
 	return (result);
 }

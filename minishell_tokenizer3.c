@@ -164,7 +164,7 @@ void	print_raw_tokens(t_raw_token *first_token)
 	int count = 0;
 	while (first_token)
 	{
-		printf("Token %d: '%s' (Quote State: %d, Position: %d)\n", count++,
+		printf("RAWToken %d: '%s' (Quote State: %d, Position: %d)\n", count++,
 			first_token->segment, first_token->quote_state,
 			first_token->position);
 		if (first_token->next == NULL)
