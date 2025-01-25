@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:24:59 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/25 23:57:07 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/26 00:44:56 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -141,7 +141,7 @@ void	execute_command(t_command *cmd, char **exec_args)
 	execve(full_path, exec_args, environment);
 	free_split_array(environment);
 	ft_putstr_fd("Error: ", STDERR_FILENO);
-	ft_putstr_fd(full_path, STDERR_FILENO);
-	ft_putstr_fd(": is a directory\n", STDERR_FILENO);
+	ft_putstr_fd(cmd->command, STDERR_FILENO);
+	ft_putstr_fd(": might be a directory, or faulty command line.\n", STDERR_FILENO);
 	return (free(full_path), free(exec_args), exit(126));
 }
