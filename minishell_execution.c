@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:24:59 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/24 13:45:21 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/25 23:47:03 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -77,6 +77,7 @@ char	*search_command(const char *command, t_env_var *env_var)
 	char	*path;
 	char	full_path[4096];
 	char	*path_env;
+	char	*result;
 
 	if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
 	{
@@ -90,7 +91,10 @@ char	*search_command(const char *command, t_env_var *env_var)
 	path = ft_strdup(path_env);
 	if (!path)
 		return (ft_putstr_fd("Error", STDERR_FILENO), NULL);
-	return (find_executable_in_path(command, path, full_path));
+	result = find_executable_in_path(command, path, full_path);
+	if (path)
+		free(path);
+	return (result);
 }
 
 char	**construct_exec_args(t_command *cmd)
@@ -138,8 +142,10 @@ void	execute_command(t_command *cmd, char **exec_args)
 	environment = convertEnvironmentToArray(cmd->shell->env_vars);
 	execve(full_path, exec_args, environment);
 	free_split_array(environment);
-	ft_putstr_fd("Error: execve failed\n", STDERR_FILENO);
+	ft_putstr_fd("Error: ", STDERR_FILENO);
+	ft_putstr_fd(full_path, STDERR_FILENO);
+	ft_putstr_fd(": is a directory\n", STDERR_FILENO);
 	free(full_path);
 	free(exec_args);
-	exit(1);
+	exit(126);
 }
