@@ -55,27 +55,20 @@ void	remove_token(t_token **head, t_token *token)
 	free(token);
 }
 
-t_token	*pop_quotemark_tokens(t_token **token_list)
-{
-	t_token	*current;
-	t_token	*next;
+t_token *pop_quotemark_tokens(t_token **token_list) {
+    t_token *current = *token_list;
+    t_token *next;
 
-	current = *token_list;
-	while (current)
-	{
-		next = current->next;
-		if (is_quote_char(*current->content)
-			&& current->quote_state == NO_QUOTE)
-		{
-			if (current == *token_list)
-				*token_list = next;
-			remove_token(token_list, current);
-		}
-		if (current->next == NULL)
-			break ;
-		current = next;
-	}
-	return (*token_list);
+    while (current) {
+        next = current->next;
+        if (is_quote_char(*current->content) && current->quote_state == NO_QUOTE) {
+            if (current == *token_list)
+                *token_list = next;
+            remove_token(token_list, current);
+        }
+        current = next;
+    }
+    return (*token_list);
 }
 
 char	**purge_quotes_from_args(t_command *cmd)

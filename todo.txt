@@ -157,12 +157,7 @@ DONE			final token list with or without quote marks? - CAN GO WITH
 DONE			ROLE check function to assign role 3 to everything WITHIN_XXXQUOTES
 
 
-2025/01/21:
-Error handling in general, especially:
-Handle Errror unclosed_quotes (find in minishell_purging_quotemarks.c)
-echo$? should print the last exit code
-exit only leads to error and doesn't take any arguments
-cat | cat | ls doesn't start to print right away, only after pressing ctrl-c (could be due to debugging prints still but has to behave differently)
-variables outside quotes are not expanded, they just vanish!
-echo prints a prefix: ftyay (not a big deal to remove)
-setting/exporting of variables should work with quotes as well.
+2025/01/25:
+cat | cat | ls doesn't start to print right away, only after pressing ctrl-c
+go at mem leaks. still a few connected to string functions.
+env | grep pyt > test2.txt
