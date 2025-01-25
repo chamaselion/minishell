@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:24:59 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/25 23:47:03 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/25 23:57:07 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -69,7 +69,7 @@ char	*find_executable_in_path(const char *command, char *path,
 			return (result = ft_strdup(full_path), free(path), result);
 		dir = ft_strtok(NULL, ":");
 	}
-	return (NULL);
+	return (free(path), NULL);
 }
 
 char	*search_command(const char *command, t_env_var *env_var)
@@ -92,8 +92,6 @@ char	*search_command(const char *command, t_env_var *env_var)
 	if (!path)
 		return (ft_putstr_fd("Error", STDERR_FILENO), NULL);
 	result = find_executable_in_path(command, path, full_path);
-	if (path)
-		free(path);
 	return (result);
 }
 
@@ -145,7 +143,5 @@ void	execute_command(t_command *cmd, char **exec_args)
 	ft_putstr_fd("Error: ", STDERR_FILENO);
 	ft_putstr_fd(full_path, STDERR_FILENO);
 	ft_putstr_fd(": is a directory\n", STDERR_FILENO);
-	free(full_path);
-	free(exec_args);
-	exit(126);
+	return (free(full_path), free(exec_args), exit(126));
 }
