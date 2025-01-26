@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:09:32 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/20 16:19:55 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:57:29 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -28,15 +28,15 @@ void	free_command(t_command *cmd)
 		free(cmd->args);
 	}
 	if (cmd->output)
-		free(cmd->output);
+		cmd->output = NULL;
 	if (cmd->input_redirection)
-		free(cmd->input_redirection);
+		cmd->input_redirection = NULL;
 	if (cmd->output_redirection)
-		free(cmd->output_redirection);
+		cmd->output_redirection = NULL;
 	if (cmd->append_redirection)
-		free(cmd->append_redirection);
+		cmd->append_redirection = NULL;
 	if (cmd->heredoc_redirection)
-		free(cmd->heredoc_redirection);
+		cmd->heredoc_redirection = NULL;
 }
 
 void	free_commands(t_command *cmd)

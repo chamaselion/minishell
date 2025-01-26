@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:30:29 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/24 13:41:45 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/26 18:03:19 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -98,7 +98,7 @@ static int	process_token_loop(t_token *ct, t_command *current_cmd)
 	{
 		if (ct->role == 1 || ct->role == 2)
 		{
-			current_cmd->command = ct->content;
+			current_cmd->command = ft_strdup(ct->content);
 			if (process_tokens(ct->next, current_cmd) == -1)
 				return (-1);
 			if (current_cmd->next)
