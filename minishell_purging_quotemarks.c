@@ -44,16 +44,15 @@ int	check_for_unclosed(t_token *token_list, t_shell *shell)
 	return (0);
 	}
 
-void	remove_token(t_token **head, t_token *token)
-{
-	if (token->prev)
-		token->prev->next = token->next;
-	if (token->next)
-		token->next->prev = token->prev;
-	if (*head == token)
-		*head = token->next;
-	free(token->content);
-	free(token);
+void remove_token(t_token **head, t_token *token) {
+    if (!head || !*head || !token)
+        return;
+    if (token->prev)
+        token->prev->next = token->next;
+    else
+        *head = token->next;
+    if (token->next)
+        token->next->prev = token->prev;
 }
 
 t_token *pop_quotemark_tokens(t_token **token_list) {

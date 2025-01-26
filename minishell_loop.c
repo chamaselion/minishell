@@ -94,7 +94,6 @@ int	main_loop(t_shell *shell)
 		input = read_input(prompt);
 		free(prompt);
 		raw_tokens = handle_input(input, shell);
-		//print_raw_tokens(raw_tokens);
 		tokens = convert_raw_token_list(raw_tokens, shell);
 		if (tokens)
 		{
@@ -109,6 +108,7 @@ int	main_loop(t_shell *shell)
 				}
 			}
 		}
+		free_tokens(tokens);
 		free(input);
 	}
 	free_shell(shell);

@@ -21,11 +21,11 @@ void	init_shell(t_shell *shell, t_env_var *env_vars)
 		ft_putstr_fd("getcwd() error", STDERR_FILENO);
 }
 
-void	init_token(t_token *token, t_raw_token *t_raw_token)
+void	init_token(t_token *token)
 {
 	token->next = NULL;
 	token->prev = NULL;
 	token->role = ROLE_DEFAULT;
 	token->command_expected = 0;
-	token->quote_state = t_raw_token->quote_state;
+	token->quote_state = 0;
 }

@@ -19,6 +19,7 @@ t_token	*convert_raw_token(t_raw_token *raw_token)
 	if (raw_token == NULL)
 		return (NULL);
 	new_token = malloc(sizeof(t_token));
+	init_token(new_token);
 	if (new_token == NULL)
 		return (NULL);
 	new_token->content = ft_strdup(raw_token->segment);
@@ -73,7 +74,7 @@ t_token	*convert_raw_token_list(t_raw_token *raw_token_head, t_shell *shell)
 	{
 		new_token = convert_raw_token(current_raw);
 		if (new_token == NULL)
-			return (NULL);
+			return (free_tokens(new_head), new_head = NULL, NULL);
 		link_token_to_list(&new_head, &current_new, new_token);
 		if (current_raw->next)
 			current_raw = current_raw->next;

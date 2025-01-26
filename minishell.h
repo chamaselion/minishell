@@ -160,7 +160,7 @@ char *ft_strcat(char *dest, const char *src);
 void set_or_create_env_var(t_env_var **env_vars, const char *key, const char *value);
 
 // Init:
-void	init_token(t_token *token, t_raw_token *t_raw_token);
+void	init_token(t_token *token);
 void	order_extra(void);
 void	check_order(t_token *tokens);
 void 	init_shell(t_shell *shell, t_env_var *env_vars);
