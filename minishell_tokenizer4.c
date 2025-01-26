@@ -1,21 +1,22 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_tokenizer4.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:36:44 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/24 17:07:36 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/26 01:03:02 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
-t_token	*finalizing_token_list(t_token *token_list)
+t_token	*finalizing_token_list(t_token *token_list, t_shell *shell)
 {
 	assign_token_role(token_list);
-	check_for_unclosed(token_list);
+	if (check_for_unclosed(token_list, shell) == 1)
+		return (NULL);
 	pop_quotemark_tokens(&token_list);
 	return (token_list);
 }

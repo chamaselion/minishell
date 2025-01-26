@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_tokenizer2.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:12:59 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/09 11:37:50 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/26 01:08:11 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -57,7 +57,7 @@ void	link_token_to_list(t_token **new_head, t_token **current_new,
 	*current_new = new_token;
 }
 
-t_token	*convert_raw_token_list(t_raw_token *raw_token_head)
+t_token	*convert_raw_token_list(t_raw_token *raw_token_head, t_shell *shell)
 {
 	t_token		*new_head;
 	t_token		*current_new;
@@ -80,7 +80,8 @@ t_token	*convert_raw_token_list(t_raw_token *raw_token_head)
 		else
 			break ;
 	}
-	finalizing_token_list(new_head);
+	if (finalizing_token_list(new_head, shell) == NULL)
+		return (free_tokens(new_head), new_head = NULL, NULL);
 	free_raw_tokens(raw_token_head);
 	return (new_head);
 }

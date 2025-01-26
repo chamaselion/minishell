@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/24 14:04:35 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/26 01:20:23 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -81,8 +81,8 @@ int	main_loop(t_shell *shell)
 	t_token		*tokens;
 	//t_token		*final_token;	
 	t_command	*commands;
-	// t_command *commandss;
-	// int i = 0;
+	 //t_command *commandss;
+	 //int i = 0;
 
 	setup_signal_handling();
 	while (1)
@@ -95,24 +95,19 @@ int	main_loop(t_shell *shell)
 		free(prompt);
 		raw_tokens = handle_input(input, shell);
 		//print_raw_tokens(raw_tokens);
-		tokens = convert_raw_token_list(raw_tokens);
-		fill_command_from_tokens(tokens, &commands);
-		link_commands_and_tokens(tokens, commands);
-		/*commandss = commands;
-		while (commandss)
+		tokens = convert_raw_token_list(raw_tokens, shell);
+		if (tokens)
 		{
-			printf("Command[%i]: %s, args: %s, relation type: %i\n", i,
-				commandss->command, commandss->args[0],
-				commandss->relation_type);
-			commandss = commandss->next;
-			i++;
-		}*/
-		if (commands)
-		{
-			shell_to_command(&commands, shell);
-			handle_pipes(commands);
-			free_commands(commands);
-			// printf("Exit: %i\n", shell->last_exit_code);
+			if (fill_command_from_tokens(tokens, &commands) != -1)
+			{
+				link_commands_and_tokens(tokens, commands);
+				if (commands)
+				{
+					shell_to_command(&commands, shell);
+					handle_pipes(commands);
+					free_commands(commands);
+				}
+			}
 		}
 		free(input);
 	}
