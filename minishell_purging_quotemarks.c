@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:35:22 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/26 00:58:51 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:41:22 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -52,7 +52,13 @@ void remove_token(t_token **head, t_token *token) {
     else
         *head = token->next;
     if (token->next)
+	{
         token->next->prev = token->prev;
+	}
+	free(token->content);
+	token->content = NULL;
+	free(token);
+	token = NULL;
 }
 
 t_token *pop_quotemark_tokens(t_token **token_list) {
