@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:30:29 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/28 14:39:01 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:46:55 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -189,7 +189,7 @@ int	link_commands_and_tokens(t_token *tokens, t_command *cmd)
 			current_cmd->relation_type = 5;
 			}
 			else
-				return (1);
+				return (free_commands(cmd), 1);
 		}
 		else if (ct->role == 6)
 		{
