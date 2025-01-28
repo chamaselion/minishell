@@ -290,4 +290,10 @@ void	print_raw_tokens(t_raw_token *first_token);
 void	print_tokens(t_token *first_token);
 void	print_commands(t_command *first_command);
 
+
+char *resolve_variables_str(char *str, t_shell *shell);
+char *resolve_variable(const char *str, int *idx, t_shell *shell);
+void update_quote_mode(char c, unsigned char *quote_mode);
+char *handle_dollar_sign(const char *str, int *idx, char *output_str,
+		t_shell *shell);
 #endif
