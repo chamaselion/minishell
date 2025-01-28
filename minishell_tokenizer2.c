@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:12:59 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/26 01:08:11 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:40:52 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -82,7 +82,7 @@ t_token	*convert_raw_token_list(t_raw_token *raw_token_head, t_shell *shell)
 			break ;
 	}
 	if (finalizing_token_list(new_head, shell) == NULL)
-		return (free_tokens(new_head), new_head = NULL, NULL);
+		return (free_tokens(new_head), free_raw_tokens(raw_token_head), NULL);
 	free_raw_tokens(raw_token_head);
 	return (new_head);
 }

@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:35:22 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/27 20:41:22 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:40:25 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -38,7 +38,7 @@ int	check_for_unclosed(t_token *token_list, t_shell *shell)
 	if (quote_state != NO_QUOTE)
 	{
 		ft_putstr_fd("Error: unclosed quote\n", STDERR_FILENO);
-		return (update_exit_code(shell, 1), 1);
+		return (update_exit_code(shell, 2), 1);
 	}
 	return (0);
 }

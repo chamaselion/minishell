@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/26 00:59:06 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:41:12 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -247,7 +247,7 @@ int         allocate_args(t_command *current_cmd, t_token *ct);
 void        remove_last_empty_command(t_command *head_cmd, t_command *current_cmd);
 int         process_tokens(t_token *ct, t_command *current_cmd);
 int         fill_command_from_tokens(t_token *tokens, t_command **cmd);
-void        link_commands_and_tokens(t_token *tokens, t_command *cmd);
+int        link_commands_and_tokens(t_token *tokens, t_command *cmd);
 
 // Execution
 void	handle_ft_command(t_command *cmd);
