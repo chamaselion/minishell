@@ -2,12 +2,9 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:12:45 by root              #+#    #+#             */
 /*   Updated: 2024/12/04 17:45:14 by mnaumann         ###   ########.fr       */
 /*                                                                            */
@@ -78,7 +75,6 @@ int	ft_itoa_base(int value, int base, char *buffer, int size)
 		negative = 1;
 		value = -value;
 	}
-
 	do
 	{
 		tmp[i++] = digits[value % base];
@@ -87,39 +83,8 @@ int	ft_itoa_base(int value, int base, char *buffer, int size)
 
 	if (negative && j < size - 1)
 		buffer[j++] = '-';
-
 	while (i > 0 && j < size - 1)
 		buffer[j++] = tmp[--i];
-
 	buffer[j] = '\0';
 	return (j);
-}
-
-char	*ft_strjoin_and_free(char *s1, char *s2)
-{
-	char *result;
-
-	result = ft_strjoin(s1, s2);
-	free(s1);
-	return (result);
-}
-
-char	*ft_strjoin_and_free2(char *s1, char *s2)
-{
-	char *result;
-
-	result = ft_strjoin(s1, s2);
-	free(s2);
-	return (result);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t i;
-
-	i = 0;
-	while ((unsigned char)s1[i]
-		&& (unsigned char)s1[i] == (unsigned char)s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

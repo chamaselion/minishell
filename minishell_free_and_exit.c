@@ -65,16 +65,17 @@ int	free_and_fail(char *content, char *message)
 	return (0);
 }
 
-void free_tokens(t_token *tokens) {
-    t_token *tmp;
+void	free_tokens(t_token *tokens)
+{
+	t_token	*tmp;
 
-    while (tokens) {
-        tmp = tokens;
-        tokens = tokens->next;
-        if (tmp->content)
-            free(tmp->content);
-        free(tmp);
-        tmp = NULL;
-    }
+	while (tokens)
+	{
+		tmp = tokens;
+		tokens = tokens->next;
+		if (tmp->content)
+			free(tmp->content);
+		free(tmp);
+		tmp = NULL;
+	}
 }
-

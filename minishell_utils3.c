@@ -12,12 +12,10 @@
 
 #include "minishell.h"
 
-typedef unsigned long long t_size_t;
-
 char	*ft_strndup(const char *s1, size_t n)
 {
-	size_t  i;
-	char    *s1cc;
+	size_t	i;
+	char	*s1cc;
 
 	i = 0;
 	s1cc = (char *)malloc((n + 1) * sizeof(char));
@@ -36,7 +34,7 @@ char	*ft_strndup(const char *s1, size_t n)
 
 char	*ft_strcpy(char *dst, const char *src)
 {
-	size_t  i;
+	size_t	i;
 
 	i = 0;
 	while (src[i] != '\0')
