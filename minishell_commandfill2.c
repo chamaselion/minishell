@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:30:29 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/26 18:03:19 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:46:55 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -143,16 +143,26 @@ void	ft_function_marker(t_command *cmd)
 	}
 }
 
-void	handle_redirect_link(t_token *ct, t_command *current_cmd)
+int	handle_redirect_link(t_token *ct, t_command *current_cmd)
 {
-	if (strcmp(ct->content, ">") == 0)
-		current_cmd->output_redirection = ct->next;
-	else if (strcmp(ct->content, "<") == 0)
-		current_cmd->input_redirection = ct->next;
-	else if (strcmp(ct->content, ">>") == 0)
-		current_cmd->append_redirection = ct->next;
-	else if (strcmp(ct->content, "<<") == 0)
-		current_cmd->heredoc_redirection = ct->next;
+	if (ct->next && (ct->next->role != 5 && ct->next->role != 6))
+	{	
+		if (strcmp(ct->content, ">") == 0)
+			current_cmd->output_redirection = ct->next;
+		else if (strcmp(ct->content, "<") == 0)
+			current_cmd->input_redirection = ct->next;
+		else if (strcmp(ct->content, ">>") == 0)
+			current_cmd->append_redirection = ct->next;
+		else if (strcmp(ct->content, "<<") == 0)
+			current_cmd->heredoc_redirection = ct->next;
+		return (0);
+	}
+	else
+	{
+		ft_putstr_fd("Error: syntax error\n", STDERR_FILENO);
+		update_exit_code(current_cmd->shell, 2);
+		return (1);
+	}
 }
 
 void	handle_pipe_link(t_command *current_cmd)
@@ -161,7 +171,7 @@ void	handle_pipe_link(t_command *current_cmd)
 	current_cmd->related_to = current_cmd->next;
 }
 
-void	link_commands_and_tokens(t_token *tokens, t_command *cmd)
+int	link_commands_and_tokens(t_token *tokens, t_command *cmd)
 {
 	t_token		*ct;
 	t_command	*current_cmd;
@@ -172,9 +182,14 @@ void	link_commands_and_tokens(t_token *tokens, t_command *cmd)
 	{
 		if (ct->role == 5)
 		{
-			handle_redirect_link(ct, current_cmd);
-			ct = ct->next;
+			if (handle_redirect_link(ct, current_cmd) == 0)
+			{
+			if (ct->next)
+				ct = ct->next;
 			current_cmd->relation_type = 5;
+			}
+			else
+				return (free_commands(cmd), 1);
 		}
 		else if (ct->role == 6)
 		{
@@ -187,4 +202,5 @@ void	link_commands_and_tokens(t_token *tokens, t_command *cmd)
 		ct = ct->next;
 	}
 	ft_function_marker(cmd);
+	return (0);
 }

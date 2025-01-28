@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/26 01:20:23 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:40:08 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -99,10 +99,9 @@ int	main_loop(t_shell *shell)
 		{
 			if (fill_command_from_tokens(tokens, &commands) != -1)
 			{
-				link_commands_and_tokens(tokens, commands);
-				if (commands)
-				{
-					shell_to_command(&commands, shell);
+				shell_to_command(&commands, shell);
+				if (link_commands_and_tokens(tokens, commands) == 0 && commands)
+				{			
 					handle_pipes(commands);
 					free_commands(commands);
 				}
