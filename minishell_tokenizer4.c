@@ -21,10 +21,10 @@ t_token	*finalizing_token_list(t_token *token_list, t_shell *shell)
 	return (token_list);
 }
 
-char *resolve_variables_str(char *str, t_shell *shell) 
+char    *resolve_variables_str(char *str, t_shell *shell)
 {
-    char *output_str;
-    unsigned char quote_mode;
+    char            *output_str;
+    unsigned char   quote_mode;
     int idx;
     char *var_name;
     char *var_value;

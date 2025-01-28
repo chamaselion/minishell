@@ -14,23 +14,18 @@
 
 int	check_for_unclosed(t_token *token_list, t_shell *shell)
 {
-	t_token *current;
-	int quote_state;
+	t_token		*current;
+	int			quote_state;
+	const char	*p;
 
 	quote_state = NO_QUOTE;
 	current = token_list;
 	while (current != NULL)
 	{
-		const char *p = current->content;
+		p = current->content;
 		while (*p)
 		{
-			if (*p == '\'' && quote_state == NO_QUOTE)
-				quote_state = WITHIN_SINGLE_QUOTE;
-			else if (*p == '"' && quote_state == NO_QUOTE)
-				quote_state = WITHIN_DOUBLE_QUOTE;
-			else if ((*p == '\'' && quote_state == WITHIN_SINGLE_QUOTE)
-				|| (*p == '"' && quote_state == WITHIN_DOUBLE_QUOTE))
-				quote_state = NO_QUOTE;
+			update_quote_state(p, &quote_state);
 			p++;
 		}
 		current = current->next;
@@ -45,11 +40,11 @@ int	check_for_unclosed(t_token *token_list, t_shell *shell)
 
 void	remove_token(t_token **tokens, t_token *to_remove)
 {
-    t_token *prev;
-    t_token *current;
+	t_token	*prev;
+	t_token	*current;
 
-    prev = NULL;
-    current = *tokens;
+	prev = NULL;
+	current = *tokens;
 	while (current)
 	{
 		if (current == to_remove)
@@ -70,9 +65,10 @@ void	remove_token(t_token **tokens, t_token *to_remove)
 
 t_token	*pop_quotemark_tokens(t_token **token_list)
 {
-	t_token *current = *token_list;
-	t_token *next;
+	t_token	*current;
+	t_token	*next;
 
+	current = *token_list;
 	while (current)
 	{
 		next = current->next;
@@ -90,9 +86,9 @@ t_token	*pop_quotemark_tokens(t_token **token_list)
 
 char	**purge_quotes_from_args(t_command *cmd)
 {
-	char **purged_args;
-	char **args;
-	int i;
+	char	**purged_args;
+	char	**args;
+	int		i;
 
 	i = 0;
 	args = cmd->args;
@@ -110,9 +106,9 @@ char	**purge_quotes_from_args(t_command *cmd)
 
 char	*purge_quotes_from_arg(char *arg)
 {
-    char    *purged_arg;
-	char    *current;
-	char    *write_ptr;
+	char	*purged_arg;
+	char	*current;
+	char	*write_ptr;
 
 	purged_arg = (char *)malloc(sizeof(char) * (ft_strlen(arg) + 1));
 	current = arg;

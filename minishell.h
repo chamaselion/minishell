@@ -218,6 +218,7 @@ t_raw_token	*handle_non_quote_segment(const char **input, int *pos);
 int	check_for_unclosed(t_token *token_list, t_shell *shell);
 char	**purge_quotes_from_args(t_command *cmd);
 char	*purge_quotes_from_arg(char *args);
+void update_quote_state(const char *p, int *quote_state);
 
 // Utils:
 char	*ft_strtok(char *str, const char *delimiters);

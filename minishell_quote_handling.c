@@ -6,7 +6,7 @@
 /*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:40:32 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/28 14:09:30 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:08:46 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,15 @@ t_raw_token	*handle_double_quote_segment(const char **input,
 	free(content);
 	free(expanded_content);
 	return (token);
+}
+
+void	update_quote_state(const char *p, int *quote_state)
+{
+	if (*p == '\'' && *quote_state == NO_QUOTE)
+		*quote_state = WITHIN_SINGLE_QUOTE;
+	else if (*p == '"' && *quote_state == NO_QUOTE)
+		*quote_state = WITHIN_DOUBLE_QUOTE;
+	else if ((*p == '\'' && *quote_state == WITHIN_SINGLE_QUOTE)
+		|| (*p == '"' && *quote_state == WITHIN_DOUBLE_QUOTE))
+		*quote_state = NO_QUOTE;
 }
