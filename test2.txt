@@ -1,1 +1,57 @@
-CONDA_PYTHON_EXE="/root/miniconda3/bin/python"
+/mnt/c/projects/minishell minishell> ''
+Error: : might be a directory, or faulty command line.
+==36853== 
+==36853== HEAP SUMMARY:
+==36853==     in use at exit: 218,408 bytes in 458 blocks
+==36853==   total heap usage: 749 allocs, 291 frees, 255,423 bytes allocated
+==36853== 
+==36853== LEAK SUMMARY:
+==36853==    definitely lost: 0 bytes in 0 blocks
+==36853==    indirectly lost: 0 bytes in 0 blocks
+==36853==      possibly lost: 0 bytes in 0 blocks
+==36853==    still reachable: 218,408 bytes in 458 blocks
+==36853==         suppressed: 0 bytes in 0 blocks
+==36853== Reachable blocks (those to which a pointer was found) are not shown.
+==36853== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==36853== 
+==36853== For lists of detected and suppressed errors, rerun with: -s
+==36853== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+/mnt/c/projects/minishell minishell> ""
+Error: : might be a directory, or faulty command line.
+==37010== 
+==37010== HEAP SUMMARY:
+==37010==     in use at exit: 218,447 bytes in 461 blocks
+==37010==   total heap usage: 824 allocs, 363 frees, 258,751 bytes allocated
+==37010== 
+==37010== LEAK SUMMARY:
+==37010==    definitely lost: 0 bytes in 0 blocks
+==37010==    indirectly lost: 0 bytes in 0 blocks
+==37010==      possibly lost: 0 bytes in 0 blocks
+==37010==    still reachable: 218,447 bytes in 461 blocks
+==37010==         suppressed: 0 bytes in 0 blocks
+==37010== Reachable blocks (those to which a pointer was found) are not shown.
+==37010== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==37010== 
+==37010== For lists of detected and suppressed errors, rerun with: -s
+==37010== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+/mnt/c/projects/minishell minishell> "$HOME"
+Error: /root: might be a directory, or faulty command line.
+==37089== 
+==37089== HEAP SUMMARY:
+==37089==     in use at exit: 218,506 bytes in 464 blocks
+==37089==   total heap usage: 867 allocs, 403 frees, 259,548 bytes allocated
+==37089== 
+==37089== LEAK SUMMARY:
+==37089==    definitely lost: 0 bytes in 0 blocks
+==37089==    indirectly lost: 0 bytes in 0 blocks
+==37089==      possibly lost: 0 bytes in 0 blocks
+==37089==    still reachable: 218,506 bytes in 464 blocks
+==37089==         suppressed: 0 bytes in 0 blocks
+==37089== Reachable blocks (those to which a pointer was found) are not shown.
+==37089== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==37089== 
+==37089== For lists of detected and suppressed errors, rerun with: -s
+==37089== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+/mnt/c/projects/minishell minishell> """
+Error: unclosed quote
+/mnt/c/projects/minishell minishell> 
