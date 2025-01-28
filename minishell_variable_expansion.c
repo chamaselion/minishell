@@ -2,12 +2,9 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_variable_expansion.c                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:17:27 by mnaumann          #+#    #+#             */
 /*   Updated: 2024/12/10 13:22:02 by mnaumann         ###   ########.fr       */
 /*                                                                            */
@@ -30,7 +27,8 @@ const char	*extract_variable_name(const char *current, char *var_name)
 	return (current);
 }
 
-void	append_variable_value(const char *var_name, char **write_ptr, t_env_var *env)
+void	append_variable_value(const char *var_name,
+			char **write_ptr, t_env_var *env)
 {
 	char	*env_value;
 

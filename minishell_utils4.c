@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_utils4.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/12/09 12:55:37 by mnaumann          #+#    #+#             */
 /*   Updated: 2024/12/09 18:19:29 by mnaumann         ###   ########.fr       */
 /*                                                                            */
@@ -21,15 +24,17 @@ char	*skip_whitespace(char *input)
 	return (input);
 }
 
-char **convertEnvironmentToArray(t_env_var* environment) {
-	char **envarr;
-	t_env_var *current;
-	int idx;
+char	**convert_environment_to_array(t_env_var *environment)
+{
+	char		**envarr;
+	t_env_var	*current;
+	int			idx;
 
-	envarr = (char**)malloc(sizeof(char*) * (ft_lstsize(environment) + 1));
+	envarr = (char **)malloc(sizeof(char *) * (ft_lstsize(environment) + 1));
 	current = environment;
 	idx = 0;
-	while(current) {
+	while (current)
+	{
 		envarr[idx] = ft_strdup(current->string);
 		current = current->next;
 		idx++;
@@ -38,9 +43,9 @@ char **convertEnvironmentToArray(t_env_var* environment) {
 	return (envarr);
 }
 
-void free_split_array(char **array)
+void	free_split_array(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (array[i])
@@ -51,9 +56,9 @@ void free_split_array(char **array)
 	free(array);
 }
 
-int ft_lstsize(t_env_var *lst)
+int	ft_lstsize(t_env_var *lst)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (lst)

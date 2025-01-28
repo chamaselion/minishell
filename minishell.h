@@ -32,9 +32,9 @@
 # define MAX_ARGS 64
 # define MAX_PATH 1024
 
-
 extern int g_received_signal;
 typedef struct  s_command t_command;
+typedef unsigned long long	t_size_t;
 
 typedef enum e_token_syntax_state
 {
@@ -234,7 +234,7 @@ char	*ft_strndup(const char *s1, size_t n);
 char	*ft_strcpy(char *dst, const char *src);
 char	*skip_whitespace(char *input);
 int     is_valid_env_var_name(const char *str);
-char **convertEnvironmentToArray(t_env_var* environment);
+char	**convert_environment_to_array(t_env_var *environment);
 void free_split_array(char **array);
 int ft_lstsize(t_env_var *lst);
 char *ft_strjoin_and_free2(char *s1, char *s2);

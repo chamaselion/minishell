@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_execution.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:24:59 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/26 00:44:56 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/28 13:59:09 by mnaumann         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -137,7 +137,7 @@ void	execute_command(t_command *cmd, char **exec_args)
 		free(exec_args);
 		exit(126);
 	}
-	environment = convertEnvironmentToArray(cmd->shell->env_vars);
+	environment = convert_environment_to_array(cmd->shell->env_vars);
 	execve(full_path, exec_args, environment);
 	free_split_array(environment);
 	ft_putstr_fd("Error: ", STDERR_FILENO);

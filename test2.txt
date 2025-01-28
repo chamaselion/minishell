@@ -1,1 +1,4 @@
-space for output
+functions to review and split:
+
+free_and_exit.c
+free_command

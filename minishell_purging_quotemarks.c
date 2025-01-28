@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 int	check_for_unclosed(t_token *token_list, t_shell *shell)
 {
 	t_token *current;
@@ -111,9 +110,9 @@ char	**purge_quotes_from_args(t_command *cmd)
 
 char	*purge_quotes_from_arg(char *arg)
 {
-	char *purged_arg;
-	char *current;
-	char *write_ptr;
+    char    *purged_arg;
+	char    *current;
+	char    *write_ptr;
 
 	purged_arg = (char *)malloc(sizeof(char) * (ft_strlen(arg) + 1));
 	current = arg;

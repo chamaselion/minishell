@@ -19,6 +19,7 @@ SRC = minishell_loop.c\
     minishell_utils2.c\
     minishell_utils3.c\
     minishell_utils4.c\
+	minishell_utils5.c\
 	minishell_commandfill1.c\
 	minishell_commandfill2.c\
 	minishell_piping.c\
