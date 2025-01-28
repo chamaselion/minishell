@@ -2,12 +2,9 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_syntax_check.c                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 00:18:22 by bszikora          #+#    #+#             */
 /*   Updated: 2025/01/24 00:18:22 by bszikora         ###   ########.fr       */
 /*                                                                            */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_quote_handling.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:40:32 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/24 11:45:51 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:09:30 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,22 @@ void	double_quote_wrapper(const char **input, int *pos, t_raw_token **first,
 	}
 }
 
-t_raw_token *handle_double_quote_segment(const char **input, int *pos, t_env_var *env)
+t_raw_token	*handle_double_quote_segment(const char **input,
+				int *pos, t_env_var *env)
 {
-    const char *start;
-    char *content;
-    char *expanded_content;
-    t_raw_token *token;
+	const char	*start;
+	char		*content;
+	char		*expanded_content;
+	t_raw_token	*token;
 
-    (*input)++;
-    start = *input;
-    while (**input != '\0' && **input != '"')
-        (*input)++;
-    content = ft_strndup(start, *input - start);
-    expanded_content = expand_double_quote_content(content, env);
-    token = create_raw_token(expanded_content, WITHIN_DOUBLE_QUOTE, *pos);
-    free(content);
-    free(expanded_content);
-    return token;
+	(*input)++;
+	start = *input;
+	while (**input != '\0' && **input != '"')
+		(*input)++;
+	content = ft_strndup(start, *input - start);
+	expanded_content = expand_double_quote_content(content, env);
+	token = create_raw_token(expanded_content, WITHIN_DOUBLE_QUOTE, *pos);
+	free(content);
+	free(expanded_content);
+	return (token);
 }

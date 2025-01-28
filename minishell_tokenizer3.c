@@ -87,7 +87,7 @@ t_raw_token	*handle_non_quote_segment(const char **input, int *pos)
 	return (token);
 }
 
-void	print_raw_tokens(t_raw_token *first_token)
+/*void	print_raw_tokens(t_raw_token *first_token)
 {
 	int count = 0;
 	while (first_token)
@@ -108,11 +108,12 @@ void	print_tokens(t_token *first_token)
 	count = 0;
 	while (first_token != NULL)
 	{
-		printf("Token %d: '%s' (Quote State: %d, Pos: %d, Command: %d, Role: %d)\n",
+		printf("Token %d: '%s' (Quote State: %d, Pos: %d,
+			Command: %d, Role: %d)\n",
 			count++, first_token->content,
 			first_token->quote_state, first_token->position,
 			first_token->command_expected, first_token->role);
 		first_token = first_token->next;
 	}
 	printf("done printing tokens\n");
-}
+}*/

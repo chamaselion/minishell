@@ -1,4 +1,7 @@
 functions to review and split:
 
-free_and_exit.c
 free_command
+
+int	check_for_unclosed
+
+char *resolve_variables_str

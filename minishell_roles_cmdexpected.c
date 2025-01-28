@@ -54,57 +54,35 @@ void	handle_redirect_token(t_token *token)
 
 void	assign_token_role(t_token *token_list)
 {
-	t_token *current = token_list;
+	t_token	*current;
 
-	//printf("Entered assign_token_role\n");
+	current = token_list;
 	if (current && !current->prev)
 	{
-		//printf("Handling first token: %s\n", current->content);
 		handle_first_token(current);
 		if (current->next)
-		{
 			current = current->next;
-		}
 		else
-		{
-			//printf("Only one token in the list.\n");
 			return ;
-		}
 	}
-
 	while (current)
 	{
-		//printf("Handling token: %s\n", current->content);
 		if (is_quote_char(*current->content)
 			&& current->quote_state == NO_QUOTE)
-		{
 			handle_quote_token(current);
-		}
 		else if (is_pipe(current->content))
-		{
 			handle_pipe_token(current);
-		}
 		else if (is_redirection(current->content))
-		{
 			handle_redirect_token(current);
-		}
 		else if (identify_env_var(current->content)
 			&& current->quote_state == 0)
-		{
 			current->role = ROLE_VARIABLE;
-		}
 		else if (current->command_expected == 1)
-		{
 			current->role = ROLE_EXECUTABLE;
-		}
 		else
-		{
 			current->role = ROLE_ARGUMENT;
-		}
-		//printf("Role: %d, Content: %s\n", current->role, current->content);
 		current = current->next;
 	}
-	//printf("Exited assign_token_role\n");
 }
 
 /* for debugging

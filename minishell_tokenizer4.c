@@ -21,53 +21,8 @@ t_token	*finalizing_token_list(t_token *token_list, t_shell *shell)
 	return (token_list);
 }
 
-/*char *resolve_variables_str(char *str, t_shell *shell) {
-    char *output_str;
-    unsigned char quote_mode;
-    int idx;
-    char *var_name;
-    char *var_value;
-
-    output_str = ft_strdup("");
-    idx = 0;
-    quote_mode = 0;
-    while (str[idx] != 0) {
-        if (str[idx] == '\'' && !quote_mode)
-            quote_mode ^= 1;
-        else if (str[idx] == '"' && !quote_mode)
-            quote_mode ^= 2;
-        if (str[idx] == '$' && (!quote_mode || (quote_mode & 2))) {
-            if (str[idx + 1] == '?') {
-                output_str = ft_strjoin(output_str, get_exit_code_str(shell));
-                idx += 2;
-            } else if (ft_isalnum(str[idx + 1]) || str[idx + 1] == '_') {
-                var_name = ft_strdup("");
-                idx++;
-                while (ft_isalnum(str[idx]) || str[idx] == '_') {
-                    char *temp_char = ft_strndup(&str[idx], 1);
-                    var_name = ft_strjoin_and_free2(var_name, temp_char);
-                    idx++;
-                }
-                var_value = ft_getenv(shell->env_vars, var_name);
-                if (var_value) {
-                    output_str = ft_strjoin_and_free2(output_str, ft_strdup(var_value));
-                }
-                free(var_name);
-            } else {
-                char *temp_char = ft_strndup(&str[idx], 1);
-                output_str = ft_strjoin_and_free2(output_str, temp_char);
-                idx++;
-            }
-        } else {
-            char *temp_char = ft_strndup(&str[idx], 1);
-            output_str = ft_strjoin_and_free2(output_str, temp_char);
-            idx++;
-        }
-    }
-    return output_str;
-}*/
-
-char *resolve_variables_str(char *str, t_shell *shell) {
+char *resolve_variables_str(char *str, t_shell *shell) 
+{
     char *output_str;
     unsigned char quote_mode;
     int idx;
@@ -121,7 +76,8 @@ char *resolve_variables_str(char *str, t_shell *shell) {
     return output_str;
 }
 
-t_raw_token *handle_input(char *input, t_shell *shell) {
+t_raw_token *handle_input(char *input, t_shell *shell) 
+{
     t_raw_token *first;
     t_raw_token *last;
     t_raw_token *token;
@@ -150,3 +106,4 @@ t_raw_token *handle_input(char *input, t_shell *shell) {
     free(resolved_input);
     return first;
 }
+
