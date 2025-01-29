@@ -46,10 +46,20 @@ void	handle_pipe_token(t_token *token)
 	handle_first_token(token->next);
 }
 
-void	handle_redirect_token(t_token *token)
+static void	decide_token_role(t_token *current)
 {
-	token->role = ROLE_REDIRECT;
-	token->command_expected = 0;
+	if (is_quote_char(*current->content) && current->quote_state == NO_QUOTE)
+		handle_quote_token(current);
+	else if (is_pipe(current->content))
+		handle_pipe_token(current);
+	else if (is_redirection(current->content))
+		handle_redirect_token(current);
+	else if (identify_env_var(current->content) && current->quote_state == 0)
+		current->role = ROLE_VARIABLE;
+	else if (current->command_expected == 1)
+		current->role = ROLE_EXECUTABLE;
+	else
+		current->role = ROLE_ARGUMENT;
 }
 
 void	assign_token_role(t_token *token_list)
@@ -67,33 +77,7 @@ void	assign_token_role(t_token *token_list)
 	}
 	while (current)
 	{
-		if (is_quote_char(*current->content)
-			&& current->quote_state == NO_QUOTE)
-			handle_quote_token(current);
-		else if (is_pipe(current->content))
-			handle_pipe_token(current);
-		else if (is_redirection(current->content))
-			handle_redirect_token(current);
-		else if (identify_env_var(current->content)
-			&& current->quote_state == 0)
-			current->role = ROLE_VARIABLE;
-		else if (current->command_expected == 1)
-			current->role = ROLE_EXECUTABLE;
-		else
-			current->role = ROLE_ARGUMENT;
+		decide_token_role(current);
 		current = current->next;
 	}
 }
-
-/* for debugging
-void	print_token_list(t_token *token_list)
-{
-	t_token *current = token_list;
-	while (current != NULL)
-	{
-		printf("Token: %s, Role: %d, Command Expected: %d, quote state: %d\n",
-			current->content, current->role, current->command_expected,
-			current->quote_state);
-		current = current->next;
-	}
-}*/

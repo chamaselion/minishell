@@ -6,7 +6,7 @@
 /*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:40:32 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/29 11:54:27 by root             ###   ########.fr       */
+/*   Updated: 2025/01/29 14:01:23 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ void	single_quote_wrapper(const char **input, t_raw_list *raw_list)
 }
 
 void	double_quote_wrapper(const char **input, t_raw_list *raw_list,
-			t_env_var *env)
+			t_env_var *env, t_shell *shell)
 {
 	t_raw_token	*token;
 
 	token = handle_double_quote_mark();
 	append_raw_token(&raw_list->first, &raw_list->last, token);
-	token = handle_double_quote_segment(input, env);
+	token = handle_double_quote_segment(input, env, shell);
 	append_raw_token(&raw_list->first, &raw_list->last, token);
 	if (**input == '"')
 	{
@@ -61,11 +61,13 @@ void	double_quote_wrapper(const char **input, t_raw_list *raw_list,
 	}
 }
 
-t_raw_token	*handle_double_quote_segment(const char **input, t_env_var *env)
+t_raw_token	*handle_double_quote_segment(const char **input, t_env_var *env,
+				t_shell *shell)
 {
 	const char	*start;
 	char		*content;
 	char		*expanded_content;
+	char		*temp;
 	t_raw_token	*token;
 
 	(*input)++;
@@ -74,7 +76,8 @@ t_raw_token	*handle_double_quote_segment(const char **input, t_env_var *env)
 		(*input)++;
 	content = ft_strndup(start, *input - start);
 	expanded_content = expand_double_quote_content(content, env);
-	token = create_raw_token(expanded_content, WITHIN_DOUBLE_QUOTE);
+	temp = resolve_variables_str(expanded_content, shell);
+	token = create_raw_token(temp, WITHIN_DOUBLE_QUOTE);
 	free(content);
 	free(expanded_content);
 	return (token);

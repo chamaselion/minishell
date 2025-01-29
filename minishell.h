@@ -212,9 +212,9 @@ void		print_token_list(t_token *token_list);
 t_token		*pop_quotemark_tokens(t_token **token_list);
 void		single_quote_wrapper(const char **input, t_raw_list *list);
 void		double_quote_wrapper(const char **input, t_raw_list *list,
-				t_env_var *env);
+				t_env_var *env, t_shell *shell);
 t_raw_token	*handle_double_quote_segment(const char **input,
-				t_env_var *env);
+				t_env_var *env, t_shell *shell);
 t_raw_token	*handle_single_quote_segment(const char **input);
 t_raw_token	*handle_single_quote_mark(void);
 t_raw_token	*handle_double_quote_mark(void);
@@ -300,4 +300,5 @@ char		*resolve_variable(const char *str, int *idx, t_shell *shell);
 void		update_quote_mode(char c, unsigned char *quote_mode);
 char		*handle_dollar_sign(const char *str, int *idx, char *output_str,
 				t_shell *shell);
+
 #endif

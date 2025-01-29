@@ -35,7 +35,7 @@ t_raw_token	*handle_input(char *input, t_shell *shell)
 			single_quote_wrapper((const char **)&input, &raw_list);
 		else if (*input == '"')
 			double_quote_wrapper((const char **)&input, &raw_list,
-				shell->env_vars);
+				shell->env_vars, shell);
 		else
 		{
 			token = handle_non_quote_segment((const char **)&input, shell);
@@ -43,4 +43,10 @@ t_raw_token	*handle_input(char *input, t_shell *shell)
 		}
 	}
 	return (raw_list.first);
+}
+
+void	handle_redirect_token(t_token *token)
+{
+	token->role = ROLE_REDIRECT;
+	token->command_expected = 0;
 }
