@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:56 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 22:29:42 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 23:26:33 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -63,6 +63,7 @@ void	handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2])
 	{
 		close(pipefd[1]);
 		*in_fd = pipefd[0];
+		return ;
 	}
 	else
 		*in_fd = 0;
