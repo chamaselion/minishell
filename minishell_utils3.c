@@ -59,8 +59,7 @@ int	identify_env_var(char *str)
 
 int	is_redirection(char *str)
 {
-	if (ft_strcmp(str, "<") == 0 || ft_strcmp(str, ">") == 0 || ft_strcmp(str,
-			"<<") == 0 || ft_strcmp(str, ">>") == 0)
-		return (1);
-	return (0);
+	if (!str)
+		return (0);
+	return (*str == '<' || *str == '>');
 }

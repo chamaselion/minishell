@@ -17,6 +17,8 @@ int	check_for_unclosed(t_raw_token *list, t_shell *shell)
 	t_raw_token		*current;
 	int				quote_state;
 
+	if (list == NULL)
+		return (0);
 	current = list;
 	quote_state = current->quote_state;
 	while (current != NULL)

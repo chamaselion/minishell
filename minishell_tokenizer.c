@@ -25,10 +25,18 @@ t_raw_token	*handle_input(char *input, t_shell *shell)
 	t_raw_token	*token;
 
 	raw_list = init_raw_list();
-	input = skip_whitespace(input);
-	while (*input != '\0')
+	while (*input)
 	{
 		input = skip_whitespace(input);
+		if (!*input)
+			break ;
+		if (is_redirection(input) || is_pipe(input))
+		{
+			token = tokenize_pipe_redirection((const char **)&input);
+			if (token)
+				append_raw_token(&raw_list.first, &raw_list.last, token);
+			continue ;
+		}
 		if (*input == '\'')
 			single_quote_wrapper((const char **)&input, &raw_list);
 		else if (*input == '"')
@@ -37,7 +45,8 @@ t_raw_token	*handle_input(char *input, t_shell *shell)
 		else
 		{
 			token = handle_non_quote_segment((const char **)&input, shell);
-			append_raw_token(&raw_list.first, &raw_list.last, token);
+			if (token)
+				append_raw_token(&raw_list.first, &raw_list.last, token);
 		}
 	}
 	return (raw_list.first);
