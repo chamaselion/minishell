@@ -6,11 +6,27 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:28:41 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 15:08:01 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:48:17 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	is_valid_identifier(const char *str)
+{
+	int	i;
+
+	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+		return (false);
+	i = 1;
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 void	export_print(t_env_var *current)
 {
@@ -45,7 +61,7 @@ int	export_argument_check(t_command *cmd)
 		return (1);
 	while (cmd->args[i])
 	{
-		if (!ft_isalpha(cmd->args[i][0]))
+		if (!is_valid_identifier(cmd->args[i]))
 		{
 			ft_putstr_fd("export: '", 2);
 			ft_putstr_fd(cmd->args[i], 2);
