@@ -12,19 +12,16 @@
 
 #include "minishell.h"
 
-int	check_for_unclosed(t_token *token_list, t_shell *shell)
+int	check_for_unclosed(t_raw_token *list, t_shell *shell)
 {
-	t_token		*current;
-	int			quote_state;
-	const char	*p;
+	t_raw_token		*current;
+	int				quote_state;
 
-	quote_state = NO_QUOTE;
-	current = token_list;
+	current = list;
+	quote_state = current->quote_state;
 	while (current != NULL)
 	{
-		p = current->content;
-		while (*p)
-			p++;
+		quote_state = current->quote_state;
 		current = current->next;
 	}
 	if (quote_state != NO_QUOTE)

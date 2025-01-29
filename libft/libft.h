@@ -20,6 +20,14 @@ typedef struct s_list
 	struct s_list			*next;
 }							t_list;
 
+typedef struct t_SplitData
+{
+	int			word_count;
+	char		**result;
+	int			i;
+	const char	*start;
+}				t_SplitData;
+
 char						*ft_strjoin(char *s1, char *s2);
 char						*ft_substr(char const *s, unsigned int start,
 								t_size_t len);

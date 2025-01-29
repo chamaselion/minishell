@@ -90,7 +90,8 @@ int	main_loop(t_shell *shell)
 		input = read_input(prompt);
 		free(prompt);
 		raw_tokens = handle_input(input, shell);
-		tokens = convert_raw_token_list(raw_tokens, shell);
+		check_for_unclosed(raw_tokens, shell);
+		tokens = convert_raw_token_list(raw_tokens);
 		if (tokens)
 		{
 			if (fill_command_from_tokens(tokens, &commands) != -1)

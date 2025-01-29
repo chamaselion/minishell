@@ -13,8 +13,6 @@
 #include "libft.h"
 #include <stdlib.h>
 
-typedef unsigned long long	t_size_t;
-
 char	*handle_null_character(void)
 {
 	char	*r;

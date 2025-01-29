@@ -198,13 +198,12 @@ t_token		*convert_raw_token(t_raw_token *raw_token);
 int			is_raw_token_list_empty(t_raw_token *raw_token_head);
 void		link_token_to_list(t_token **new_head, t_token **current_new,
 				t_token *new_token);
-t_token		*convert_raw_token_list(t_raw_token *raw_token_head,
-				t_shell *shell);
+t_token		*convert_raw_token_list(t_raw_token *raw_token_head);
 void		assign_token_role(t_token *token_list);
 void		handle_redirect_token(t_token *token);
 void		handle_pipe_token(t_token *token);
 int			validate_token_syntax(t_token *token_list);
-t_token		*finalizing_token_list(t_token *token_list, t_shell *shell);
+t_token		*finalizing_token_list(t_token *token_list);
 void		remove_token(t_token **head, t_token *token);
 
 // Quote handling:
@@ -218,7 +217,7 @@ t_raw_token	*handle_single_quote_segment(const char **input);
 t_raw_token	*handle_single_quote_mark(void);
 t_raw_token	*handle_double_quote_mark(void);
 t_raw_token	*handle_non_quote_segment(const char **input, t_shell *shell);
-int			check_for_unclosed(t_token *token_list, t_shell *shell);
+int			check_for_unclosed(t_raw_token *list, t_shell *shell);
 char		**purge_quotes_from_args(t_command *cmd);
 char		*purge_quotes_from_arg(char *args);
 void		update_quote_state(const char *p, int *quote_state);

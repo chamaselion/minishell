@@ -57,7 +57,7 @@ void	link_token_to_list(t_token **new_head, t_token **current_new,
 	*current_new = new_token;
 }
 
-t_token	*convert_raw_token_list(t_raw_token *raw_token_head, t_shell *shell)
+t_token	*convert_raw_token_list(t_raw_token *raw_token_head)
 {
 	t_token		*new_head;
 	t_token		*current_new;
@@ -80,7 +80,7 @@ t_token	*convert_raw_token_list(t_raw_token *raw_token_head, t_shell *shell)
 		else
 			break ;
 	}
-	if (finalizing_token_list(new_head, shell) == NULL)
+	if (finalizing_token_list(new_head) == NULL)
 		return (free_tokens(new_head), free_raw_tokens(raw_token_head), NULL);
 	free_raw_tokens(raw_token_head);
 	return (new_head);

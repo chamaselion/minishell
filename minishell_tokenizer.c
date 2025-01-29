@@ -12,11 +12,9 @@
 
 #include "minishell.h"
 
-t_token	*finalizing_token_list(t_token *token_list, t_shell *shell)
+t_token	*finalizing_token_list(t_token *token_list)
 {
 	assign_token_role(token_list);
-	if (check_for_unclosed(token_list, shell) == 1)
-		return (NULL);
 	pop_quotemark_tokens(&token_list);
 	return (token_list);
 }

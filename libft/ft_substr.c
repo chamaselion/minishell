@@ -13,8 +13,6 @@
 #include <stdlib.h>
 #include "libft.h"
 
-typedef unsigned long long	t_size_t;
-
 char	*ft_substr(char const *s, unsigned int start, t_size_t len)
 {
 	t_size_t	i;
