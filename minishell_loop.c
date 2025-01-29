@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:18:46 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/28 14:40:08 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/30 00:29:18 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -67,7 +67,7 @@ void	shell_to_command(t_command **cmd, t_shell *shell)
 int	sigint_checker(int original)
 {
 	if (g_received_signal == SIGINT)
-		return (130);
+		return (g_received_signal = 0, 130);
 	else
 		return (original);
 }
@@ -90,7 +90,7 @@ int	main_loop(t_shell *shell)
 		input = read_input(prompt);
 		free(prompt);
 		raw_tokens = handle_input(input, shell);
-		check_for_unclosed(raw_tokens, shell);
+		//check_for_unclosed(raw_tokens, shell);
 		tokens = convert_raw_token_list(raw_tokens);
 		if (tokens)
 		{
