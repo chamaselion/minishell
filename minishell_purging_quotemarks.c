@@ -24,10 +24,7 @@ int	check_for_unclosed(t_token *token_list, t_shell *shell)
 	{
 		p = current->content;
 		while (*p)
-		{
-			update_quote_state(p, &quote_state);
 			p++;
-		}
 		current = current->next;
 	}
 	if (quote_state != NO_QUOTE)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_ft_echo.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:44:25 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 15:06:07 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:17:26 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	ft_echo(t_command *cmd)
 	while (cmd->args[i])
 	{
 		printf("%s", cmd->args[i]);
-		if (cmd->args[i + 1])
-			printf(" ");
 		i++;
 	}
 	if (t_newline)
