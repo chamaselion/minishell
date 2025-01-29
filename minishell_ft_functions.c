@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_ft_functions.c                           :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:36:13 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/26 00:09:30 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:08:15 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -38,7 +38,7 @@ void	*ft_realloc(void *ptr, int old_size, int new_size)
 	return (new_ptr);
 }
 
-char *ft_strcat(char *dest, const char *src)
+char	*ft_strcat(char *dest, const char *src)
 {
 	char	*dest_ptr;
 
