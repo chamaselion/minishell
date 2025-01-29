@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-
-typedef unsigned long long	t_size_t;
+#include "libft.h"
 
 char	*ft_strdup(const char *s1)
 {

@@ -13,8 +13,6 @@
 #include "libft.h"
 #include <stdlib.h>
 
-typedef unsigned long long	t_size_t;
-
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char		*r;

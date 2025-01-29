@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef unsigned long long	t_size_t;
+#include "libft.h"
 
 int	ft_memcmp(const void *s1, const void *s2, t_size_t n)
 {

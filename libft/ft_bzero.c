@@ -9,8 +9,7 @@
 /*   Updated: 2024/03/09 17:54:10 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-typedef unsigned long long	t_size_t;
+#include "libft.h"
 
 void	ft_bzero(void *str, t_size_t len)
 {

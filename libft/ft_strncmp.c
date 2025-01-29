@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef unsigned long long	t_size_t;
+#include "libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, t_size_t n)
 {

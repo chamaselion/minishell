@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef unsigned long long	t_size_t;
+#include "libft.h"
 
 t_size_t	ft_strlcpy(char *restrict dst, const char *restrict src,
 		t_size_t dstsize)

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef unsigned long long	t_size_t;
+#include "libft.h"
 
 char	*ft_strnstr(const char *h, const char *n, t_size_t l)
 {
