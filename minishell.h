@@ -174,6 +174,10 @@ void		append_variable_value(const char *var_name, char **write_ptr,
 void		update_exit_code(t_shell *shell, int exit_code);
 char		*get_exit_code_str(t_shell *shell);
 char		*ft_getenv(t_env_var *env_vars, const char *name);
+void		update_env_var(t_env_var *current, const char *key,
+				const char *value);
+void		create_new_env_var(t_env_var **env_vars, const char *key,
+				const char *value);
 char		*resolve_variables_str(char *str, t_shell *shell);
 char		*resolve_variable(const char *str, int *idx, t_shell *shell);
 void		update_quote_mode(char c, unsigned char *quote_mode);
@@ -252,8 +256,11 @@ void		remove_last_empty_command(t_command *head_cmd,
 int			process_tokens(t_token *ct, t_command *current_cmd);
 int			fill_command_from_tokens(t_token *tokens, t_command **cmd);
 int			link_commands_and_tokens(t_token *tokens, t_command *cmd);
-void		remove_last_empty_command(t_command *head_cmd,
+void			remove_last_empty_command(t_command *head_cmd,
 				t_command *current_cmd);
+void		ft_function_marker(t_command *cmd);
+void		restore_shell_fds(t_shell *shell);
+void		save_shell_fds(t_shell *shell);
 
 // Execution
 void		handle_ft_command(t_command *cmd);
@@ -268,6 +275,7 @@ pid_t		fork_process(void);
 void		handle_child_process(t_command *cmd, int in_fd, int pipefd[2]);
 void		handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2]);
 void		handle_pipes(t_command *cmd);
+void		execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2]);
 
 // Redirection
 void		handle_input_redirection(t_command *cmd);
