@@ -62,29 +62,3 @@ char	*ft_strncpy(char *dest, const char *src, size_t n)
 	}
 	return (dest);
 }
-
-int	ft_itoa_base(int value, int base, char *buffer, int size)
-{
-	char *digits = "0123456789abcdef";
-	char tmp[32];
-	int i = 0, j = 0;
-	int negative = 0;
-
-	if (value < 0)
-	{
-		negative = 1;
-		value = -value;
-	}
-	do
-	{
-		tmp[i++] = digits[value % base];
-		value /= base;
-	} while (value && i < 32);
-
-	if (negative && j < size - 1)
-		buffer[j++] = '-';
-	while (i > 0 && j < size - 1)
-		buffer[j++] = tmp[--i];
-	buffer[j] = '\0';
-	return (j);
-}
