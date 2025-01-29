@@ -48,7 +48,9 @@ char	*ft_strcpy(char *dst, const char *src)
 
 int	is_pipe(char *str)
 {
-	return (ft_strcmp(str, "|") == 0);
+	if (!str)
+		return (0);
+	return (*str == '|');
 }
 
 int	identify_env_var(char *str)

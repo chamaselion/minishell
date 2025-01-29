@@ -76,13 +76,9 @@ t_raw_token	*handle_non_quote_segment(const char **input, t_shell *shell)
 	start = *input;
 	while (**input && !is_whitespace(**input) && !is_quote_char(**input)
 		&& !is_redirection((char*)*input) && !is_pipe((char*)*input))
-	{
 		(*input)++;
-	}
-
 	if (*input == start)
 		return (NULL);
-
 	segment = ft_strndup(start, *input - start);
 	temp = resolve_variables_str(segment, shell);
 	temp = purge_quotes_from_arg(temp);
