@@ -21,37 +21,26 @@ t_token	*finalizing_token_list(t_token *token_list, t_shell *shell)
 	return (token_list);
 }
 
-t_raw_token *handle_input(char *input, t_shell *shell)
+t_raw_token	*handle_input(char *input, t_shell *shell)
 {
-	t_raw_token	*first;
-	t_raw_token	*last;
+	t_raw_list	raw_list;
 	t_raw_token	*token;
-	int			pos;
-	char		*resolved_input;
 
-	first = NULL;
-	last = NULL;
-	pos = 0;
-	resolved_input = resolve_variables_str(input, shell);
-	if (!resolved_input)
-		return (NULL);
-	input = resolved_input;
+	raw_list = init_raw_list();
+	input = skip_whitespace(input);
 	while (*input != '\0')
 	{
 		input = skip_whitespace(input);
-		pos++;
 		if (*input == '\'')
-			single_quote_wrapper((const char **)&input, &pos, &first, &last);
+			single_quote_wrapper((const char **)&input, &raw_list);
 		else if (*input == '"')
-			double_quote_wrapper((const char **)&input, &pos, &first,
-				&last, shell->env_vars);
-		else 
+			double_quote_wrapper((const char **)&input, &raw_list,
+				shell->env_vars);
+		else
 		{
-			token = handle_non_quote_segment((const char **)&input, &pos);
-			append_raw_token(&first, &last, token);
+			token = handle_non_quote_segment((const char **)&input, shell);
+			append_raw_token(&raw_list.first, &raw_list.last, token);
 		}
 	}
-	free(resolved_input);
-	return (first);
+	return (raw_list.first);
 }
-

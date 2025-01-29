@@ -26,7 +26,6 @@ t_token	*convert_raw_token(t_raw_token *raw_token)
 	if (new_token == NULL)
 		return (free(new_token), NULL);
 	new_token->quote_state = raw_token->quote_state;
-	new_token->position = raw_token->position;
 	if (new_token->quote_state == WITHIN_SINGLE_QUOTE
 		|| new_token->quote_state == WITHIN_DOUBLE_QUOTE)
 		new_token->role = 3;

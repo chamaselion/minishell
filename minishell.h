@@ -81,7 +81,6 @@ typedef struct s_token
 	char			*content;
 	int				role;
 	int				quote_state;
-	int				position;
 	int				command_expected;
 	int				syntax_state;
 	struct s_token	*next;
@@ -141,7 +140,6 @@ typedef struct s_raw_token
 {
 	char				*segment;
 	int					quote_state;
-	int					position;
 	struct s_raw_token	*next;
 	struct s_raw_token	*prev;
 }	t_raw_token;
@@ -150,7 +148,6 @@ typedef struct s_raw_list
 {
 	t_raw_token	*first;
 	t_raw_token	*last;
-	int			pos;
 }	t_raw_list;
 
 int			ft_echo(t_command *cmd);
@@ -190,8 +187,7 @@ t_token		*allocate_token(int length);
 void		fill_token_fields(t_token *token, char *start, int length,
 				int quote_state);
 int			is_command_expected(t_token *prev_token);
-t_raw_token	*create_raw_token(const char *segment, t_quote_state quote_state,
-				int position);
+t_raw_token	*create_raw_token(const char *segment, t_quote_state quote_state);
 void		append_raw_token(t_raw_token **first, t_raw_token **last,
 				t_raw_token *new_token);
 void		append_character(char c, char **write_ptr);
@@ -214,16 +210,15 @@ void		print_token_list(t_token *token_list);
 
 // Quote handling:
 t_token		*pop_quotemark_tokens(t_token **token_list);
-void		single_quote_wrapper(const char **input, int *pos,
-				t_raw_token **first, t_raw_token **last);
-void	double_quote_wrapper(const char **input, int *pos, t_raw_token **first,
-		t_raw_token **last, t_env_var *env);
-t_raw_token	*handle_double_quote_segment(const char **input, int *pos,
+void		single_quote_wrapper(const char **input, t_raw_list *list);
+void		double_quote_wrapper(const char **input, t_raw_list *list,
 				t_env_var *env);
-t_raw_token	*handle_single_quote_segment(const char **input, int *pos);
-t_raw_token	*handle_single_quote_mark(int *pos);
-t_raw_token	*handle_double_quote_mark(int *pos);
-t_raw_token	*handle_non_quote_segment(const char **input, int *pos);
+t_raw_token	*handle_double_quote_segment(const char **input,
+				t_env_var *env);
+t_raw_token	*handle_single_quote_segment(const char **input);
+t_raw_token	*handle_single_quote_mark(void);
+t_raw_token	*handle_double_quote_mark(void);
+t_raw_token	*handle_non_quote_segment(const char **input, t_shell *shell);
 int			check_for_unclosed(t_token *token_list, t_shell *shell);
 char		**purge_quotes_from_args(t_command *cmd);
 char		*purge_quotes_from_arg(char *args);
@@ -295,11 +290,10 @@ void		free_raw_tokens(t_raw_token *first_token);
 void		free_env_vars(t_env_var *env_vars);
 void		free_shell(t_shell *shell);
 
-// debugging:
+/*// debugging:
 void	print_raw_tokens(t_raw_token *first_token);
 void	print_tokens(t_token *first_token);
-void	print_commands(t_command *first_command);
-
+void	print_commands(t_command *first_command);*/
 
 char		*resolve_variables_str(char *str, t_shell *shell);
 char		*resolve_variable(const char *str, int *idx, t_shell *shell);

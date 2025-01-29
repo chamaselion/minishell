@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-t_raw_token	*create_raw_token(const char *segment, t_quote_state quote_state,
-		int position)
+t_raw_token	*create_raw_token(const char *segment, t_quote_state quote_state)
 {
 	t_raw_token	*token;
 
@@ -22,7 +21,6 @@ t_raw_token	*create_raw_token(const char *segment, t_quote_state quote_state,
 		return (NULL);
 	token->segment = ft_strdup(segment);
 	token->quote_state = quote_state;
-	token->position = position;
 	token->next = NULL;
 	token->prev = NULL;
 	return (token);
@@ -46,29 +44,29 @@ void	append_raw_token(t_raw_token **first, t_raw_token **last,
 	}
 }
 
-t_raw_token	*handle_single_quote_mark(int *pos)
+t_raw_token	*handle_single_quote_mark(void)
 {
 	char		quote_str[2];
 	t_raw_token	*token;
 
 	quote_str[0] = '\'';
 	quote_str[1] = '\0';
-	token = create_raw_token(quote_str, NO_QUOTE, *pos);
+	token = create_raw_token(quote_str, NO_QUOTE);
 	return (token);
 }
 
-t_raw_token	*handle_double_quote_mark(int *pos)
+t_raw_token	*handle_double_quote_mark(void)
 {
 	char		quote_str[2];
 	t_raw_token	*token;
 
 	quote_str[0] = '"';
 	quote_str[1] = '\0';
-	token = create_raw_token(quote_str, NO_QUOTE, *pos);
+	token = create_raw_token(quote_str, NO_QUOTE);
 	return (token);
 }
 
-t_raw_token	*handle_non_quote_segment(const char **input, int *pos)
+t_raw_token	*handle_non_quote_segment(const char **input, t_shell *shell)
 {
 	const char	*start;
 	char		*segment;
@@ -82,7 +80,10 @@ t_raw_token	*handle_non_quote_segment(const char **input, int *pos)
 	if (*input == start)
 		return (NULL);
 	segment = ft_strndup(start, *input - start);
-	token = create_raw_token(segment, NO_QUOTE, *pos);
+	segment = resolve_variables_str(segment, shell);
+	if (!segment)
+		return (NULL);
+	token = create_raw_token(segment, NO_QUOTE);
 	free(segment);
 	return (token);
 }

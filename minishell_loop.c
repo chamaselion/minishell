@@ -73,16 +73,12 @@ int	sigint_checker(int original)
 }
 
 int	main_loop(t_shell *shell)
-
 {
 	char		*prompt;
 	char		*input;
 	t_raw_token	*raw_tokens;
-	t_token		*tokens;
-	//t_token		*final_token;	
+	t_token		*tokens;	
 	t_command	*commands;
-	 //t_command *commandss;
-	 //int i = 0;
 
 	setup_signal_handling();
 	while (1)
@@ -101,7 +97,7 @@ int	main_loop(t_shell *shell)
 			{
 				shell_to_command(&commands, shell);
 				if (link_commands_and_tokens(tokens, commands) == 0 && commands)
-				{			
+				{
 					handle_pipes(commands);
 					free_commands(commands);
 				}
@@ -123,7 +119,6 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-
 	env_vars = init_env_vars(envp);
 	init_shell(&shell, env_vars);
 	i = main_loop(&shell);

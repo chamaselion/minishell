@@ -29,3 +29,12 @@ void	init_token(t_token *token)
 	token->command_expected = 0;
 	token->quote_state = 0;
 }
+
+t_raw_list	init_raw_list(void)
+{
+	t_raw_list	raw_list;
+
+	raw_list.first = NULL;
+	raw_list.last = NULL;
+	return (raw_list);
+}
