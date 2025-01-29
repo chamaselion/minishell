@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:30:14 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 12:58:55 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 14:52:48 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,13 @@ int	allocate_args(t_command *current_cmd, t_token *ct)
 	current_cmd->args[current_cmd->arg_count] = ft_strdup(ct->content);
 	current_cmd->arg_count++;
 	return (0);
+}
+
+void	ft_function_marker(t_command *cmd)
+{
+	while (cmd)
+	{
+		cmd->is_internal = is_builtin_command(cmd->command);
+		cmd = cmd->next;
+	}
 }

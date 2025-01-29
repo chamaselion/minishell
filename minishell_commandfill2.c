@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:30:29 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 13:18:45 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:06:51 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	process_tokens(t_token *ct, t_command *current_cmd)
 	if (current_cmd->args == NULL)
 		return (-1);
 	current_cmd->args[current_cmd->arg_count] = NULL;
-	// current_cmd->args = purge_quotes_from_args(current_cmd);
 	return (0);
 }
 

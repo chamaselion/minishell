@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:49 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 13:15:05 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 14:54:16 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,6 @@ void	remove_last_empty_command(t_command *head_cmd, t_command *current_cmd)
 		}
 		prev_cmd->next = NULL;
 		free(current_cmd);
-	}
-}
-
-void	ft_function_marker(t_command *cmd)
-{
-	while (cmd)
-	{
-		cmd->is_internal = is_builtin_command(cmd->command);
-		cmd = cmd->next;
 	}
 }
 
@@ -65,6 +56,23 @@ void	handle_pipe_link(t_command *current_cmd)
 	current_cmd->related_to = current_cmd->next;
 }
 
+int	handle_redirect_and_update(t_token **ct, t_command *current_cmd,
+		t_command **cmd)
+{
+	if (handle_redirect_link(*ct, current_cmd) == 0)
+	{
+		if ((*ct)->next)
+			*ct = (*ct)->next;
+		current_cmd->relation_type = 5;
+		return (0);
+	}
+	else
+	{
+		free_commands(*cmd);
+		return (1);
+	}
+}
+
 int	link_commands_and_tokens(t_token *tokens, t_command *cmd)
 {
 	t_token		*ct;
@@ -76,14 +84,8 @@ int	link_commands_and_tokens(t_token *tokens, t_command *cmd)
 	{
 		if (ct->role == 5)
 		{
-			if (handle_redirect_link(ct, current_cmd) == 0)
-			{
-				if (ct->next)
-					ct = ct->next;
-				current_cmd->relation_type = 5;
-			}
-			else
-				return (free_commands(cmd), 1);
+			if (handle_redirect_and_update(&ct, current_cmd, &cmd) == 1)
+				return (1);
 		}
 		else if (ct->role == 6)
 		{
