@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_execution.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:24:59 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/28 13:59:09 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:01:30 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,6 @@ void	handle_ft_command(t_command *cmd)
 		status = ft_exit(cmd);
 	update_exit_code(cmd->shell, status);
 	return ;
-}
-
-char	*ft_getenv(t_env_var *env_vars, const char *name)
-{
-	t_env_var	*current;
-
-	if (!env_vars || !name)
-		return (NULL);
-	current = env_vars;
-	while (current)
-	{
-		if (current->key && ft_strcmp(current->key, name) == 0)
-			return (current->value);
-		current = current->next;
-	}
-	return (NULL);
 }
 
 char	*find_executable_in_path(const char *command, char *path,
@@ -142,6 +126,6 @@ void	execute_command(t_command *cmd, char **exec_args)
 	free_split_array(environment);
 	ft_putstr_fd("Error: ", STDERR_FILENO);
 	ft_putstr_fd(cmd->command, STDERR_FILENO);
-	ft_putstr_fd(": might be a directory, or faulty command line.\n", STDERR_FILENO);
+	ft_putstr_fd(": can be a directory, or faulty command.\n", STDERR_FILENO);
 	return (free(full_path), free(exec_args), exit(126));
 }

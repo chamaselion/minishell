@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_ft_exit.c                                :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:09:29 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/26 00:06:40 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:07:14 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -22,13 +22,14 @@ void	handle_exit_status(t_command *cmd)
 
 int	validate_exit_arguments(t_command *cmd)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (cmd->args[0][i])
 	{
 		if (i == 0 && (cmd->args[0][i] == '-' || cmd->args[0][i] == '+'))
 			i++;
-        else if	(!ft_isdigit(cmd->args[0][i]))
+		else if (!ft_isdigit(cmd->args[0][i]))
 		{
 			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 			ft_putstr_fd(cmd->args[0], STDERR_FILENO);
