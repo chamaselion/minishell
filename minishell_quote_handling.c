@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_quote_handling.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:40:32 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/29 14:01:23 by root             ###   ########.fr       */
+/*   Updated: 2025/01/29 14:22:04 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -80,6 +80,7 @@ t_raw_token	*handle_double_quote_segment(const char **input, t_env_var *env,
 	token = create_raw_token(temp, WITHIN_DOUBLE_QUOTE);
 	free(content);
 	free(expanded_content);
+	free(temp);
 	return (token);
 }
 

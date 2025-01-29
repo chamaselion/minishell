@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 09:35:22 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/28 14:40:25 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 14:16:21 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -122,5 +122,6 @@ char	*purge_quotes_from_arg(char *arg)
 		current++;
 	}
 	*write_ptr = '\0';
+	free(arg);
 	return (purged_arg);
 }
