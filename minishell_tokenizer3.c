@@ -70,51 +70,21 @@ t_raw_token	*handle_non_quote_segment(const char **input, t_shell *shell)
 {
 	const char	*start;
 	char		*segment;
+	char		*temp;
 	t_raw_token	*token;
 
 	start = *input;
-	while (**input && (!is_whitespace(**input)))
-	{
+	while (**input && !is_whitespace(**input))
 		(*input)++;
-	}
 	if (*input == start)
 		return (NULL);
 	segment = ft_strndup(start, *input - start);
-	segment = resolve_variables_str(segment, shell);
+	temp = resolve_variables_str(segment, shell);
+	free(segment);
+	segment = temp;
 	if (!segment)
 		return (NULL);
 	token = create_raw_token(segment, NO_QUOTE);
 	free(segment);
 	return (token);
 }
-
-/*void	print_raw_tokens(t_raw_token *first_token)
-{
-	int count = 0;
-	while (first_token)
-	{
-		printf("RAWToken %d: '%s' (Quote State: %d, Position: %d)\n", count++,
-			first_token->segment, first_token->quote_state,
-			first_token->position);
-		if (first_token->next == NULL)
-			break ;
-		first_token = first_token->next;
-	}
-}
-
-void	print_tokens(t_token *first_token)
-{
-	int	count;
-
-	count = 0;
-	while (first_token != NULL)
-	{
-		printf("Token %d: '%s' (Quote State: %d, Pos: %d,
-			Command: %d, Role: %d)\n",
-			count++, first_token->content,
-			first_token->quote_state, first_token->position,
-			first_token->command_expected, first_token->role);
-		first_token = first_token->next;
-	}
-	printf("done printing tokens\n");
-}*/
