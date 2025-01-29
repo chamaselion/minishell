@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_commandfill2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:30:29 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/28 18:26:38 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/29 13:18:45 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	remove_last_empty_command(t_command *head_cmd, t_command *current_cmd)
-{
-	t_command	*prev_cmd;
-
-	if (current_cmd->command == NULL && current_cmd->args == NULL)
-	{
-		prev_cmd = head_cmd;
-		while (prev_cmd->next != current_cmd)
-		{
-			prev_cmd = prev_cmd->next;
-		}
-		prev_cmd->next = NULL;
-		free(current_cmd);
-	}
-}
 
 int	process_tokens(t_token *ct, t_command *current_cmd)
 {
@@ -39,48 +23,15 @@ int	process_tokens(t_token *ct, t_command *current_cmd)
 		}
 		ct = ct->next;
 	}
-	current_cmd->args = ft_realloc(current_cmd->args, sizeof(char *) * current_cmd->arg_count,
-            sizeof(char *) * (current_cmd->arg_count + 1));
+	current_cmd->args = ft_realloc(current_cmd->args, sizeof(char *)
+			* current_cmd->arg_count, sizeof(char *) * (current_cmd->arg_count
+				+ 1));
 	if (current_cmd->args == NULL)
 		return (-1);
 	current_cmd->args[current_cmd->arg_count] = NULL;
-	//current_cmd->args = purge_quotes_from_args(current_cmd);
+	// current_cmd->args = purge_quotes_from_args(current_cmd);
 	return (0);
 }
-
-/*
-int fill_command_from_tokens(t_token *tokens, t_command **cmd)
-{
-    t_token *ct;
-    t_command *current_cmd;
-	
-	ct = tokens;
-	if (!tokens)
-	{
-		*cmd = NULL;
-		return (-1);
-	}
-	current_cmd = create_command_list(tokens);
-    if (!current_cmd)
-        return (-1);
-    *cmd = current_cmd;
-	while (ct)
-    {
-        if (ct->role == 1 || ct->role == 2)
-        {
-            current_cmd->command = ct->content;
-            if (process_tokens(ct->next, current_cmd) == -1)
-                return (-1);
-            if (current_cmd->next)
-                current_cmd = current_cmd->next;
-        }
-        ct = ct->next;
-    }
-    return (0);
-	if (current_cmd != NULL)
-        current_cmd->next = NULL;
-    return (expected_command_counter(tokens));
-}*/
 
 static int	validate_tokens(t_token *tokens, t_command **cmd)
 {
@@ -131,76 +82,5 @@ int	fill_command_from_tokens(t_token *tokens, t_command **cmd)
 	current_cmd = *cmd;
 	if (process_token_loop(tokens, current_cmd) == -1)
 		return (-1);
-	return (0);
-}
-
-void	ft_function_marker(t_command *cmd)
-{
-	while (cmd)
-	{
-		cmd->is_internal = is_builtin_command(cmd->command);
-		cmd = cmd->next;
-	}
-}
-
-int	handle_redirect_link(t_token *ct, t_command *current_cmd)
-{
-	if (ct->next && (ct->next->role != 5 && ct->next->role != 6))
-	{	
-		if (strcmp(ct->content, ">") == 0)
-			current_cmd->output_redirection = ct->next;
-		else if (strcmp(ct->content, "<") == 0)
-			current_cmd->input_redirection = ct->next;
-		else if (strcmp(ct->content, ">>") == 0)
-			current_cmd->append_redirection = ct->next;
-		else if (strcmp(ct->content, "<<") == 0)
-			current_cmd->heredoc_redirection = ct->next;
-		return (0);
-	}
-	else
-	{
-		ft_putstr_fd("Error: syntax error\n", STDERR_FILENO);
-		update_exit_code(current_cmd->shell, 2);
-		return (1);
-	}
-}
-
-void	handle_pipe_link(t_command *current_cmd)
-{
-	current_cmd->relation_type = 6;
-	current_cmd->related_to = current_cmd->next;
-}
-
-int	link_commands_and_tokens(t_token *tokens, t_command *cmd)
-{
-	t_token		*ct;
-	t_command	*current_cmd;
-
-	ct = tokens;
-	current_cmd = cmd;
-	while (ct)
-	{
-		if (ct->role == 5)
-		{
-			if (handle_redirect_link(ct, current_cmd) == 0)
-			{
-			if (ct->next)
-				ct = ct->next;
-			current_cmd->relation_type = 5;
-			}
-			else
-				return (free_commands(cmd), 1);
-		}
-		else if (ct->role == 6)
-		{
-			if (current_cmd->next)
-			{
-				handle_pipe_link(current_cmd);
-				current_cmd = current_cmd->next;
-			}
-		}
-		ct = ct->next;
-	}
-	ft_function_marker(cmd);
 	return (0);
 }
