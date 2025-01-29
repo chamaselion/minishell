@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_commandfill1.c                           :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:30:14 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/26 18:04:18 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 12:58:55 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -77,8 +77,9 @@ t_command	*create_command_list(t_token *tokens)
 
 int	allocate_args(t_command *current_cmd, t_token *ct)
 {
-	current_cmd->args = ft_realloc(current_cmd->args, sizeof(char *) * current_cmd->arg_count, sizeof(char *)
-			* (current_cmd->arg_count + 1));
+	current_cmd->args = ft_realloc(current_cmd->args, sizeof(char *)
+			* current_cmd->arg_count, sizeof(char *) * (current_cmd->arg_count
+				+ 1));
 	if (current_cmd->args == NULL)
 	{
 		return (-1);

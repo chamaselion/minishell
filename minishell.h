@@ -257,6 +257,7 @@ void		remove_last_empty_command(t_command *head_cmd,
 int			process_tokens(t_token *ct, t_command *current_cmd);
 int			fill_command_from_tokens(t_token *tokens, t_command **cmd);
 int			link_commands_and_tokens(t_token *tokens, t_command *cmd);
+void	remove_last_empty_command(t_command *head_cmd, t_command *current_cmd);
 
 // Execution
 void		handle_ft_command(t_command *cmd);
