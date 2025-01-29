@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_variable_expansion2.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:48:09 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/29 14:56:51 by root             ###   ########.fr       */
+/*   Updated: 2025/01/29 17:52:53 by mnaumann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*handle_dollar_sign(const char *str, int *idx,
-			char *output_str, t_shell *shell)
+char	*handle_dollar_sign(const char *str, int *idx, char *output_str,
+			t_shell *shell)
 {
 	char	*temp_char;
 
@@ -25,8 +25,7 @@ char	*handle_dollar_sign(const char *str, int *idx,
 	}
 	else if (ft_isalnum(str[*idx + 1]) || str[*idx + 1] == '_')
 	{
-		temp_char = resolve_variable(str, idx, shell);
-		output_str = ft_strjoin_and_free2(output_str, temp_char);
+		output_str = handle_alnum_or_underscore(str, idx, output_str, shell);
 	}
 	else
 	{
@@ -34,6 +33,28 @@ char	*handle_dollar_sign(const char *str, int *idx,
 		output_str = ft_strjoin_and_free2(output_str, temp_char);
 		(*idx)++;
 	}
+	return (output_str);
+}
+
+char	*handle_alnum_or_underscore(const char *str, int *idx, char *output_str,
+			t_shell *shell)
+{
+	char	*temp_char;
+
+	if (ft_isdigit(str[*idx + 1]) && ft_isdigit(str[*idx + 2]))
+	{
+		(*idx) += 2;
+		output_str = ft_strdup("");
+		return (output_str);
+	}
+	else
+	{
+		temp_char = ft_strndup(&str[*idx], 1);
+		output_str = ft_strjoin_and_free2(output_str, temp_char);
+		(*idx)++;
+	}
+	temp_char = resolve_variable(str, idx, shell);
+	output_str = ft_strjoin_and_free2(output_str, temp_char);
 	return (output_str);
 }
 

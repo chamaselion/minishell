@@ -184,6 +184,8 @@ void		update_quote_mode(char c, unsigned char *quote_mode);
 char		*handle_dollar_sign(const char *str, int *idx, char *output_str,
 				t_shell *shell);
 const char	*extract_variable_name(const char *current, char *var_name);
+char		*handle_alnum_or_underscore(const char *str, int *idx,
+				char *output_str, t_shell *shell);
 
 // Parsing:
 t_raw_token	*handle_input(char *input, t_shell *shell);
