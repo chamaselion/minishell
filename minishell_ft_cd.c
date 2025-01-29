@@ -6,11 +6,32 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 19:10:19 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/23 22:48:31 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:26:26 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_cd_arg_checker(t_command *cmd)
+{
+	char	*path;
+
+	if (cmd->arg_count > 1)
+	{
+		ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
+		return (1);
+	}
+	path = cmd->args[0];
+	if (path)
+	{
+		if (access(path, F_OK) != 0)
+			return (ft_putstr_fd("cd: no such file or directory\n",
+					STDERR_FILENO), 1);
+		if (access(path, X_OK) != 0)
+			return (ft_putstr_fd("cd: permission denied\n", STDERR_FILENO), 1);
+	}
+	return (0);
+}
 
 int	ft_cd(t_command *cmd)
 {
@@ -18,6 +39,8 @@ int	ft_cd(t_command *cmd)
 	char	*new_pwd;
 	char	*path;
 
+	if (ft_cd_arg_checker(cmd) == 1)
+		return (1);
 	path = cmd->args[0];
 	if (!path)
 		return (ft_putstr_fd("cd: path is required\n", STDERR_FILENO), 1);
