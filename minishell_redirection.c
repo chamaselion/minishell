@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:01:20 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/24 13:58:38 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:43:18 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -18,6 +18,16 @@ void	handle_input_redirection(t_command *cmd)
 
 	if (cmd->input_redirection)
 	{
+		if (access(cmd->input_redirection->content, F_OK) == -1)
+		{
+			ft_putstr_fd("Error: No such file or directory\n", STDERR_FILENO);
+			exit(1);
+		}
+		if (access(cmd->input_redirection->content, R_OK) == -1)
+		{
+			ft_putstr_fd("Error: Permission denied\n", STDERR_FILENO);
+			exit(1);
+		}
 		fd = open(cmd->input_redirection->content, O_RDONLY);
 		if (fd == -1)
 		{
