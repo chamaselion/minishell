@@ -13,14 +13,6 @@
 #include "libft.h"
 #include <stdlib.h>
 
-typedef struct t_SplitData
-{
-	int			word_count;
-	char		**result;
-	int			i;
-	const char	*start;
-}				t_SplitData;
-
 static int	count_words(const char *s, char c)
 {
 	int	count;

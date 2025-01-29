@@ -74,7 +74,7 @@ t_raw_token	*handle_non_quote_segment(const char **input, t_shell *shell)
 	t_raw_token	*token;
 
 	start = *input;
-	while (**input && !is_whitespace(**input))
+	while (**input && !is_whitespace(**input) && **input != '\'' && **input != '"')
 		(*input)++;
 	if (*input == start)
 		return (NULL);
