@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/28 14:41:12 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:24:31 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -270,7 +270,7 @@ char		**construct_exec_args(t_command *cmd);
 void		execute_command(t_command *cmd, char **exec_args);
 
 // Piping
-void		setup_redirection(t_command *cmd, int in_fd, int pipefd[2]);
+int			setup_redirection(t_command *cmd, int in_fd, int pipefd[2]);
 void		create_pipe(int pipefd[2]);
 pid_t		fork_process(void);
 void		handle_child_process(t_command *cmd, int in_fd, int pipefd[2]);
@@ -279,11 +279,11 @@ void		handle_pipes(t_command *cmd);
 void		execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2]);
 
 // Redirection
-void		handle_input_redirection(t_command *cmd);
-void		handle_output_redirection(t_command *cmd);
-void		handle_append_redirection(t_command *cmd);
-void		handle_pipe_redirection(t_command *cmd, int pipefd[2]);
-void		handle_heredoc_redirection(t_command *cmd);
+int			handle_input_redirection(t_command *cmd);
+int			handle_output_redirection(t_command *cmd);
+int			handle_append_redirection(t_command *cmd);
+void			handle_pipe_redirection(t_command *cmd, int pipefd[2]);
+int			handle_heredoc_redirection(t_command *cmd);
 
 // Signal handling:
 void		setup_signal_handling(void);

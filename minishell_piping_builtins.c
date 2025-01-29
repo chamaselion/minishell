@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_piping_builtins.c                        :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:10:12 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 16:37:14 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:27:21 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -47,7 +47,8 @@ void	execute_builtin_child_process(t_command *cmd, int in_fd, int pipefd[2],
 	t_env_var	*current;
 
 	close(env_pipe[0]);
-	setup_redirection(cmd, in_fd, pipefd);
+	if (setup_redirection(cmd, in_fd, pipefd))
+		exit (1);
 	handle_ft_command(cmd);
 	current = cmd->shell->env_vars;
 	while (current)
@@ -83,7 +84,12 @@ void	execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2])
 	}
 	else
 	{
-		setup_redirection(cmd, 0, NULL);
+		if (setup_redirection(cmd, 0, NULL) != 0)
+        {
+            update_exit_code(cmd->shell, 1);
+            restore_shell_fds(cmd->shell);
+            return;
+        }
 		handle_ft_command(cmd);
 		restore_shell_fds(cmd->shell);
 	}

@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_piping.c                                 :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:56 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 16:37:21 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:29:42 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -41,7 +41,8 @@ void	handle_child_process(t_command *cmd, int in_fd, int pipefd[2])
 		ft_putstr_fd("Error, failed to construct exec args", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
-	setup_redirection(cmd, in_fd, pipefd);
+	if (setup_redirection(cmd, in_fd, pipefd))
+		exit (1);
 	execute_command(cmd, exec_args);
 }
 
