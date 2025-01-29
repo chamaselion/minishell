@@ -5,7 +5,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRC = minishell_loop.c\
     minishell_tokenizer2.c\
     minishell_tokenizer3.c\
-    minishell_tokenizer4.c\
+    minishell_tokenizer.c\
     minishell_variable_expansion.c\
 	minishell_variable_expansion2.c\
     minishell_roles_cmdexpected.c\

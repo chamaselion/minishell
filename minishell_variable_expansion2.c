@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_variable_expansion2.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:48:09 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/28 18:07:51 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/29 14:56:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
