@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:56 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 23:26:33 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:19:52 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -90,6 +90,11 @@ void	process_command(t_command *cmd, int *in_fd)
 		{
 			close(pipefd[1]);
 			*in_fd = pipefd[0];
+		}
+		else if (cmd->relation_type == 0)
+		{
+			close(pipefd[0]);
+			close(pipefd[1]);
 		}
 	}
 	else
