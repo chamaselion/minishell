@@ -22,6 +22,7 @@ void	handle_first_token(t_token *token)
 		if (token->next)
 		{
 			token->next->command_expected = 1;
+			token->next->separated = 1;
 			token->next->role = ROLE_EXECUTABLE;
 			token = token->next;
 		}
@@ -30,6 +31,7 @@ void	handle_first_token(t_token *token)
 	{
 		token->role = ROLE_EXECUTABLE;
 		token->command_expected = 1;
+		token->separated = 1;
 	}
 	else
 		return ;
