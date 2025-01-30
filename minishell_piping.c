@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:56 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/30 14:19:52 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:44:27 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -81,6 +81,8 @@ void	process_command(t_command *cmd, int *in_fd)
 	int		pipefd[2];
 	pid_t	pid;
 
+	pipefd[0] = -1;
+	pipefd[1] = -1;
 	if (cmd->relation_type == 6 && cmd->related_to != NULL)
 		create_pipe(pipefd);
 	if (cmd->is_internal)
@@ -91,7 +93,7 @@ void	process_command(t_command *cmd, int *in_fd)
 			close(pipefd[1]);
 			*in_fd = pipefd[0];
 		}
-		else if (cmd->relation_type == 0)
+		else if (cmd->relation_type == 0 && pipefd[0] != -1 && pipefd[1] != -1)
 		{
 			close(pipefd[0]);
 			close(pipefd[1]);
