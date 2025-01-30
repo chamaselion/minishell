@@ -205,7 +205,9 @@ void		handle_pipe_token(t_token *token);
 int			validate_token_syntax(t_token *token_list);
 t_token		*finalizing_token_list(t_token *token_list);
 void		remove_token(t_token **head, t_token *token);
-t_raw_token *tokenize_pipe_redirection(const char **input);
+t_raw_token	*tokenize_pipe_redirection(const char **input);
+t_token		*create_token(const char *content, int role);
+void		add_space_tokens(t_token *tokens);
 
 // Quote handling:
 t_token		*pop_quotemark_tokens(t_token **token_list);

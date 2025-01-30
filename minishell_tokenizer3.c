@@ -81,7 +81,7 @@ t_raw_token	*handle_non_quote_segment(const char **input, t_shell *shell)
 		return (NULL);
 	segment = ft_strndup(start, *input - start);
 	temp = resolve_variables_str(segment, shell);
-	temp = purge_quotes_from_arg(temp);
+	//temp = purge_quotes_from_arg(temp);
 	free(segment);
 	if (!temp)
 		return (NULL);
