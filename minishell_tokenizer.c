@@ -59,7 +59,7 @@ t_token *finalizing_token_list(t_token *token_list)
 	assign_token_role(token_list);
 	pop_quotemark_tokens(&token_list);
 	concatenate_tokens(&token_list);
-	validate_token_syntax(token_list);
+	//validate_token_syntax(token_list);
 	return (token_list);
 }
 
