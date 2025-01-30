@@ -83,6 +83,7 @@ typedef struct s_token
 	int				quote_state;
 	int				command_expected;
 	int				syntax_state;
+	int				separated;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -138,6 +139,7 @@ typedef struct s_raw_token
 {
 	char				*segment;
 	int					quote_state;
+	int					separated;
 	struct s_raw_token	*next;
 	struct s_raw_token	*prev;
 }	t_raw_token;

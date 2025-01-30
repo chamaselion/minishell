@@ -26,6 +26,8 @@ void	init_token(t_token *token)
 	token->next = NULL;
 	token->prev = NULL;
 	token->role = ROLE_DEFAULT;
+	token->syntax_state = SYNTAX_VALID;
+	token->separated = 0;
 	token->command_expected = 0;
 	token->quote_state = 0;
 }

@@ -32,6 +32,8 @@ t_token	*convert_raw_token(t_raw_token *raw_token)
 	else
 		new_token->role = 0;
 	new_token->command_expected = 0;
+	new_token->syntax_state = 0;
+	new_token->separated = raw_token->separated;
 	new_token->next = NULL;
 	new_token->prev = NULL;
 	return (new_token);

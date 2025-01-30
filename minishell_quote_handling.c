@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_quote_handling.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:40:32 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/29 23:02:01 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:16:11 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	single_quote_wrapper(const char **input, t_raw_list *raw_list)
 	{
 		token = handle_single_quote_mark();
 		append_raw_token(&raw_list->first, &raw_list->last, token);
+		if (token->prev && is_whitespace(*(*input + 1)))
+			token->prev->separated = 1;
 		(*input)++;
 	}
 }
@@ -57,6 +59,8 @@ void	double_quote_wrapper(const char **input, t_raw_list *raw_list,
 	{
 		token = handle_double_quote_mark();
 		append_raw_token(&raw_list->first, &raw_list->last, token);
+		if (token->prev && is_whitespace(*(*input + 1)))
+			token->prev->separated = 1;
 		(*input)++;
 	}
 }
