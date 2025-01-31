@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils5.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:54:57 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/28 13:02:20 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:28:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,10 @@ int	is_builtin_command(const char *cmd)
 		i++;
 	}
 	return (0);
+}
+
+void	handle_redirect_token(t_token *token)
+{
+	token->role = ROLE_REDIRECT;
+	token->command_expected = 0;
 }

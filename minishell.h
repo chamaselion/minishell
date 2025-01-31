@@ -186,8 +186,8 @@ void		update_quote_mode(char c, unsigned char *quote_mode);
 char		*handle_dollar_sign(const char *str, int *idx, char *output_str,
 				t_shell *shell);
 const char	*extract_variable_name(const char *current, char *var_name);
-char		*handle_alnum_or_underscore(const char *str, int *idx,
-				char *output_str, t_shell *shell);
+//char		*handle_alnum_or_underscore(const char *str, int *idx,
+//				char *output_str, t_shell *shell);
 
 // Parsing:
 t_raw_token	*handle_input(char *input, t_shell *shell);
@@ -208,8 +208,9 @@ int			validate_token_syntax(t_token *token_list);
 t_token		*finalizing_token_list(t_token *token_list);
 void		remove_token(t_token **head, t_token *token);
 t_raw_token	*tokenize_pipe_redirection(const char **input);
-t_token		*create_token(const char *content, int role);
-void		add_space_tokens(t_token *tokens);
+void		separation_check(const char **input, t_raw_token *token);
+void		handle_first_token(t_token *token);
+void		concatenate_tokens(t_token **token_list);
 
 // Quote handling:
 t_token		*pop_quotemark_tokens(t_token **token_list);
@@ -262,7 +263,7 @@ void		remove_last_empty_command(t_command *head_cmd,
 int			process_tokens(t_token *ct, t_command *current_cmd);
 int			fill_command_from_tokens(t_token *tokens, t_command **cmd);
 int			link_commands_and_tokens(t_token *tokens, t_command *cmd);
-void			remove_last_empty_command(t_command *head_cmd,
+void		remove_last_empty_command(t_command *head_cmd,
 				t_command *current_cmd);
 void		ft_function_marker(t_command *cmd);
 void		restore_shell_fds(t_shell *shell);
@@ -281,13 +282,14 @@ pid_t		fork_process(void);
 void		handle_child_process(t_command *cmd, int in_fd, int pipefd[2]);
 void		handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2]);
 void		handle_pipes(t_command *cmd);
-void		execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2]);
+void		execute_builtin_with_pipes(t_command *cmd, int in_fd,
+				int pipefd[2]);
 
 // Redirection
 int			handle_input_redirection(t_command *cmd);
 int			handle_output_redirection(t_command *cmd);
 int			handle_append_redirection(t_command *cmd);
-void			handle_pipe_redirection(t_command *cmd, int pipefd[2]);
+void		handle_pipe_redirection(t_command *cmd, int pipefd[2]);
 int			handle_heredoc_redirection(t_command *cmd);
 
 // Signal handling:
