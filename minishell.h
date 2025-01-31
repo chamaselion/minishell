@@ -119,8 +119,8 @@ typedef struct s_shell
 
 typedef struct s_redirect_list
 {
-    t_token *token;
-    struct s_redirect_list *next;
+    t_token 				*token;
+    struct s_redirect_list	*next;
 } t_redirect_list;
 
 struct s_command
@@ -134,10 +134,10 @@ struct s_command
 	int			relation_type;
 	t_command	*next;
 	int			is_internal;
-    t_redirect_list *output_redirections;
-    t_redirect_list *input_redirections;
-    t_redirect_list *append_redirections;
-    t_redirect_list *heredoc_redirections; 
+    t_token		*input_redirection;
+	t_token		*output_redirection;
+	t_token		*append_redirection;
+	t_token		*heredoc_redirection;
 	t_shell		*shell;
 };
 
