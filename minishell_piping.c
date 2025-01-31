@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:56 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/31 14:48:46 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/31 22:01:28 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ pid_t	fork_process(void)
 	pid = fork();
 	if (pid == -1)
 	{
-		ft_putstr_fd("Error", STDERR_FILENO);
+		ft_putstr_fd("Error\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
 	return (pid);
@@ -31,14 +31,14 @@ void	handle_child_process(t_command *cmd, int in_fd, int pipefd[2])
 
 	if (cmd == NULL)
 	{
-		ft_putstr_fd("Error, command is NULL in handle_child_process",
+		ft_putstr_fd("Error, command is NULL in handle_child_process\n",
 			STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
 	exec_args = construct_exec_args(cmd);
 	if (exec_args == NULL)
 	{
-		ft_putstr_fd("Error, failed to construct exec args", STDERR_FILENO);
+		ft_putstr_fd("Error, failed to construct exec args\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
 	if (setup_redirection(cmd, in_fd, pipefd))

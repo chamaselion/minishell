@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:36:13 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 15:08:15 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/31 22:00:56 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*ft_realloc(void *ptr, int old_size, int new_size)
 	new_ptr = malloc(new_size);
 	if (new_ptr == NULL)
 	{
-		ft_putstr_fd("Error allocating memory", STDERR_FILENO);
+		ft_putstr_fd("Error allocating memory\n", STDERR_FILENO);
 		return (NULL);
 	}
 	if (ptr != NULL)

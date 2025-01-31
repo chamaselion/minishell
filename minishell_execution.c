@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:24:59 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 15:01:30 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:59:25 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ char	*search_command(const char *command, t_env_var *env_var)
 	}
 	path_env = ft_getenv(env_var, "PATH");
 	if (!path_env)
-		return (ft_putstr_fd("Error", STDERR_FILENO), NULL);
+		return (ft_putstr_fd("Error\n", STDERR_FILENO), NULL);
 	path = ft_strdup(path_env);
 	if (!path)
-		return (ft_putstr_fd("Error", STDERR_FILENO), NULL);
+		return (ft_putstr_fd("Error\n", STDERR_FILENO), NULL);
 	result = find_executable_in_path(command, path, full_path);
 	return (result);
 }
@@ -88,7 +88,7 @@ char	**construct_exec_args(t_command *cmd)
 	exec_args = malloc((cmd->arg_count + 2) * sizeof(char *));
 	if (!exec_args)
 	{
-		ft_putstr_fd("Error", STDERR_FILENO);
+		ft_putstr_fd("Error\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
 	exec_args[0] = cmd->command;

@@ -18,7 +18,7 @@ void	init_shell(t_shell *shell, t_env_var *env_vars)
 	shell->env_vars = env_vars;
 	shell->last_exit_code = 0;
 	if (getcwd(shell->cwd, MAX_PATH) == NULL)
-		ft_putstr_fd("getcwd() error", STDERR_FILENO);
+		ft_putstr_fd("getcwd() error\n", STDERR_FILENO);
 }
 
 void	init_token(t_token *token)

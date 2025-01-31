@@ -21,16 +21,16 @@ char	*get_prompt(void)
 	suffix = " minishell> ";
 	cwd = malloc(2048);
 	if (cwd == NULL)
-		return (ft_putstr_fd("malloc() error", STDERR_FILENO), NULL);
+		return (ft_putstr_fd("malloc() error\n", STDERR_FILENO), NULL);
 	if (getcwd(cwd, 2048) == NULL)
 	{
-		ft_putstr_fd("getcwd() error", STDERR_FILENO);
+		ft_putstr_fd("getcwd() error\n", STDERR_FILENO);
 		return (free(cwd), NULL);
 	}
 	prompt = (char *)malloc(ft_strlen(cwd) + ft_strlen(suffix) + 1);
 	if (prompt == NULL)
 	{
-		ft_putstr_fd("malloc() error", STDERR_FILENO);
+		ft_putstr_fd("malloc() error\n", STDERR_FILENO);
 		free(cwd);
 		return (NULL);
 	}
@@ -74,7 +74,7 @@ int	sigint_checker(int original)
 
 int	main_loop(t_shell *shell)
 {
-	char		*prompt;
+	//char		*prompt;
 	char		*input;
 	t_raw_token	*raw_tokens;
 	t_token		*tokens;	
@@ -84,11 +84,11 @@ int	main_loop(t_shell *shell)
 	while (1)
 	{
 		shell->last_exit_code = sigint_checker(shell->last_exit_code);
-		prompt = get_prompt();
-		if (prompt == NULL)
-			return (1);
-		input = read_input(prompt);
-		free(prompt);
+		//prompt = get_prompt();
+		//if (prompt == NULL)
+		//	return (1);
+		input = read_input("minishell> ");
+		//free(prompt);
 		raw_tokens = handle_input(input, shell);
 		check_for_unclosed(raw_tokens, shell);
 		tokens = convert_raw_token_list(raw_tokens);
@@ -125,7 +125,7 @@ int	main(int argc, char **argv, char **envp)
 	i = main_loop(&shell);
 	if (i > 0)
 	{
-		ft_putstr_fd("Error", STDERR_FILENO);
+		ft_putstr_fd("Error\n", STDERR_FILENO);
 	}
 	return (0);
 }
