@@ -29,17 +29,21 @@ void concatenate_tokens(t_token **token_list)
 		{
 			next = current->next;
 			if (current->role == ROLE_ARGUMENT && 
-				!current->separated && 
 				!is_quote_char(*current->content) &&
+				!(current->quote_state == NO_QUOTE &&
+                next->quote_state == NO_QUOTE && !did_concat) &&
 				!is_quote_char(*next->content) &&
-				(current->quote_state != NO_QUOTE || 
-				next->quote_state != NO_QUOTE))
+				(!current->separated || 
+                current->role == ROLE_VARIABLE || 
+                next->role == ROLE_VARIABLE))
 			{
 				new_content = ft_strjoin(current->content, next->content);
 				if (!new_content)
 					return;
 				current->content = new_content;
-				if (next->quote_state != NO_QUOTE)
+				current->role = ROLE_ARGUMENT;
+				if ((next->quote_state != NO_QUOTE && next->next) 
+					|| ft_strcmp(next->content, "") == 0 || next->role == ROLE_VARIABLE)
 					current->separated = next->separated;
 				current->next = next->next;
 				if (next->next)
@@ -59,7 +63,6 @@ t_token *finalizing_token_list(t_token *token_list)
 	assign_token_role(token_list);
 	pop_quotemark_tokens(&token_list);
 	concatenate_tokens(&token_list);
-	//validate_token_syntax(token_list);
 	return (token_list);
 }
 

@@ -86,12 +86,12 @@ t_raw_token	*handle_non_quote_segment(const char **input, t_shell *shell)
 	if (!temp)
 		return (NULL);
 	token = create_raw_token(temp, NO_QUOTE);
-    if (**input && *(*input + 1))
+    if (**input && *(*input + 1) && *(*input - 1))
     {
         if (is_whitespace(*(*input + 1)))
             token->separated = 1;
-        if (is_quote_char(*(*input + 1)))
-            token->separated = 0;
+		if (is_whitespace(*(*input - 1)))
+			token->prev->separated = 1;
     }
 	free(temp);
 	return (token);
