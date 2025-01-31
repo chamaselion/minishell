@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:56 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/30 16:44:27 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:07:40 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -67,22 +67,24 @@ void	handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2])
 	}
 	else
 		*in_fd = 0;
-	wait_result = waitpid(-1, &status, 0);
-	if (wait_result == -1)
-		return ;
-	if ((status & 0x7F) == 0)
-		update_exit_code(cmd->shell, (status >> 8) & 0xFF);
-	else
-		update_exit_code(cmd->shell, 128 + (status & 0x7F));
+	while ((wait_result = waitpid(-1, &status, 0)) > 0)
+	{
+		if (wait_result == -1)
+			return ;
+		if ((status & 0x7F) == 0)
+			update_exit_code(cmd->shell, (status >> 8) & 0xFF);
+		else
+			update_exit_code(cmd->shell, 128 + (status & 0x7F));
+	}
 }
 
-void	process_command(t_command *cmd, int *in_fd)
+void	process_command(t_command *cmd, int *in_fd, int	pipefd[2])
 {
-	int		pipefd[2];
+	//int		pipefd[2];
 	pid_t	pid;
 
-	pipefd[0] = -1;
-	pipefd[1] = -1;
+	//pipefd[0] = -1;
+	//pipefd[1] = -1;
 	if (cmd->relation_type == 6 && cmd->related_to != NULL)
 		create_pipe(pipefd);
 	if (cmd->is_internal)
@@ -112,6 +114,7 @@ void	process_command(t_command *cmd, int *in_fd)
 void	handle_pipes(t_command *cmd)
 {
 	int	in_fd;
+	int	pipefd[2] = {-1, -1};
 
 	in_fd = 0;
 	if (cmd == NULL)
@@ -121,7 +124,7 @@ void	handle_pipes(t_command *cmd)
 	}
 	while (cmd != NULL)
 	{
-		process_command(cmd, &in_fd);
+		process_command(cmd, &in_fd, pipefd);
 		cmd = cmd->related_to;
 	}
 	while (wait(NULL) > 0)
