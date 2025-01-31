@@ -80,11 +80,8 @@ void	handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2])
 
 void	process_command(t_command *cmd, int *in_fd, int	pipefd[2])
 {
-	//int		pipefd[2];
 	pid_t	pid;
 
-	//pipefd[0] = -1;
-	//pipefd[1] = -1;
 	if (cmd->relation_type == 6 && cmd->related_to != NULL)
 		create_pipe(pipefd);
 	if (cmd->is_internal)
@@ -95,7 +92,7 @@ void	process_command(t_command *cmd, int *in_fd, int	pipefd[2])
 			close(pipefd[1]);
 			*in_fd = pipefd[0];
 		}
-		else if (cmd->relation_type == 0 && pipefd[0] != -1 && pipefd[1] != -1)
+		else if ((cmd->relation_type == 0 || cmd->relation_type == 5) && pipefd[0] != -1 && pipefd[1] != -1)
 		{
 			close(pipefd[0]);
 			close(pipefd[1]);
