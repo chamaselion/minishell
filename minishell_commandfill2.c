@@ -12,19 +12,23 @@
 
 #include "minishell.h"
 
+
 int process_tokens(t_token *ct, t_command *current_cmd)
 {
     while (ct)
     {
-        if (ct->role == 3)
+        if (ct->role == ROLE_ARGUMENT)
         {
             if (allocate_args(current_cmd, ct) == -1)
                 return (-1);
         }
-        else if (ct->role == 5)
+        else if (ct->role == ROLE_REDIRECT)
         {
-            ct = ct->next ? ct->next : ct;
+            if (ct->next)
+                ct = ct->next;
         }
+        else if (ct->role == ROLE_PIPE)
+            break;
         ct = ct->next;
     }
     current_cmd->args = ft_realloc(current_cmd->args, 
