@@ -12,24 +12,28 @@
 
 #include "minishell.h"
 
-int	process_tokens(t_token *ct, t_command *current_cmd)
+int process_tokens(t_token *ct, t_command *current_cmd)
 {
-	while (ct && (ct->role == 3 || ct->role == 0))
-	{
-		if (ct->role == 3)
-		{
-			if (allocate_args(current_cmd, ct) == -1)
-				return (-1);
-		}
-		ct = ct->next;
-	}
-	current_cmd->args = ft_realloc(current_cmd->args, sizeof(char *)
-			* current_cmd->arg_count, sizeof(char *) * (current_cmd->arg_count
-				+ 1));
-	if (current_cmd->args == NULL)
-		return (-1);
-	current_cmd->args[current_cmd->arg_count] = NULL;
-	return (0);
+    while (ct)
+    {
+        if (ct->role == 3)
+        {
+            if (allocate_args(current_cmd, ct) == -1)
+                return (-1);
+        }
+        else if (ct->role == 5)
+        {
+            ct = ct->next ? ct->next : ct;
+        }
+        ct = ct->next;
+    }
+    current_cmd->args = ft_realloc(current_cmd->args, 
+        sizeof(char *) * current_cmd->arg_count,
+        sizeof(char *) * (current_cmd->arg_count + 1));
+    if (current_cmd->args == NULL)
+        return (-1);
+    current_cmd->args[current_cmd->arg_count] = NULL;
+    return (0);
 }
 
 static int	validate_tokens(t_token *tokens, t_command **cmd)
