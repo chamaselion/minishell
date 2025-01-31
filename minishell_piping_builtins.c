@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_piping_builtins.c                        :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:10:12 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 22:27:21 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/31 14:49:57 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -48,7 +48,7 @@ void	execute_builtin_child_process(t_command *cmd, int in_fd, int pipefd[2],
 
 	close(env_pipe[0]);
 	if (setup_redirection(cmd, in_fd, pipefd))
-		exit (1);
+		exit(1);
 	handle_ft_command(cmd);
 	current = cmd->shell->env_vars;
 	while (current)
@@ -59,20 +59,6 @@ void	execute_builtin_child_process(t_command *cmd, int in_fd, int pipefd[2],
 	close(env_pipe[1]);
 	restore_shell_fds(cmd->shell);
 	exit(cmd->shell->last_exit_code);
-}
-
-void wait_for_children_and_update_exit_code(t_shell *shell)
-{
-    int status;
-    pid_t wait_result;
-
-    while ((wait_result = waitpid(-1, &status, 0)) > 0)
-    {
-        if ((status & 0x7F) == 0)
-            update_exit_code(shell, (status >> 8) & 0xFF);
-        else
-            update_exit_code(shell, 128 + (status & 0x7F));
-    }
 }
 
 void	execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2])
@@ -96,20 +82,20 @@ void	execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2])
 			deserialize_and_update_env(cmd->shell, env_pipe[0]);
 			close(env_pipe[0]);
 			waitpid(pid, &status, 0);
-            if ((status & 0x7F) == 0)
-                update_exit_code(cmd->shell, (status >> 8) & 0xFF);
-            else
-                update_exit_code(cmd->shell, 128 + (status & 0x7F));
+			if ((status & 0x7F) == 0)
+				update_exit_code(cmd->shell, (status >> 8) & 0xFF);
+			else
+				update_exit_code(cmd->shell, 128 + (status & 0x7F));
 		}
 	}
 	else
 	{
 		if (setup_redirection(cmd, 0, NULL) != 0)
-        {
-            update_exit_code(cmd->shell, 1);
-            restore_shell_fds(cmd->shell);
-            return;
-        }
+		{
+			update_exit_code(cmd->shell, 1);
+			restore_shell_fds(cmd->shell);
+			return ;
+		}
 		handle_ft_command(cmd);
 		restore_shell_fds(cmd->shell);
 	}

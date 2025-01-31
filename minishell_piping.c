@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_piping.c                                 :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:56 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/30 18:07:40 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/31 14:48:46 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -42,7 +42,7 @@ void	handle_child_process(t_command *cmd, int in_fd, int pipefd[2])
 		exit(EXIT_FAILURE);
 	}
 	if (setup_redirection(cmd, in_fd, pipefd))
-		exit (1);
+		exit(1);
 	execute_command(cmd, exec_args);
 }
 
@@ -52,11 +52,7 @@ void	handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2])
 	pid_t	wait_result;
 
 	if (cmd == NULL)
-	{
-		ft_putstr_fd("Error, command is NULL in handle_parent_process",
-			STDERR_FILENO);
-		return ;
-	}
+		return (ft_putstr_fd("Error, command is NULL\n", STDERR_FILENO));
 	if (*in_fd != 0)
 		close(*in_fd);
 	if (cmd->relation_type == 6 && cmd->related_to != NULL)
@@ -71,7 +67,7 @@ void	handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2])
 	{
 		wait_result = waitpid(-1, &status, 0);
 		if (wait_result <= 0)
-			break;
+			break ;
 		if ((status & 0x7F) == 0)
 			update_exit_code(cmd->shell, (status >> 8) & 0xFF);
 		else
@@ -79,10 +75,8 @@ void	handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2])
 	}
 }
 
-void	process_command(t_command *cmd, int *in_fd, int	pipefd[2])
+void	process_command(t_command *cmd, int *in_fd, int pipefd[2], pid_t pid)
 {
-	pid_t	pid;
-
 	if (cmd->relation_type == 6 && cmd->related_to != NULL)
 		create_pipe(pipefd);
 	if (cmd->is_internal)
@@ -93,7 +87,8 @@ void	process_command(t_command *cmd, int *in_fd, int	pipefd[2])
 			close(pipefd[1]);
 			*in_fd = pipefd[0];
 		}
-		else if ((cmd->relation_type == 0 || cmd->relation_type == 5) && pipefd[0] != -1 && pipefd[1] != -1)
+		else if ((cmd->relation_type == 0 || cmd->relation_type == 5)
+			&& pipefd[0] != -1 && pipefd[1] != -1)
 		{
 			close(pipefd[0]);
 			close(pipefd[1]);
@@ -111,10 +106,14 @@ void	process_command(t_command *cmd, int *in_fd, int	pipefd[2])
 
 void	handle_pipes(t_command *cmd)
 {
-	int	in_fd;
-	int	pipefd[2] = {-1, -1};
+	int		in_fd;
+	int		pipefd[2];
+	pid_t	pid;
 
+	pipefd[0] = -1;
+	pipefd[1] = -1;
 	in_fd = 0;
+	pid = -1;
 	if (cmd == NULL)
 	{
 		ft_putstr_fd("Error, cmd NULL in pipes\n", STDERR_FILENO);
@@ -122,7 +121,7 @@ void	handle_pipes(t_command *cmd)
 	}
 	while (cmd != NULL)
 	{
-		process_command(cmd, &in_fd, pipefd);
+		process_command(cmd, &in_fd, pipefd, pid);
 		cmd = cmd->related_to;
 	}
 	while (wait(NULL) > 0)
