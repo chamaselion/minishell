@@ -58,13 +58,28 @@ void	execute_builtin_child_process(t_command *cmd, int in_fd, int pipefd[2],
 	}
 	close(env_pipe[1]);
 	restore_shell_fds(cmd->shell);
-	exit(0);
+	exit(cmd->shell->last_exit_code);
+}
+
+void wait_for_children_and_update_exit_code(t_shell *shell)
+{
+    int status;
+    pid_t wait_result;
+
+    while ((wait_result = waitpid(-1, &status, 0)) > 0)
+    {
+        if ((status & 0x7F) == 0)
+            update_exit_code(shell, (status >> 8) & 0xFF);
+        else
+            update_exit_code(shell, 128 + (status & 0x7F));
+    }
 }
 
 void	execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2])
 {
 	int		env_pipe[2];
 	pid_t	pid;
+	int		status;
 
 	if (pipe(env_pipe) == -1)
 		return ;
@@ -80,6 +95,11 @@ void	execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2])
 			close(env_pipe[1]);
 			deserialize_and_update_env(cmd->shell, env_pipe[0]);
 			close(env_pipe[0]);
+			waitpid(pid, &status, 0);
+            if ((status & 0x7F) == 0)
+                update_exit_code(cmd->shell, (status >> 8) & 0xFF);
+            else
+                update_exit_code(cmd->shell, 128 + (status & 0x7F));
 		}
 	}
 	else

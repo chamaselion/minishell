@@ -67,10 +67,11 @@ void	handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2])
 	}
 	else
 		*in_fd = 0;
-	while ((wait_result = waitpid(-1, &status, 0)) > 0)
+	while (1)
 	{
-		if (wait_result == -1)
-			return ;
+		wait_result = waitpid(-1, &status, 0);
+		if (wait_result <= 0)
+			break;
 		if ((status & 0x7F) == 0)
 			update_exit_code(cmd->shell, (status >> 8) & 0xFF);
 		else
