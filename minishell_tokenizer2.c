@@ -41,8 +41,11 @@ t_token	*convert_raw_token(t_raw_token *raw_token)
 
 int	is_raw_token_list_empty(t_raw_token *raw_token_head)
 {
-	if (raw_token_head == NULL)
+	if (raw_token_head == NULL || *raw_token_head->segment == '\0')
+	{
+		free_raw_tokens(raw_token_head);
 		return (1);
+	}
 	return (0);
 }
 

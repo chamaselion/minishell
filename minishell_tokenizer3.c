@@ -20,6 +20,11 @@ t_raw_token	*create_raw_token(const char *segment, t_quote_state quote_state)
 	if (token == NULL)
 		return (NULL);
 	token->segment = ft_strdup(segment);
+	if (token->segment == NULL)
+	{
+		free(token);
+		return (NULL);
+	}
 	token->quote_state = quote_state;
 	token->separated = 0;
 	token->next = NULL;
