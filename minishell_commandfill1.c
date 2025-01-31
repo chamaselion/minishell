@@ -28,10 +28,10 @@ t_command	*create_new_command(void)
 	new_cmd->relation_type = 0;
 	new_cmd->next = NULL;
 	new_cmd->is_internal = 0;
-	new_cmd->input_redirections = NULL;
-	new_cmd->output_redirections = NULL;
-	new_cmd->append_redirections = NULL;
-	new_cmd->heredoc_redirections = NULL;
+	new_cmd->input_redirection = NULL;
+	new_cmd->output_redirection = NULL;
+	new_cmd->append_redirection = NULL;
+	new_cmd->heredoc_redirection = NULL;
 	return (new_cmd);
 }
 
@@ -87,13 +87,4 @@ int	allocate_args(t_command *current_cmd, t_token *ct)
 	current_cmd->args[current_cmd->arg_count] = ft_strdup(ct->content);
 	current_cmd->arg_count++;
 	return (0);
-}
-
-void	ft_function_marker(t_command *cmd)
-{
-	while (cmd)
-	{
-		cmd->is_internal = is_builtin_command(cmd->command);
-		cmd = cmd->next;
-	}
 }
