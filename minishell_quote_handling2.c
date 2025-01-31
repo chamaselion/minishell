@@ -6,7 +6,7 @@
 /*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 11:00:57 by root              #+#    #+#             */
-/*   Updated: 2025/01/31 11:25:08 by root             ###   ########.fr       */
+/*   Updated: 2025/01/31 12:04:08 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,4 @@ void	separation_check(const char **input, t_raw_token *token)
 		if (is_whitespace(*(*input - 1)))
 			token->prev->separated = 1;
 	}
-
 }
