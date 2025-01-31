@@ -117,6 +117,12 @@ typedef struct s_shell
 	int			saved_stderr;
 }	t_shell;
 
+typedef struct s_redirect_list
+{
+    t_token *token;
+    struct s_redirect_list *next;
+} t_redirect_list;
+
 struct s_command
 {
 	char		*command;
@@ -128,10 +134,10 @@ struct s_command
 	int			relation_type;
 	t_command	*next;
 	int			is_internal;
-	t_token		*input_redirection;
-	t_token		*output_redirection;
-	t_token		*append_redirection;
-	t_token		*heredoc_redirection;
+    t_redirect_list *output_redirections;
+    t_redirect_list *input_redirections;
+    t_redirect_list *append_redirections;
+    t_redirect_list *heredoc_redirections; 
 	t_shell		*shell;
 };
 
@@ -291,6 +297,8 @@ int			handle_output_redirection(t_command *cmd);
 int			handle_append_redirection(t_command *cmd);
 void		handle_pipe_redirection(t_command *cmd, int pipefd[2]);
 int			handle_heredoc_redirection(t_command *cmd);
+void		add_redirect(t_redirect_list **head, t_token *token);
+void		free_redirect_list(t_redirect_list *head);
 
 // Signal handling:
 void		setup_signal_handling(void);
