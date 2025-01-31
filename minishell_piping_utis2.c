@@ -26,7 +26,10 @@ int	setup_redirection(t_command *cmd, int in_fd, int pipefd[2])
 		return (1);
 	if (handle_append_redirection(cmd) == 1)
 		return (1);
-	handle_pipe_redirection(cmd, pipefd);
+    if (!cmd->output_redirections && !cmd->append_redirections)
+	{
+        handle_pipe_redirection(cmd, pipefd);
+	}
 	if (handle_heredoc_redirection(cmd) == 1)
 		return (1);
 	return (0);
