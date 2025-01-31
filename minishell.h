@@ -270,7 +270,7 @@ void		restore_shell_fds(t_shell *shell);
 void		save_shell_fds(t_shell *shell);
 
 // Execution
-void		handle_ft_command(t_command *cmd);
+int			handle_ft_command(t_command *cmd);
 char		*search_command(const char *command, t_env_var *env_var);
 char		**construct_exec_args(t_command *cmd);
 void		execute_command(t_command *cmd, char **exec_args);

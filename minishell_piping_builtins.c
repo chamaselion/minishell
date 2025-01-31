@@ -45,11 +45,12 @@ void	execute_builtin_child_process(t_command *cmd, int in_fd, int pipefd[2],
 		int env_pipe[2])
 {
 	t_env_var	*current;
+	int			status;
 
 	close(env_pipe[0]);
 	if (setup_redirection(cmd, in_fd, pipefd))
 		exit(1);
-	handle_ft_command(cmd);
+	status = handle_ft_command(cmd);
 	current = cmd->shell->env_vars;
 	while (current)
 	{
@@ -58,7 +59,7 @@ void	execute_builtin_child_process(t_command *cmd, int in_fd, int pipefd[2],
 	}
 	close(env_pipe[1]);
 	restore_shell_fds(cmd->shell);
-	exit(cmd->shell->last_exit_code);
+	exit(status);
 }
 
 void	execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2])

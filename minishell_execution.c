@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-void	handle_ft_command(t_command *cmd)
+int	handle_ft_command(t_command *cmd)
 {
 	int	status;
 
 	status = 0;
 	if (!cmd || !cmd->command)
-		return ;
+		return (1);
 	if (ft_strcmp(cmd->command, "cd") == 0)
 		status = ft_cd(cmd);
 	else if (ft_strcmp(cmd->command, "echo") == 0)
@@ -34,7 +34,7 @@ void	handle_ft_command(t_command *cmd)
 	else if (ft_strcmp(cmd->command, "exit") == 0)
 		status = ft_exit(cmd);
 	update_exit_code(cmd->shell, status);
-	return ;
+	return (status);
 }
 
 char	*find_executable_in_path(const char *command, char *path,
