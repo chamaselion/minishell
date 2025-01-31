@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_ft_env.c                                 :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:02:05 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/23 22:50:17 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:28:59 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -24,7 +24,7 @@ int	ft_env(t_command *cmd)
 		while (current)
 		{
 			if (current->value)
-				printf("%s=\"%s\"\n", current->key, current->value);
+				printf("%s=%s\n", current->key, current->value);
 			else
 				printf("%s\n", current->key);
 			current = current->next;
