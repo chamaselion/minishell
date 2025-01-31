@@ -6,12 +6,14 @@ SRC = minishell_loop.c\
     minishell_tokenizer2.c\
     minishell_tokenizer3.c\
     minishell_tokenizer.c\
+	minishell_concatenation.c\
     minishell_variable_expansion.c\
 	minishell_variable_expansion2.c\
     minishell_roles_cmdexpected.c\
     minishell_syntax_check.c\
     minishell_signal_handling.c\
     minishell_quote_handling.c\
+	minishell_quote_handling2.c\
     minishell_free_and_exit.c\
     minishell_free_and_exit2.c\
     minishell_execution.c\
