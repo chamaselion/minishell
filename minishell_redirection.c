@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:01:20 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 23:03:24 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:23:23 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ int	handle_input_redirection(t_command *cmd)
 		fd = open(cmd->input_redirection->content, O_RDONLY);
 		if (fd == -1)
 		{
-			ft_putstr_fd("open input redirection", STDERR_FILENO);
+			ft_putstr_fd("open input redirection\n", STDERR_FILENO);
 			return (1);
 		}
 		if (dup2(fd, STDIN_FILENO) == -1)
 		{
 			close(fd);
-			ft_putstr_fd("dup2 input redirection", STDERR_FILENO);
+			ft_putstr_fd("dup2 input redirection\n", STDERR_FILENO);
 			return (1);
 		}
 		close(fd);
