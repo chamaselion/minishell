@@ -17,7 +17,7 @@ int	setup_redirection(t_command *cmd, int in_fd, int pipefd[2])
 	save_shell_fds(cmd->shell);
 	if (handle_input_redirection(cmd) == 1)
 		return (1);
-	if (!cmd->input_redirection && in_fd != 0)
+	if (!cmd->input_redirections && in_fd != 0)
 	{
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);

@@ -28,26 +28,25 @@ void	remove_last_empty_command(t_command *head_cmd, t_command *current_cmd)
 	}
 }
 
-int	handle_redirect_link(t_token *ct, t_command *current_cmd)
+int handle_redirect_link(t_token *ct, t_command *current_cmd)
 {
-	if (ct->next && (ct->next->role != 5 && ct->next->role != 6))
-	{
-		if (strcmp(ct->content, ">") == 0)
-			current_cmd->output_redirection = ct->next;
-		else if (strcmp(ct->content, "<") == 0)
-			current_cmd->input_redirection = ct->next;
-		else if (strcmp(ct->content, ">>") == 0)
-			current_cmd->append_redirection = ct->next;
-		else if (strcmp(ct->content, "<<") == 0)
-			current_cmd->heredoc_redirection = ct->next;
-		return (0);
-	}
-	else
-	{
-		ft_putstr_fd("Error: syntax error\n", STDERR_FILENO);
-		update_exit_code(current_cmd->shell, 2);
-		return (1);
-	}
+    if (!ct->next || (ct->next->role == 5 || ct->next->role == 6))
+    {
+        ft_putstr_fd("Error: syntax error\n", STDERR_FILENO);
+        update_exit_code(current_cmd->shell, 2);
+        return (1);
+    }
+
+    if (strcmp(ct->content, ">") == 0)
+        add_redirect(&current_cmd->output_redirections, ct->next);
+    else if (strcmp(ct->content, "<") == 0)
+        add_redirect(&current_cmd->input_redirections, ct->next);
+    else if (strcmp(ct->content, ">>") == 0)
+        add_redirect(&current_cmd->append_redirections, ct->next);
+    else if (strcmp(ct->content, "<<") == 0)
+        add_redirect(&current_cmd->heredoc_redirections, ct->next);
+
+    return (0);
 }
 
 void	handle_pipe_link(t_command *current_cmd)
