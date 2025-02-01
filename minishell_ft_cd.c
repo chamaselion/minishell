@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 19:10:19 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/31 22:00:14 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:58:41 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int	ft_cd(t_command *cmd)
 		return (ft_putstr_fd("cd\n", STDERR_FILENO), free(old_pwd), 1);
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
-		return (ft_putstr_fd("cd: getcwd failed\n", STDERR_FILENO), free(old_pwd),
-			1);
+		return (ft_putstr_fd("cd: getcwd failed\n", STDERR_FILENO),
+			free(old_pwd), 1);
 	set_or_create_env_var(&cmd->shell->env_vars, "OLDPWD", old_pwd);
 	set_or_create_env_var(&cmd->shell->env_vars, "PWD", new_pwd);
 	free(old_pwd);
