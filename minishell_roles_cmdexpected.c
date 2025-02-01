@@ -52,9 +52,9 @@ static void	decide_token_role(t_token *current)
 {
 	if (is_quote_char(*current->content) && current->quote_state == NO_QUOTE)
 		handle_quote_token(current);
-	else if (is_pipe(current->content))
+	else if (is_pipe(current->content) && current->quote_state == 0)
 		handle_pipe_token(current);
-	else if (is_redirection(current->content))
+	else if (is_redirection(current->content) && current->quote_state == 0)
 		handle_redirect_token(current);
 	else if (identify_env_var(current->content) && current->quote_state == 0)
 		current->role = ROLE_VARIABLE;
