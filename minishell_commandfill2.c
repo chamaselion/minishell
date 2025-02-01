@@ -6,38 +6,37 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:30:29 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 15:06:51 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/02/01 01:15:23 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-int process_tokens(t_token *ct, t_command *current_cmd)
+int	process_tokens(t_token *ct, t_command *current_cmd)
 {
-    while (ct)
-    {
-        if (ct->role == ROLE_ARGUMENT)
-        {
-            if (allocate_args(current_cmd, ct) == -1)
-                return (-1);
-        }
-        else if (ct->role == ROLE_REDIRECT)
-        {
-            if (ct->next)
-                ct = ct->next;
-        }
-        else if (ct->role == ROLE_PIPE)
-            break;
-        ct = ct->next;
-    }
-    current_cmd->args = ft_realloc(current_cmd->args, 
-        sizeof(char *) * current_cmd->arg_count,
-        sizeof(char *) * (current_cmd->arg_count + 1));
-    if (current_cmd->args == NULL)
-        return (-1);
-    current_cmd->args[current_cmd->arg_count] = NULL;
-    return (0);
+	while (ct)
+	{
+		if (ct->role == ROLE_ARGUMENT)
+		{
+			if (allocate_args(current_cmd, ct) == -1)
+				return (-1);
+		}
+		else if (ct->role == ROLE_REDIRECT)
+		{
+			if (ct->next)
+				ct = ct->next;
+		}
+		else if (ct->role == ROLE_PIPE)
+			break ;
+		ct = ct->next;
+	}
+	current_cmd->args = ft_realloc(current_cmd->args, sizeof(char *)
+			* current_cmd->arg_count, sizeof(char *) * (current_cmd->arg_count
+				+ 1));
+	if (current_cmd->args == NULL)
+		return (-1);
+	current_cmd->args[current_cmd->arg_count] = NULL;
+	return (0);
 }
 
 static int	validate_tokens(t_token *tokens, t_command **cmd)

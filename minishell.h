@@ -125,20 +125,20 @@ typedef struct s_redirect_list
 
 struct s_command
 {
-	char		*command;
-	char		*input;
-	char		**args;
-	int			arg_count;
-	char		*output;
-	t_command	*related_to;
-	int			relation_type;
-	t_command	*next;
-	int			is_internal;
-    t_token		*input_redirection;
-	t_token		*output_redirection;
-	t_token		*append_redirection;
-	t_token		*heredoc_redirection;
-	t_shell		*shell;
+	char				*command;
+	char				*input;
+	char				**args;
+	int					arg_count;
+	char				*output;
+	t_command			*related_to;
+	int					relation_type;
+	t_command			*next;
+	int					is_internal;
+    t_redirect_list		*output_redirections;
+    t_redirect_list		*input_redirections;
+    t_redirect_list		*append_redirections;
+    t_redirect_list		*heredoc_redirections;
+	t_shell				*shell;
 };
 
 typedef struct s_raw_token

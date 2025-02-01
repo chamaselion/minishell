@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:49 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 14:54:16 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/02/01 01:09:16 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,54 +28,46 @@ void	remove_last_empty_command(t_command *head_cmd, t_command *current_cmd)
 	}
 }
 
-void	ft_function_marker(t_command *cmd)
-{
-	while (cmd)
-	{
-		cmd->is_internal = is_builtin_command(cmd->command);
-		cmd = cmd->next;
-	}
-}
-
-void	if_has_redir(t_command *cmd)
-{
-    if (cmd->input_redirection)
-        cmd->input_redirection = NULL;
-    if (cmd->output_redirection)
-        cmd->output_redirection = NULL;
-    if (cmd->append_redirection)
-        cmd->append_redirection = NULL;
-    if (cmd->heredoc_redirection)
-        cmd->heredoc_redirection = NULL;
-}
-
 int	handle_redirect_link(t_token *ct, t_command *current_cmd)
 {
-	if (ct->next && (ct->next->role != 5 && ct->next->role != 6))
-	{
-		if_has_redir(current_cmd);
-		if (strcmp(ct->content, ">") == 0)
-			current_cmd->output_redirection = ct->next;
-		else if (strcmp(ct->content, "<") == 0)
-			current_cmd->input_redirection = ct->next;
-		else if (strcmp(ct->content, ">>") == 0)
-			current_cmd->append_redirection = ct->next;
-		else if (strcmp(ct->content, "<<") == 0)
-			current_cmd->heredoc_redirection = ct->next;
-		return (0);
-	}
-	else
+	if (!ct->next || (ct->next->role == 5 || ct->next->role == 6))
 	{
 		ft_putstr_fd("Error: syntax error\n", STDERR_FILENO);
 		update_exit_code(current_cmd->shell, 2);
 		return (1);
 	}
+	if (strcmp(ct->content, ">") == 0)
+		add_redirect(&current_cmd->output_redirections, ct->next);
+	else if (strcmp(ct->content, "<") == 0)
+		add_redirect(&current_cmd->input_redirections, ct->next);
+	else if (strcmp(ct->content, ">>") == 0)
+		add_redirect(&current_cmd->append_redirections, ct->next);
+	else if (strcmp(ct->content, "<<") == 0)
+		add_redirect(&current_cmd->heredoc_redirections, ct->next);
+	return (0);
 }
 
 void	handle_pipe_link(t_command *current_cmd)
 {
 	current_cmd->relation_type = 6;
 	current_cmd->related_to = current_cmd->next;
+}
+
+int	handle_redirect_and_update(t_token **ct, t_command *current_cmd,
+		t_command **cmd)
+{
+	if (handle_redirect_link(*ct, current_cmd) == 0)
+	{
+		if ((*ct)->next)
+			*ct = (*ct)->next;
+		current_cmd->relation_type = 5;
+		return (0);
+	}
+	else
+	{
+		free_commands(*cmd);
+		return (1);
+	}
 }
 
 int	link_commands_and_tokens(t_token *tokens, t_command *cmd)
@@ -89,14 +81,8 @@ int	link_commands_and_tokens(t_token *tokens, t_command *cmd)
 	{
 		if (ct->role == 5)
 		{
-			if (handle_redirect_link(ct, current_cmd) == 0)
-			{
-				if (ct->next)
-					ct = ct->next;
-				current_cmd->relation_type = 5;
-			}
-			else
-				return (free_commands(cmd), 1);
+			if (handle_redirect_and_update(&ct, current_cmd, &cmd) == 1)
+				return (1);
 		}
 		else if (ct->role == 6)
 		{
