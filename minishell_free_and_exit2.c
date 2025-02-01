@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_free_and_exit2.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:16:20 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/24 15:09:53 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/02/01 09:53:50 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	free_raw_tokens(t_raw_token *first_token)
 	{
 		temp = first_token;
 		first_token = first_token->next;
-		free(temp->segment);
+		if (temp->segment)
+			free(temp->segment);
 		free(temp);
 	}
 }
