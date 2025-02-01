@@ -43,7 +43,11 @@ int	ft_cd(t_command *cmd)
 		return (1);
 	path = cmd->args[0];
 	if (!path)
-		return (ft_putstr_fd("cd: path is required\n", STDERR_FILENO), 1);
+    {
+		path = ft_getenv(cmd->shell->env_vars, "HOME");
+		if (!path)
+			return (ft_putstr_fd("cd: HOME not set\n", STDERR_FILENO), 1);
+    }
 	old_pwd = getcwd(NULL, 0);
 	if (!old_pwd)
 		return (ft_putstr_fd("cd: getcwd failed\n", STDERR_FILENO), 1);
