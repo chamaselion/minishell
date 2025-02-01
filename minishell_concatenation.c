@@ -6,13 +6,13 @@
 /*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 10:56:10 by root              #+#    #+#             */
-/*   Updated: 2025/02/01 19:43:31 by root             ###   ########.fr       */
+/*   Updated: 2025/02/01 20:28:37 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_concatable(t_token *current, t_token *next, int did_concat)
+static int	is_concatable(t_token *current, t_token *next)
 {
 	if (current->role != ROLE_ARGUMENT)
 		return (0);
@@ -20,17 +20,13 @@ static int	is_concatable(t_token *current, t_token *next, int did_concat)
 		return (1);
 	if (current->separated == 1)
 		return (0);
-	if (current->quote_state == NO_QUOTE
-		&& next->quote_state == NO_QUOTE
-		&& !did_concat)
-		return (0);
 	if (!current->separated || current->role == ROLE_VARIABLE
 		|| next->role == ROLE_VARIABLE)
 		return (1);
 	return (0);
 }
 
-static int	try_concat(t_token *current, t_token *next, int *did_concat)
+static int	try_concat(t_token *current, t_token *next, int did_concat)
 {
 	char	*new_content;
 
@@ -39,19 +35,19 @@ static int	try_concat(t_token *current, t_token *next, int *did_concat)
 		return (0);
 	current->content = new_content;
 	current->role = ROLE_ARGUMENT;
-	if ((next->quote_state != NO_QUOTE && next->next)
-		|| ft_strcmp(next->content, "") == 0
-		|| next->role == ROLE_VARIABLE)
-	{
-		current->separated = next->separated;
-	}
+	//if ((next->quote_state != NO_QUOTE && next->next)
+	//	|| ft_strcmp(next->content, "") == 0
+	//	|| next->role == ROLE_VARIABLE)
+	//{
+	current->separated = next->separated;
+	//}
 	current->next = next->next;
 	if (next->next)
 		next->next->prev = current;
 	free(next->content);
 	free(next);
-	*did_concat = 1;
-	return (1);
+	did_concat = 1;
+	return (did_concat);
 }
 
 void	concatenate_tokens(t_token **token_list)
@@ -70,9 +66,9 @@ void	concatenate_tokens(t_token **token_list)
 		while (current && current->next)
 		{
 			next = current->next;
-			if (is_concatable(current, next, did_concat))
+			if (is_concatable(current, next))
 			{
-				if (!try_concat(current, next, &did_concat))
+				if (!try_concat(current, next, did_concat))
 					return ;
 			}
 			else
