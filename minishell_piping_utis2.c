@@ -28,19 +28,17 @@ int	setup_redirection(t_command *cmd, int in_fd, int pipefd[2])
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
-	for (int i = 1; i <= 4; i++)
-	{
-		if (i != cmd->last_redir && redir_handlers[i])
-		{
-			if (redir_handlers[i](cmd) == 1)
-				return (1);
-		}
-	}
-	if (cmd->last_redir > 0 && cmd->last_redir <= 4)
-	{
-		if (redir_handlers[cmd->last_redir](cmd) == 1)
-			return (1);
-	}
+	
+    for (int i = 0; i < cmd->redir_count; i++)
+    {
+        int redir_type = cmd->redir_order[i];
+        if (redir_type > 0 && redir_type <= 4 && redir_handlers[redir_type])
+        {
+            if (redir_handlers[redir_type](cmd) == 1)
+                return (1);
+        }
+    }
+
 	if (!cmd->output_redirections && !cmd->append_redirections)
 	{
 		handle_pipe_redirection(cmd, pipefd);

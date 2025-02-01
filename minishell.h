@@ -140,7 +140,8 @@ struct s_command
     t_redirect_list		*append_redirections;
     t_redirect_list		*heredoc_redirections;
 	t_shell				*shell;
-	int					last_redir; //1 out, 2 in, 3 append, 4 heredoc
+	int					redir_count; //1 out, 2 in, 3 append, 4 heredoc
+	int					redir_order[64];
 };
 
 typedef struct s_raw_token

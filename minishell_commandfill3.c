@@ -51,7 +51,8 @@ int	handle_redirect_link(t_token *ct, t_command *current_cmd)
 		add_redirect(&current_cmd->append_redirections, ct->next);
 	else if (strcmp(ct->content, "<<") == 0)
 		add_redirect(&current_cmd->heredoc_redirections, ct->next);
-	current_cmd->last_redir = update_redirection_last_path(ct);
+	if (current_cmd->redir_count < 64)
+        current_cmd->redir_order[current_cmd->redir_count++] = update_redirection_last_path(ct);
 	return (0);
 }
 
