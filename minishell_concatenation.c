@@ -6,7 +6,7 @@
 /*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 10:56:10 by root              #+#    #+#             */
-/*   Updated: 2025/01/31 11:55:16 by root             ###   ########.fr       */
+/*   Updated: 2025/02/01 19:43:31 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ static int	is_concatable(t_token *current, t_token *next, int did_concat)
 {
 	if (current->role != ROLE_ARGUMENT)
 		return (0);
-	if (is_quote_char(*current->content))
+	if (current->separated == 0)
+		return (1);
+	if (current->separated == 1)
 		return (0);
 	if (current->quote_state == NO_QUOTE
 		&& next->quote_state == NO_QUOTE
 		&& !did_concat)
-		return (0);
-	if (is_quote_char(*next->content))
 		return (0);
 	if (!current->separated || current->role == ROLE_VARIABLE
 		|| next->role == ROLE_VARIABLE)

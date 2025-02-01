@@ -82,7 +82,8 @@ t_token	*convert_raw_token_list(t_raw_token *raw_token_head)
 			break ;
 	}
 	if (finalizing_token_list(new_head) == NULL)
-		return (free_tokens(new_head), free_raw_tokens(raw_token_head), NULL);
-	free_raw_tokens(raw_token_head);
+		return (NULL);
+		//return (free_tokens(new_head), free_raw_tokens(raw_token_head), NULL);
+	//free_raw_tokens(raw_token_head);
 	return (new_head);
 }
