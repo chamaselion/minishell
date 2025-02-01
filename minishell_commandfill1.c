@@ -33,7 +33,7 @@ t_command	*create_new_command(void)
 	new_cmd->append_redirections = NULL;
 	new_cmd->heredoc_redirections = NULL;
 	new_cmd->redir_count = 0;
-	memset(new_cmd->redir_order, 0, sizeof(new_cmd->redir_order));
+	ft_memset(new_cmd->redir_order, 0, sizeof(new_cmd->redir_order));
 	return (new_cmd);
 }
 

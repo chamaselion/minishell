@@ -39,7 +39,7 @@ int	ft_unset(t_command *cmd)
 		current = cmd->shell->env_vars;
 		while (current)
 		{
-			if (strcmp(current->key, cmd->args[i]) == 0)
+			if (ft_strcmp(current->key, cmd->args[i]) == 0)
 			{
 				remove_env_var(&cmd->shell->env_vars, current);
 				break ;

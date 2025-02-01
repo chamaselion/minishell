@@ -14,7 +14,7 @@
 
 void	serialize_env_var(t_env_var *var, int pipe_fd)
 {
-	write(pipe_fd, var->string, strlen(var->string) + 1);
+	write(pipe_fd, var->string, ft_strlen(var->string) + 1);
 }
 
 void	deserialize_and_update_env(t_shell *shell, int pipe_fd)

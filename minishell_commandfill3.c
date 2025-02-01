@@ -14,13 +14,13 @@
 
 int	handle_redirect_link(t_token *ct, t_command *c_cmd)
 {
-	if (strcmp(ct->content, ">") == 0)
+	if (ft_strcmp(ct->content, ">") == 0)
 		add_redirect(&c_cmd->output_redirections, ct->next);
-	else if (strcmp(ct->content, "<") == 0)
+	else if (ft_strcmp(ct->content, "<") == 0)
 		add_redirect(&c_cmd->input_redirections, ct->next);
-	else if (strcmp(ct->content, ">>") == 0)
+	else if (ft_strcmp(ct->content, ">>") == 0)
 		add_redirect(&c_cmd->append_redirections, ct->next);
-	else if (strcmp(ct->content, "<<") == 0)
+	else if (ft_strcmp(ct->content, "<<") == 0)
 		add_redirect(&c_cmd->heredoc_redirections, ct->next);
 	if (c_cmd->redir_count < 64)
 		c_cmd->redir_order[c_cmd->redir_count++] = update_redir_lp(ct);
