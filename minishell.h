@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
@@ -8,7 +8,7 @@
 /*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
 /*   Updated: 2025/01/29 22:24:31 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -120,9 +120,9 @@ typedef struct s_shell
 
 typedef struct s_redirect_list
 {
-    t_token 				*token;
-    struct s_redirect_list	*next;
-} t_redirect_list;
+	t_token					*token;
+	struct s_redirect_list	*next;
+}	t_redirect_list;
 
 struct s_command
 {
@@ -135,10 +135,10 @@ struct s_command
 	int					relation_type;
 	t_command			*next;
 	int					is_internal;
-    t_redirect_list		*output_redirections;
-    t_redirect_list		*input_redirections;
-    t_redirect_list		*append_redirections;
-    t_redirect_list		*heredoc_redirections;
+	t_redirect_list		*output_redirections;
+	t_redirect_list		*input_redirections;
+	t_redirect_list		*append_redirections;
+	t_redirect_list		*heredoc_redirections;
 	t_shell				*shell;
 	int					redir_count; //1 out, 2 in, 3 append, 4 heredoc
 	int					redir_order[64];

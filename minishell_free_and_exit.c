@@ -17,8 +17,8 @@
 
 void	free_command(t_command *cmd)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	if (cmd->command)
 		free(cmd->command);
@@ -46,7 +46,7 @@ void	free_command(t_command *cmd)
 
 void	free_commands(t_command *cmd)
 {
-	t_command *temp;
+	t_command	*temp;
 
 	while (cmd != NULL)
 	{
@@ -74,7 +74,7 @@ int	free_and_fail(char *content, char *message)
 
 void	free_tokens(t_token *tokens)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	while (tokens)
 	{
