@@ -26,8 +26,9 @@ t_token	*convert_raw_token(t_raw_token *raw_token)
 		return (NULL);
 	new_token->content = raw_token->segment;
 	new_token->quote_state = raw_token->quote_state;
-	new_token->role = (new_token->quote_state == WITHIN_SINGLE_QUOTE
-					   || new_token->quote_state == WITHIN_DOUBLE_QUOTE) ? 3 : 0;
+	if (new_token->quote_state == WITHIN_SINGLE_QUOTE
+		|| new_token->quote_state == WITHIN_DOUBLE_QUOTE)
+		new_token->role = ROLE_ARGUMENT;
 	new_token->command_expected = 0;
 	new_token->syntax_state = 0;
 	new_token->separated = raw_token->separated;
@@ -83,7 +84,7 @@ t_token	*convert_raw_token_list(t_raw_token *raw_token_head)
 	}
 	if (finalizing_token_list(new_head) == NULL)
 		return (NULL);
-		//return (free_tokens(new_head), free_raw_tokens(raw_token_head), NULL);
-	//free_raw_tokens(raw_token_head);
 	return (new_head);
 }
+		//return (free_tokens(new_head), free_raw_tokens(raw_token_head), NULL);
+	//free_raw_tokens(raw_token_head);

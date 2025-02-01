@@ -6,7 +6,7 @@
 /*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 11:00:57 by root              #+#    #+#             */
-/*   Updated: 2025/02/01 20:31:47 by root             ###   ########.fr       */
+/*   Updated: 2025/02/01 20:50:09 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,6 @@ void	separation_check(const char **input, t_raw_token *token)
 		else if (*(*input + 2) && is_quote_char(**input)
 			&& is_quote_char(*(*input + 1)) && is_whitespace(*(*input + 2)))
 			token->separated = 1;
-		/*else if (*(*input + 1) && is_quote_char(**input)
-			&& is_whitespace(*(*input + 1)))
-			token->separated = 1;*/
 		else if (*(*input + 2) && *(*input + 3) && is_quote_char(**input + 1)
 			&& is_quote_char(**input + 2) && is_whitespace(*(*input + 1))
 			&& token->quote_state != 0)
