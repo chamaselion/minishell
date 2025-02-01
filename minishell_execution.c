@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:24:59 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/31 21:59:25 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/02/01 13:11:12 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,16 @@ char	**construct_exec_args(t_command *cmd)
 
 void	execute_command(t_command *cmd, char **exec_args)
 {
-	char	*full_path;
-	char	**environment;
+	char		*full_path;
+	char		**environment;
+	int			status;
 
+	if (cmd->is_internal)
+	{
+		status = handle_ft_command(cmd);
+		free(exec_args);
+		exit(status);
+	}
 	full_path = search_command(cmd->command, cmd->shell->env_vars);
 	if (!full_path)
 	{

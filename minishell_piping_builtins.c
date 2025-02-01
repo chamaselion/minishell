@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:10:12 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/31 14:49:57 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/02/01 11:58:17 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,42 +62,14 @@ void	execute_builtin_child_process(t_command *cmd, int in_fd, int pipefd[2],
 	exit(status);
 }
 
-void	execute_builtin_with_pipes(t_command *cmd, int in_fd, int pipefd[2])
+int	execute_builtin(t_command *cmd)
 {
-	int		env_pipe[2];
-	pid_t	pid;
-	int		status;
+	int	status;
 
-	if (pipe(env_pipe) == -1)
-		return ;
-	if (cmd->relation_type == 6 || in_fd != 0)
-	{
-		pid = fork_process();
-		if (pid == 0)
-		{
-			execute_builtin_child_process(cmd, in_fd, pipefd, env_pipe);
-		}
-		else
-		{
-			close(env_pipe[1]);
-			deserialize_and_update_env(cmd->shell, env_pipe[0]);
-			close(env_pipe[0]);
-			waitpid(pid, &status, 0);
-			if ((status & 0x7F) == 0)
-				update_exit_code(cmd->shell, (status >> 8) & 0xFF);
-			else
-				update_exit_code(cmd->shell, 128 + (status & 0x7F));
-		}
-	}
-	else
-	{
-		if (setup_redirection(cmd, 0, NULL) != 0)
-		{
-			update_exit_code(cmd->shell, 1);
-			restore_shell_fds(cmd->shell);
-			return ;
-		}
-		handle_ft_command(cmd);
-		restore_shell_fds(cmd->shell);
-	}
+	save_shell_fds(cmd->shell);
+	if (setup_redirection(cmd, 0, NULL) == 1)
+		return (restore_shell_fds(cmd->shell), 1);
+	status = handle_ft_command(cmd);
+	restore_shell_fds(cmd->shell);
+	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:56 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/31 22:01:28 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/02/01 13:33:44 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,10 @@ void	process_command(t_command *cmd, int *in_fd, int pipefd[2], pid_t pid)
 {
 	if (cmd->relation_type == 6 && cmd->related_to != NULL)
 		create_pipe(pipefd);
-	if (cmd->is_internal)
+	if (cmd->is_internal && cmd->relation_type == 0)
 	{
-		execute_builtin_with_pipes(cmd, *in_fd, pipefd);
-		if (cmd->relation_type == 6)
-		{
-			close(pipefd[1]);
-			*in_fd = pipefd[0];
-		}
-		else if ((cmd->relation_type == 0 || cmd->relation_type == 5)
+		execute_builtin(cmd);
+		if ((cmd->relation_type == 0)
 			&& pipefd[0] != -1 && pipefd[1] != -1)
 		{
 			close(pipefd[0]);

@@ -12,16 +12,15 @@
 
 #include "minishell.h"
 
-int setup_redirection(t_command *cmd, int in_fd, int pipefd[2])
+int	setup_redirection(t_command *cmd, int in_fd, int pipefd[2])
 {
 	save_shell_fds(cmd->shell);
-
 	int (*redir_handlers[])(t_command *) = {
-		NULL,                       // 0: none
-		handle_output_redirection,  // 1: output
-		handle_input_redirection,   // 2: input
-		handle_append_redirection,  // 3: append
-		handle_heredoc_redirection  // 4: heredoc
+		NULL,                      // 0: none
+		handle_output_redirection, // 1: output
+		handle_input_redirection,  // 2: input
+		handle_append_redirection, // 3: append
+		handle_heredoc_redirection // 4: heredoc
 	};
 
 	if (!cmd->input_redirections && in_fd != 0)
@@ -46,7 +45,6 @@ int setup_redirection(t_command *cmd, int in_fd, int pipefd[2])
 	{
 		handle_pipe_redirection(cmd, pipefd);
 	}
-
 	return (0);
 }
 
