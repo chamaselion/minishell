@@ -20,29 +20,67 @@ void	handle_exit_status(t_command *cmd)
 	exit(exit_status);
 }
 
-int	validate_exit_arguments(t_command *cmd)
+static int	get_sign_and_skip(const char *arg, int *i)
 {
-	int	i;
+    int	sign = 1;
+    while (arg[*i] && (arg[*i] == ' ' || arg[*i] == '\t' || arg[*i] == '\n' ||
+           arg[*i] == '\r' || arg[*i] == '\v' || arg[*i] == '\f'))
+        (*i)++;
+    if (arg[*i] == '-' || arg[*i] == '+')
+    {
+        if (arg[*i] == '-')
+            sign = -1;
+        (*i)++;
+    }
+    return (sign);
+}
 
-	i = 0;
-	while (cmd->args[0][i])
+static void	validate_digits(const char *arg, int i, int sign)
+{
+	long long	val;
+	int			digit;
+
+	val = 0;
+	while (arg[i] && ft_isdigit(arg[i]))
 	{
-		if (i == 0 && (cmd->args[0][i] == '-' || cmd->args[0][i] == '+'))
-			i++;
-		else if (!ft_isdigit(cmd->args[0][i]))
+		digit = arg[i] - '0';
+		if ((sign == 1 && val > (LLONG_MAX - digit) / 10) ||
+			(sign == -1 && -val < (LLONG_MIN + digit) / 10))
 		{
 			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-			ft_putstr_fd(cmd->args[0], STDERR_FILENO);
+			ft_putstr_fd((char *)arg, STDERR_FILENO);
 			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 			exit(2);
 		}
+		val = val * 10 + digit;
 		i++;
 	}
-	if (cmd->args[1])
+	if (arg[i] != '\0')
 	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
-		return (1);
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd((char *)arg, STDERR_FILENO);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+		exit(2);
 	}
+}
+
+int	validate_exit_arguments(t_command *cmd)
+{
+	char	*arg;
+	int		i;
+	int		sign;
+
+	arg = cmd->args[0];
+	i = 0;
+	sign = get_sign_and_skip(arg, &i);
+	if (!arg[i] || !ft_isdigit(arg[i]))
+	{
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+		exit(2);
+	}
+	validate_digits(arg, i, sign);
 	return (0);
 }
 

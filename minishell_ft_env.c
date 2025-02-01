@@ -26,7 +26,7 @@ int	ft_env(t_command *cmd)
 	}
 	if (cmd->args[0] == NULL)
 	{
-		while (current)
+		while (current && current->format == 1)
 		{
 			if (current->value)
 				printf("%s=%s\n", current->key, current->value);

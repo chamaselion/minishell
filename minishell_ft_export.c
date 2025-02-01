@@ -47,7 +47,7 @@ void	handle_env_var_with_value(t_command *cmd, int i, char *equal_sign)
 
 	key = ft_strndup(cmd->args[i], equal_sign - cmd->args[i]);
 	value = ft_strdup(equal_sign + 1);
-	set_or_create_env_var(&(cmd->shell->env_vars), key, value);
+	set_or_create_env_var(&(cmd->shell->env_vars), key, value, 1);
 	free(key);
 	free(value);
 }
@@ -94,7 +94,7 @@ int	ft_export(t_command *cmd)
 				handle_env_var_with_value(cmd, i, equal_sign);
 			else
 				set_or_create_env_var(&(cmd->shell->env_vars), cmd->args[i],
-					"");
+					"", 0);
 			i++;
 		}
 	}

@@ -33,7 +33,7 @@ void	deserialize_and_update_env(t_shell *shell, int pipe_fd)
 		{
 			key = ft_strndup(buffer, equal_sign - buffer);
 			value = ft_strdup(equal_sign + 1);
-			set_or_create_env_var(&shell->env_vars, key, value);
+			set_or_create_env_var(&shell->env_vars, key, value, 1);
 			free(key);
 			free(value);
 		}
