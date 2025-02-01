@@ -6,7 +6,7 @@
 /*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 11:00:57 by root              #+#    #+#             */
-/*   Updated: 2025/02/01 08:58:03 by root             ###   ########.fr       */
+/*   Updated: 2025/02/01 09:31:20 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ t_raw_token	*handle_non_quote_segment(const char **input, t_shell *shell)
 	segment = ft_strndup(start, *input - start);
 	temp = resolve_variables_str(segment, shell);
 	free(segment);
-	if (!temp)
-		return (NULL);
+	if (!temp || *temp == '\0')
+		return (free(temp), NULL);
 	token = create_raw_token(temp, NO_QUOTE);
 	separation_check(input, token);
 	free(temp);
