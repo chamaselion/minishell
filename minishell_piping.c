@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:56 by bszikora          #+#    #+#             */
-/*   Updated: 2025/02/01 13:33:44 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:03:27 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ void	handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2])
 		*in_fd = pipefd[0];
 		return ;
 	}
-	else
-		*in_fd = 0;
+	*in_fd = 0;
 	while (1)
 	{
 		wait_result = waitpid(-1, &status, 0);
