@@ -28,6 +28,19 @@ void	remove_last_empty_command(t_command *head_cmd, t_command *current_cmd)
 	}
 }
 
+int update_redirection_last_path(t_token *ct)
+{
+	if (strcmp(ct->content, ">") == 0)
+		return (1);
+	else if (strcmp(ct->content, "<") == 0)
+		return (2);
+	else if (strcmp(ct->content, ">>") == 0)
+		return (3);
+	else if (strcmp(ct->content, "<<") == 0)
+		return (4);
+	return (0);
+}
+
 int	handle_redirect_link(t_token *ct, t_command *current_cmd)
 {
 	if (!ct->next || (ct->next->role == 5 || ct->next->role == 6))
@@ -44,6 +57,8 @@ int	handle_redirect_link(t_token *ct, t_command *current_cmd)
 		add_redirect(&current_cmd->append_redirections, ct->next);
 	else if (strcmp(ct->content, "<<") == 0)
 		add_redirect(&current_cmd->heredoc_redirections, ct->next);
+	current_cmd->last_redir = update_redirection_last_path(ct);
+	//printf("redir: %d\n", current_cmd->last_redir);
 	return (0);
 }
 
@@ -52,6 +67,7 @@ void	handle_pipe_link(t_command *current_cmd)
 	current_cmd->relation_type = 6;
 	current_cmd->related_to = current_cmd->next;
 }
+
 
 int	handle_redirect_and_update(t_token **ct, t_command *current_cmd,
 		t_command **cmd)

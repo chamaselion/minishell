@@ -12,26 +12,41 @@
 
 #include "minishell.h"
 
-int	setup_redirection(t_command *cmd, int in_fd, int pipefd[2])
+int setup_redirection(t_command *cmd, int in_fd, int pipefd[2])
 {
 	save_shell_fds(cmd->shell);
-	if (handle_input_redirection(cmd) == 1)
-		return (1);
+
+	int (*redir_handlers[])(t_command *) = {
+		NULL,                       // 0: none
+		handle_output_redirection,  // 1: output
+		handle_input_redirection,   // 2: input
+		handle_append_redirection,  // 3: append
+		handle_heredoc_redirection  // 4: heredoc
+	};
+
 	if (!cmd->input_redirections && in_fd != 0)
 	{
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
-	if (handle_output_redirection(cmd) == 1)
-		return (1);
-	if (handle_append_redirection(cmd) == 1)
-		return (1);
-    if (!cmd->output_redirections && !cmd->append_redirections)
+	for (int i = 1; i <= 4; i++)
 	{
-        handle_pipe_redirection(cmd, pipefd);
+		if (i != cmd->last_redir && redir_handlers[i])
+		{
+			if (redir_handlers[i](cmd) == 1)
+				return (1);
+		}
 	}
-	if (handle_heredoc_redirection(cmd) == 1)
-		return (1);
+	if (cmd->last_redir > 0 && cmd->last_redir <= 4)
+	{
+		if (redir_handlers[cmd->last_redir](cmd) == 1)
+			return (1);
+	}
+	if (!cmd->output_redirections && !cmd->append_redirections)
+	{
+		handle_pipe_redirection(cmd, pipefd);
+	}
+
 	return (0);
 }
 

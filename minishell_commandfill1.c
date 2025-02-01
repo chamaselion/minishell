@@ -32,6 +32,7 @@ t_command	*create_new_command(void)
 	new_cmd->output_redirections = NULL;
 	new_cmd->append_redirections = NULL;
 	new_cmd->heredoc_redirections = NULL;
+	new_cmd->last_redir = 0;
 	return (new_cmd);
 }
 
