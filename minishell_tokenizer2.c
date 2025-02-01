@@ -24,7 +24,7 @@ t_token	*convert_raw_token(t_raw_token *raw_token)
 	init_token(new_token);
 	if (new_token == NULL)
 		return (NULL);
-	new_token->content = raw_token->segment;
+	new_token->content = ft_strdup(raw_token->segment);
 	new_token->quote_state = raw_token->quote_state;
 	if (new_token->quote_state == WITHIN_SINGLE_QUOTE
 		|| new_token->quote_state == WITHIN_DOUBLE_QUOTE)
@@ -83,7 +83,8 @@ t_token	*convert_raw_token_list(t_raw_token *raw_token_head)
 			break ;
 	}
 	if (finalizing_token_list(new_head) == NULL)
-		return (NULL);
+		return (free_tokens(new_head), free_raw_tokens(raw_token_head), NULL);
+	free_raw_tokens(raw_token_head);
 	return (new_head);
 }
 		//return (free_tokens(new_head), free_raw_tokens(raw_token_head), NULL);

@@ -55,6 +55,8 @@ char	*resolve_variables_str(char *str, t_shell *shell)
 		if (str[idx] == '$' && (!quote_mode || (quote_mode & 2)))
 		{
 			output_str = handle_dollar_sign(str, &idx, output_str, shell);
+			if(*output_str == '\0')
+				update_exit_code(shell, 0);
 		}
 		else
 		{
