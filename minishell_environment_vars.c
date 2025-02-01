@@ -90,7 +90,7 @@ void	update_env_var(t_env_var *current, const char *key,
 }
 
 void	create_new_env_var(t_env_var **env_vars, const char *key,
-		const char *value, int has_equal)
+		const char *value)
 {
 	t_env_var	*new_var;
 	size_t		len;
@@ -106,9 +106,7 @@ void	create_new_env_var(t_env_var **env_vars, const char *key,
 	ft_strlcat(new_var->string, "=", len);
 	ft_strlcat(new_var->string, value, len);
 	new_var->length = len - 1;
-	new_var->format = 0;
-	if (has_equal == 1)
-		new_var->format = 1;
+	new_var->format = 1;
 	new_var->next = *env_vars;
 	new_var->prev = NULL;
 	if (*env_vars)

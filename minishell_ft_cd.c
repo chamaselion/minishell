@@ -57,8 +57,8 @@ int	ft_cd(t_command *cmd)
 	if (!new_pwd)
 		return (ft_putstr_fd("cd: getcwd failed\n", STDERR_FILENO),
 			free(old_pwd), 1);
-	set_or_create_env_var(&cmd->shell->env_vars, "OLDPWD", old_pwd, 1);
-	set_or_create_env_var(&cmd->shell->env_vars, "PWD", new_pwd, 1);
+	set_or_create_env_var(&cmd->shell->env_vars, "OLDPWD", old_pwd);
+	set_or_create_env_var(&cmd->shell->env_vars, "PWD", new_pwd);
 	free(old_pwd);
 	free(new_pwd);
 	return (0);

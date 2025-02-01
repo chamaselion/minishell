@@ -169,7 +169,7 @@ int			ft_pwd(void);
 int			ft_cd(t_command *cmd);
 int			ft_exit(t_command *cmd);
 void		set_or_create_env_var(t_env_var **env_vars, const char *key,
-				const char *value, int has_equal);
+				const char *value);
 
 // Init:
 void		init_token(t_token *token);
@@ -189,7 +189,7 @@ char		*ft_getenv(t_env_var *env_vars, const char *name);
 void		update_env_var(t_env_var *current, const char *key,
 				const char *value);
 void		create_new_env_var(t_env_var **env_vars, const char *key,
-				const char *value, int has_equal);
+				const char *value);
 char		*resolve_variables_str(char *str, t_shell *shell);
 char		*resolve_variable(const char *str, int *idx, t_shell *shell);
 void		update_quote_mode(char c, unsigned char *quote_mode);

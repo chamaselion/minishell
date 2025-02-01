@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 void	set_or_create_env_var(t_env_var **env_vars, const char *key,
-		const char *value, int has_equal)
+		const char *value)
 {
 	t_env_var	*current;
 
@@ -27,7 +27,7 @@ void	set_or_create_env_var(t_env_var **env_vars, const char *key,
 		}
 		current = current->next;
 	}
-	create_new_env_var(env_vars, key, value, has_equal);
+	create_new_env_var(env_vars, key, value);
 }
 
 char	*ft_getenv(t_env_var *env_vars, const char *name)
