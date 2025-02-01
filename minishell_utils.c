@@ -62,3 +62,16 @@ char	*ft_strncpy(char *dest, const char *src, size_t n)
 	}
 	return (dest);
 }
+
+int	update_redir_lp(t_token *ct)
+{
+	if (strcmp(ct->content, ">") == 0)
+		return (1);
+	else if (strcmp(ct->content, "<") == 0)
+		return (2);
+	else if (strcmp(ct->content, ">>") == 0)
+		return (3);
+	else if (strcmp(ct->content, "<<") == 0)
+		return (4);
+	return (0);
+}

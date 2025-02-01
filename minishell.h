@@ -301,6 +301,7 @@ void		handle_pipe_redirection(t_command *cmd, int pipefd[2]);
 int			handle_heredoc_redirection(t_command *cmd);
 void		add_redirect(t_redirect_list **head, t_token *token);
 void		free_redirect_list(t_redirect_list *head);
+int			update_redir_lp(t_token *ct);
 
 // Signal handling:
 void		setup_signal_handling(void);

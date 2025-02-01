@@ -68,3 +68,19 @@ int	ft_lstsize(t_env_var *lst)
 	}
 	return (i);
 }
+
+void	remove_last_empty_command(t_command *head_cmd, t_command *current_cmd)
+{
+	t_command	*prev_cmd;
+
+	if (current_cmd->command == NULL && current_cmd->args == NULL)
+	{
+		prev_cmd = head_cmd;
+		while (prev_cmd->next != current_cmd)
+		{
+			prev_cmd = prev_cmd->next;
+		}
+		prev_cmd->next = NULL;
+		free(current_cmd);
+	}
+}
