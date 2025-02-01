@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:09:29 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/29 15:07:14 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/02/01 22:24:32 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,19 @@ void	handle_exit_status(t_command *cmd)
 
 static int	get_sign_and_skip(const char *arg, int *i)
 {
-    int	sign = 1;
-    while (arg[*i] && (arg[*i] == ' ' || arg[*i] == '\t' || arg[*i] == '\n' ||
-           arg[*i] == '\r' || arg[*i] == '\v' || arg[*i] == '\f'))
-        (*i)++;
-    if (arg[*i] == '-' || arg[*i] == '+')
-    {
-        if (arg[*i] == '-')
-            sign = -1;
-        (*i)++;
-    }
-    return (sign);
+	int	sign;
+
+	sign = 1;
+	while (arg[*i] && (arg[*i] == ' ' || arg[*i] == '\t' || arg[*i] == '\n'
+			|| arg[*i] == '\r' || arg[*i] == '\v' || arg[*i] == '\f'))
+		(*i)++;
+	if (arg[*i] == '-' || arg[*i] == '+')
+	{
+		if (arg[*i] == '-')
+			sign = -1;
+		(*i)++;
+	}
+	return (sign);
 }
 
 static void	validate_digits(const char *arg, int i, int sign)
@@ -90,6 +92,11 @@ int	ft_exit(t_command *cmd)
 
 	if (!cmd->args[0])
 		handle_exit_status(cmd);
+	if (cmd->args[1] != NULL)
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+		return (1);
+	}
 	if (validate_exit_arguments(cmd))
 		return (1);
 	exit_status = ft_atoi(cmd->args[0]) & 255;
