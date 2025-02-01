@@ -28,6 +28,7 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
+# include <sys/stat.h>
 
 # define MAX_ARGS 64
 # define MAX_PATH 1024
@@ -289,8 +290,7 @@ pid_t		fork_process(void);
 void		handle_child_process(t_command *cmd, int in_fd, int pipefd[2]);
 void		handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2]);
 void		handle_pipes(t_command *cmd);
-void		execute_builtin_with_pipes(t_command *cmd, int in_fd,
-				int pipefd[2]);
+int			execute_builtin(t_command *cmd);
 
 // Redirection
 int			handle_input_redirection(t_command *cmd);
