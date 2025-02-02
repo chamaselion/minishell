@@ -16,8 +16,6 @@
 # include "libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -30,6 +28,9 @@
 # include <unistd.h>
 # include <sys/stat.h>
 # include <limits.h>
+
+# include <readline/history.h>
+# include <readline/readline.h>
 
 # define MAX_ARGS 64
 # define MAX_PATH 1024
