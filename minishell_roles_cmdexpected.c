@@ -35,7 +35,6 @@ void	handle_first_token(t_token *token)
 		if (is_redirection(token->content))
 		{
 			handle_redirect_token(token);
-			handle_first_token(token->next);
 		}
 		if (is_pipe(token->content))
 			handle_pipe_token(token);
