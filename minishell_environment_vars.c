@@ -83,7 +83,7 @@ void	update_env_var(t_env_var *current, const char *key,
 	free(current->string);
 	len = ft_strlen(key) + ft_strlen(value) + 2;
 	current->string = (char *)malloc(len);
-	if (!new_var->string)
+	if (!current->string)
 		return ;
 	ft_strlcpy(current->string, key, len);
 	ft_strlcat(current->string, "=", len);
