@@ -141,7 +141,7 @@ struct s_command
 	t_redirect_list		*append_redirections;
 	t_redirect_list		*heredoc_redirections;
 	t_shell				*shell;
-	int					redir_count; //1 out, 2 in, 3 append, 4 heredoc
+	int					redir_count;
 	int					redir_order[64];
 };
 
@@ -196,10 +196,8 @@ void		update_quote_mode(char c, unsigned char *quote_mode);
 char		*handle_dollar_sign(const char *str, int *idx, char *output_str,
 				t_shell *shell);
 const char	*extract_variable_name(const char *current, char *var_name);
-//char		*handle_alnum_or_underscore(const char *str, int *idx,
-//				char *output_str, t_shell *shell);
 
-// Parsing:
+// Tokenizing and Parsing:
 t_raw_token	*handle_input(char *input, t_shell *shell);
 t_raw_token	*create_raw_token(const char *segment, t_quote_state quote_state);
 void		append_raw_token(t_raw_token **first, t_raw_token **last,
@@ -211,16 +209,19 @@ int			is_raw_token_list_empty(t_raw_token *raw_token_head);
 void		link_token_to_list(t_token **new_head, t_token **current_new,
 				t_token *new_token);
 t_token		*convert_raw_token_list(t_raw_token *raw_token_head);
-void		assign_token_role(t_token *token_list);
-void		handle_redirect_token(t_token *token);
-void		handle_pipe_token(t_token *token);
 int			validate_token_syntax(t_token *token_list);
 t_token		*finalizing_token_list(t_token *token_list);
 void		remove_token(t_token **head, t_token *token);
 t_raw_token	*tokenize_pipe_redirection(const char **input);
 void		separation_check(const char **input, t_raw_token *token);
-void		handle_first_token(t_token *token);
 void		concatenate_tokens(t_token **token_list);
+
+// Roles:
+void		handle_first_quote(t_token *token);
+void		handle_first_token(t_token *token);
+void		assign_token_role(t_token *token_list);
+void		handle_redirect_token(t_token *token);
+void		handle_pipe_token(t_token *token);
 
 // Quote handling:
 t_token		*pop_quotemark_tokens(t_token **token_list);
@@ -257,7 +258,6 @@ char		*ft_strcpy(char *dst, const char *src);
 char		*skip_whitespace(char *input);
 int			is_valid_env_var_name(const char *str);
 char		**convert_environment_to_array(t_env_var *environment);
-void		free_split_array(char **array);
 int			ft_lstsize(t_env_var *lst);
 char		*ft_strjoin_and_free2(char *s1, char *s2);
 void		*ft_realloc(void *ptr, int old_size, int new_size);
@@ -314,5 +314,6 @@ void		free_tokens(t_token *token);
 void		free_raw_tokens(t_raw_token *first_token);
 void		free_env_vars(t_env_var *env_vars);
 void		free_shell(t_shell *shell);
+void		free_split_array(char **array);
 
 #endif

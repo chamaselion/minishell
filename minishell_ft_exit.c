@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_ft_exit.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:09:29 by bszikora          #+#    #+#             */
-/*   Updated: 2025/02/01 22:24:32 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/02/02 09:41:53 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static void	validate_digits(const char *arg, int i, int sign)
 	while (arg[i] && ft_isdigit(arg[i]))
 	{
 		digit = arg[i] - '0';
-		if ((sign == 1 && val > (LLONG_MAX - digit) / 10) ||
-			(sign == -1 && -val < (LLONG_MIN + digit) / 10))
+		if ((sign == 1 && val > (LLONG_MAX - digit) / 10)
+			|| (sign == -1 && (-1 * val) < (LLONG_MIN + digit) / 10))
 		{
 			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 			ft_putstr_fd((char *)arg, STDERR_FILENO);
