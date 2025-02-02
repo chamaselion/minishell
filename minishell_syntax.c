@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 15:01:09 by bszikora          #+#    #+#             */
-/*   Updated: 2025/02/02 15:03:27 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/02/02 16:30:30 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	check_pipe_syntax(t_token *current, t_token *prev)
 	if (current->role == ROLE_PIPE)
 	{
 		if (!prev || !prev->content || (ft_strcmp(prev->content, "\"\"") == 0))
+			return (SYNTAX_ERROR);
+		if (!current->next || current->next->role == ROLE_PIPE)
 			return (SYNTAX_ERROR);
 	}
 	return (SYNTAX_VALID);
