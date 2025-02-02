@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils5.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:54:57 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/02/02 09:32:18 by root             ###   ########.fr       */
+/*   Updated: 2025/02/02 14:52:44 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	is_builtin_command(const char *cmd)
 	const char	*builtins[] = {"echo", "cd", "pwd", "unset", "export", "env",
 		"exit"};
 	int			i;
+
 	if (!cmd)
 		return (0);
 	i = 0;
