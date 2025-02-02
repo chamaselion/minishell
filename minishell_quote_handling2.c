@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_quote_handling2.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 11:00:57 by root              #+#    #+#             */
-/*   Updated: 2025/02/02 09:29:53 by root             ###   ########.fr       */
+/*   Updated: 2025/02/02 16:46:28 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	separation_check(const char **input, t_raw_token *token)
 	{
 		if (is_whitespace(**input))
 			token->separated = 1;
-		else if (is_redirection((char*)*input) || is_pipe((char*) *input))
+		else if (is_redirection((char *) *input) || is_pipe((char *) *input))
 			token->separated = 1;
 		else if (*(*input + 2) && is_quote_char(**input)
 			&& is_quote_char(*(*input + 1)) && is_whitespace(*(*input + 2)))
