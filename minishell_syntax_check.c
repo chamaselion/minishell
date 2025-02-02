@@ -14,7 +14,7 @@
 
 int	validate_token_syntax(t_token *token_list)
 {
-	t_token *current;
+	t_token	*current;
 
 	current = token_list;
 	while (current != NULL)
