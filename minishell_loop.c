@@ -90,22 +90,29 @@ int	main_loop(t_shell *shell)
 		input = read_input("minishell> ");
 		//free(prompt);
 		raw_tokens = handle_input(input, shell);
-		check_for_unclosed(raw_tokens, shell);
-		tokens = convert_raw_token_list(raw_tokens);
-		if (tokens)
+		if (check_for_unclosed(raw_tokens, shell) == 0)
 		{
-			if (fill_command_from_tokens(tokens, &commands) != -1)
+			tokens = convert_raw_token_list(raw_tokens);
+			if (tokens)
 			{
-				shell_to_command(&commands, shell);
-				if (link_commands_and_tokens(tokens, commands) == 0 && commands)
+				if (fill_command_from_tokens(tokens, &commands) != -1)
 				{
-					handle_pipes(commands);
-					free_commands(commands);
+					shell_to_command(&commands, shell);
+					if (link_commands_and_tokens(tokens, commands) == 0 && commands)
+					{
+						handle_pipes(commands);
+						free_commands(commands);
+					}
 				}
 			}
+			free_tokens(tokens);
+			free(input);
 		}
-		free_tokens(tokens);
-		free(input);
+		else
+		{
+			free_raw_tokens(raw_tokens);
+			free(input);
+		}
 	}
 	free_shell(shell);
 	rl_clear_history();
