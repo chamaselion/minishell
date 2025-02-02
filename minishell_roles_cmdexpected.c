@@ -15,52 +15,76 @@
 
 void	handle_first_token(t_token *token)
 {
-    if (!token)
-        return ;
-    if (ft_strcmp(token->content, "|") == 0)
-    {
-        token->role = ROLE_PIPE;
-        token->command_expected = 0;
-        token->separated = 1;
-        if (token->next)
-        {
-            token->next->command_expected = 1;
-            token->next->separated = 1;
-            token->next->role = ROLE_EXECUTABLE;
-        }
-    }
-    else if (ft_strcmp(token->content, ">") == 0 ||
-        ft_strcmp(token->content, "<") == 0 ||
-        ft_strcmp(token->content, ">>") == 0 ||
-        ft_strcmp(token->content, "<<") == 0)
-    {
-        token->role = ROLE_REDIRECT;
-        token->command_expected = 0;
-        if (token->next)
-        {
-            token->next->command_expected = 1;
-            token->next->separated = 1;
-        }
-    }
-    else if (is_quote_char(*token->content))
-    {
-        token->role = ROLE_DELIMITER;
-        token->command_expected = 0;
-        if (token->next)
-        {
-            token->next->command_expected = 1;
-            token->next->separated = 1;
-            token->next->role = ROLE_EXECUTABLE;
-        }
-    }
-    else
-    {
-        token->role = ROLE_EXECUTABLE;
-        token->command_expected = 1;
-        token->separated = 1;
-    }
+	if (token && is_quote_char(*token->content))
+	{
+		token->role = ROLE_DELIMITER;
+		token->command_expected = 0;
+		if (token->next)
+		{
+			token->next->command_expected = 1;
+			token->next->separated = 1;
+			token->next->role = ROLE_EXECUTABLE;
+			token = token->next;
+		}
+	}
+	else if (token)
+	{
+		token->role = ROLE_EXECUTABLE;
+		token->command_expected = 1;
+		token->separated = 1;
+	}
+	else
+		return ;
 }
 
+/*
+void	handle_first_token(t_token *token)
+{
+	if (!token)
+		return ;
+	if (ft_strcmp(token->content, "|") == 0)
+	{
+		token->role = ROLE_PIPE;
+		token->command_expected = 0;
+		token->separated = 1;
+		if (token->next)
+		{
+			token->next->command_expected = 1;
+			token->next->separated = 1;
+			token->next->role = ROLE_EXECUTABLE;
+		}
+	}
+	else if (ft_strcmp(token->content, ">") == 0 || ft_strcmp(token->content,
+			"<") == 0 || ft_strcmp(token->content, ">>") == 0
+		|| ft_strcmp(token->content, "<<") == 0)
+	{
+		token->role = ROLE_REDIRECT;
+		token->command_expected = 0;
+		if (token->next)
+		{
+			token->next->command_expected = 1;
+			token->next->separated = 1;
+		}
+	}
+	else if (is_quote_char(*token->content))
+	{
+		token->role = ROLE_DELIMITER;
+		token->command_expected = 0;
+		if (token->next)
+		{
+			token->next->command_expected = 1;
+			token->next->separated = 1;
+			token->next->role = ROLE_EXECUTABLE;
+		}
+	}
+	else
+	{
+		token->role = ROLE_EXECUTABLE;
+		token->command_expected = 1;
+		token->separated = 1;
+	}
+}
+*/
 void	handle_quote_token(t_token *token)
 {
 	token->role = ROLE_DELIMITER;
@@ -90,7 +114,7 @@ static void	decide_token_role(t_token *current)
 
 void	assign_token_role(t_token *token_list)
 {
-	t_token	*current;
+	t_token *current;
 
 	current = token_list;
 	if (current && !current->prev)
