@@ -79,7 +79,7 @@ int	link_commands_and_tokens(t_token *tokens, t_command *cmd)
 
 	if (validate_token_syntax(tokens) == SYNTAX_ERROR)
 		return (ft_putstr_fd("Error: syntax error\n", STDERR_FILENO),
-			update_exit_code(cmd->shell, 2), 1);
+			update_exit_code(cmd->shell, 2), free_commands(cmd), 1);
 	ct = tokens;
 	current_cmd = cmd;
 	if (process_command_tokens(ct, current_cmd, cmd) == 1)
