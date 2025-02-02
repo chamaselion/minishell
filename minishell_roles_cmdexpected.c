@@ -2,12 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_roles_cmdexpected.c                      :+:      :+:    :+:   */
-/*                                                    +:+
-				+:+			+:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+		+#+       */
-/*                                                +#+#+#+#+#	+#+           */
-/*   Created: 2024/12/03 18:28:30 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/04 18:39:47 by mnaumann         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/02 20:08:28 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:08:28 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/29 22:24:31 by bszikora         ###   ########.fr       */
+/*   Created: 2025/02/02 20:10:41 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:10:41 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,7 @@ int			ft_lstsize(t_env_var *lst);
 char		*ft_strjoin_and_free2(char *s1, char *s2);
 void		*ft_realloc(void *ptr, int old_size, int new_size);
 char		*ft_strcat(char *dest, const char *src);
+bool		is_valid_identifier(const char *str);
 
 // Command filler
 t_command	*create_new_command(void);

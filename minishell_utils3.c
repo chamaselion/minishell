@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 11:20:21 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/09 12:56:36 by mnaumann         ###   ########.fr       */
+/*   Created: 2025/02/02 20:09:39 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:09:39 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
