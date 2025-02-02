@@ -80,9 +80,9 @@ int	main_loop(t_shell *shell)
 	t_token		*tokens;	
 	t_command	*commands;
 
-	setup_signal_handling();
 	while (1)
-	{
+	{	
+		signal_interactive();
 		shell->last_exit_code = sigint_checker(shell->last_exit_code);
 		//prompt = get_prompt();
 		//if (prompt == NULL)
@@ -100,6 +100,7 @@ int	main_loop(t_shell *shell)
 					shell_to_command(&commands, shell);
 					if (link_commands_and_tokens(tokens, commands) == 0 && commands)
 					{
+						signal_noninteractive();
 						handle_pipes(commands);
 						free_commands(commands);
 					}

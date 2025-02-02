@@ -309,6 +309,8 @@ int			update_redir_lp(t_token *ct);
 
 // Signal handling:
 void		setup_signal_handling(void);
+void		signal_interactive(void);
+void		signal_noninteractive(void);
 
 // Freeing:
 void		free_command(t_command *cmd);

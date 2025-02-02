@@ -14,37 +14,48 @@
 
 int	g_received_signal;
 
-void	handle_sigint(int sig)
+void	sigquit_ignore(void)
 {
-	g_received_signal = sig;
-	ft_putstr_fd("\n", STDERR_FILENO);
+	struct sigaction	sa;
+
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
+void	signal_prompt(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
-void	handle_sigquit(int sig)
-{
-	g_received_signal = sig;
-}
-
-void	setup_signal_handling(void)
+void	signal_interactive(void)
 {
 	struct sigaction	sa;
 
-	g_received_signal = 0;
-	sa.sa_handler = handle_sigint;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-	{
-		ft_putstr_fd("sigaction error for SIGINT\n", STDERR_FILENO);
-		exit(1);
-	}
-	sa.sa_handler = handle_sigquit;
-	if (sigaction(SIGQUIT, &sa, NULL) == -1)
-	{
-		ft_putstr_fd("sigaction error for SIGQUIT\n", STDERR_FILENO);
-		exit(1);
-	}
+	sigquit_ignore();
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = &signal_prompt;
+	sigaction(SIGINT, &sa, NULL);
+}
+
+void	signal_newline(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+}
+
+void	signal_noninteractive(void)
+{
+	struct sigaction	sa;
+
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = &signal_newline;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }
