@@ -59,7 +59,5 @@ int	ft_cd(t_command *cmd)
 			free(old_pwd), 1);
 	set_or_create_env_var(&cmd->shell->env_vars, "OLDPWD", old_pwd);
 	set_or_create_env_var(&cmd->shell->env_vars, "PWD", new_pwd);
-	free(old_pwd);
-	free(new_pwd);
-	return (0);
+	return (free(old_pwd), free(new_pwd), 0);
 }
