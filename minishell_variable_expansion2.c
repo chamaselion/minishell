@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_variable_expansion2.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:48:09 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/29 19:13:33 by mnaumann         ###   ########.fr       */
+/*   Updated: 2025/02/02 09:18:41 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*resolve_variables_str(char *str, t_shell *shell)
 		if (str[idx] == '$' && (!quote_mode || (quote_mode & 2)))
 		{
 			output_str = handle_dollar_sign(str, &idx, output_str, shell);
-			if(*output_str == '\0')
+			if (*output_str == '\0')
 				update_exit_code(shell, 0);
 		}
 		else

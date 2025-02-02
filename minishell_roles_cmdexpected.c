@@ -13,87 +13,41 @@
 
 #include "minishell.h"
 
+void	handle_first_quote(t_token *token)
+{
+	token->role = ROLE_DELIMITER;
+	token->command_expected = 0;
+	if (token->next)
+	{
+		token->next->command_expected = 1;
+		token->next->separated = 1;
+		token->next->role = ROLE_EXECUTABLE;
+		token = token->next;
+	}
+}
+
 void	handle_first_token(t_token *token)
 {
 	if (token && is_quote_char(*token->content))
-	{
-		token->role = ROLE_DELIMITER;
-		token->command_expected = 0;
-		if (token->next)
-		{
-			token->next->command_expected = 1;
-			token->next->separated = 1;
-			token->next->role = ROLE_EXECUTABLE;
-			token = token->next;
-		}
-	}
+		handle_first_quote(token);
 	else if (token)
 	{
-		token->role = ROLE_EXECUTABLE;
-		token->command_expected = 1;
-		token->separated = 1;
-	}
-	else
-		return ;
-}
-
-/*
-void	handle_first_token(t_token *token)
-{
-	if (!token)
-		return ;
-	if (ft_strcmp(token->content, "|") == 0)
-	{
-		token->role = ROLE_PIPE;
-		token->command_expected = 0;
-		token->separated = 1;
-		if (token->next)
+		if (is_redirection(token->content))
 		{
-			token->next->command_expected = 1;
-			token->next->separated = 1;
-			token->next->role = ROLE_EXECUTABLE;
+			handle_redirect_token(token);
+			handle_first_token(token->next);
 		}
-	}
-	else if (ft_strcmp(token->content, ">") == 0 || ft_strcmp(token->content,
-			"<") == 0 || ft_strcmp(token->content, ">>") == 0
-		|| ft_strcmp(token->content, "<<") == 0)
-	{
-		token->role = ROLE_REDIRECT;
-		token->command_expected = 0;
-		if (token->next)
+		if (is_pipe(token->content))
+			handle_pipe_token(token);
+		else
 		{
-			token->next->command_expected = 1;
-			token->next->separated = 1;
-		}
-	}
-	else if (is_quote_char(*token->content))
-	{
-		token->role = ROLE_DELIMITER;
-		token->command_expected = 0;
-		if (token->next)
-		{
-			token->next->command_expected = 1;
-			token->next->separated = 1;
-			token->next->role = ROLE_EXECUTABLE;
+			token->role = ROLE_EXECUTABLE;
+			token->command_expected = 1;
+			token->separated = 1;
 		}
 	}
 	else
-	{
-		token->role = ROLE_EXECUTABLE;
-		token->command_expected = 1;
-		token->separated = 1;
-	}
-}
-*/
-void	handle_quote_token(t_token *token)
-{
-	token->role = ROLE_DELIMITER;
-}
-
-void	handle_pipe_token(t_token *token)
-{
-	token->role = ROLE_PIPE;
-	handle_first_token(token->next);
+		return ;
 }
 
 static void	decide_token_role(t_token *current)
@@ -114,7 +68,7 @@ static void	decide_token_role(t_token *current)
 
 void	assign_token_role(t_token *token_list)
 {
-	t_token *current;
+	t_token	*current;
 
 	current = token_list;
 	if (current && !current->prev)
