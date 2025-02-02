@@ -309,10 +309,15 @@ void		add_redirect(t_redirect_list **head, t_token *token);
 void		free_redirect_list(t_redirect_list *head);
 int			update_redir_lp(t_token *ct);
 
+// Loop:
+void		process_tokens_and_commands(t_token *tokens, t_shell *shell);
+void		shell_to_command(t_command **cmd, t_shell *shell);
+
 // Signal handling:
 void		setup_signal_handling(void);
 void		signal_interactive(void);
 void		signal_noninteractive(void);
+int			sigint_checker(int original);
 
 // Freeing:
 void		free_command(t_command *cmd);
@@ -322,5 +327,6 @@ void		free_raw_tokens(t_raw_token *first_token);
 void		free_env_vars(t_env_var *env_vars);
 void		free_shell(t_shell *shell);
 void		free_split_array(char **array);
+void		free_raw_and_input(t_raw_token *raw_tokens, char *input);
 
 #endif

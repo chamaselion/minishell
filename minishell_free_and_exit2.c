@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_free_and_exit2.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:16:20 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/02/01 09:53:50 by root             ###   ########.fr       */
+/*   Updated: 2025/02/02 21:23:58 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,10 @@ void	free_shell(t_shell *shell)
 		free_commands(shell->commands);
 	if (shell->env_vars)
 		free_env_vars(shell->env_vars);
+}
+
+void	free_raw_and_input(t_raw_token *raw_tokens, char *input)
+{
+	free_raw_tokens(raw_tokens);
+	free(input);
 }

@@ -3,6 +3,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 SRC = minishell_loop.c\
+ 	minishell_loop_utils.c\
     minishell_tokenizer2.c\
     minishell_tokenizer3.c\
     minishell_tokenizer.c\

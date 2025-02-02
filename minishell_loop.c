@@ -12,32 +12,6 @@
 
 #include "minishell.h"
 
-char	*get_prompt(void)
-{
-	char		*cwd;
-	char		*prompt;
-	const char	*suffix;
-
-	suffix = " minishell> ";
-	cwd = malloc(2048);
-	if (cwd == NULL)
-		return (ft_putstr_fd("malloc() error\n", STDERR_FILENO), NULL);
-	if (getcwd(cwd, 2048) == NULL)
-	{
-		ft_putstr_fd("getcwd() error\n", STDERR_FILENO);
-		return (free(cwd), NULL);
-	}
-	prompt = (char *)malloc(ft_strlen(cwd) + ft_strlen(suffix) + 1);
-	if (prompt == NULL)
-	{
-		ft_putstr_fd("malloc() error\n", STDERR_FILENO);
-		free(cwd);
-		return (NULL);
-	}
-	ft_strcpy(prompt, cwd);
-	return (ft_strcat(prompt, suffix), free(cwd), prompt);
-}
-
 char	*read_input(const char *prompt)
 {
 	char	*input;
@@ -74,46 +48,27 @@ int	sigint_checker(int original)
 
 int	main_loop(t_shell *shell)
 {
-	//char		*prompt;
 	char		*input;
 	t_raw_token	*raw_tokens;
-	t_token		*tokens;	
+	t_token		*tokens;
 	t_command	*commands;
 
+	commands = NULL;
 	while (1)
-	{	
+	{
 		signal_interactive();
 		shell->last_exit_code = sigint_checker(shell->last_exit_code);
-		//prompt = get_prompt();
-		//if (prompt == NULL)
-		//	return (1);
 		input = read_input("minishell> ");
-		//free(prompt);
 		raw_tokens = handle_input(input, shell);
 		if (check_for_unclosed(raw_tokens, shell) == 0)
 		{
 			tokens = convert_raw_token_list(raw_tokens);
-			if (tokens)
-			{
-				if (fill_command_from_tokens(tokens, &commands) != -1)
-				{
-					shell_to_command(&commands, shell);
-					if (link_commands_and_tokens(tokens, commands) == 0 && commands)
-					{
-						signal_noninteractive();
-						handle_pipes(commands);
-						free_commands(commands);
-					}
-				}
-			}
+			process_tokens_and_commands(tokens, shell);
 			free_tokens(tokens);
 			free(input);
 		}
 		else
-		{
-			free_raw_tokens(raw_tokens);
-			free(input);
-		}
+			free_raw_and_input(raw_tokens, input);
 	}
 	free_shell(shell);
 	rl_clear_history();
