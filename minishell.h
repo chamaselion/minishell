@@ -222,6 +222,7 @@ void		handle_first_token(t_token *token);
 void		assign_token_role(t_token *token_list);
 void		handle_redirect_token(t_token *token);
 void		handle_pipe_token(t_token *token);
+void		handle_quote_token(t_token *token);
 
 // Quote handling:
 t_token		*pop_quotemark_tokens(t_token **token_list);

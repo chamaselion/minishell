@@ -41,10 +41,10 @@ SRC = minishell_loop.c\
 	minishell_commandfill3.c\
 	minishell_environment_vars2.c\
 	minishell_piping_builtins.c\
-	minishell_piping_utis.c\
-	minishell_piping_utis2.c\
-	minishell_redirection_utis.c\
-	minishell_execution_utis.c\
+	minishell_piping_utils.c\
+	minishell_piping_utils2.c\
+	minishell_redirection_utils.c\
+	minishell_execution_utils.c\
 	
 OBJ_DIR = objects
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
