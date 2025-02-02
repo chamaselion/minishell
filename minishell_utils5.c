@@ -46,7 +46,8 @@ int	is_builtin_command(const char *cmd)
 	const char	*builtins[] = {"echo", "cd", "pwd", "unset", "export", "env",
 		"exit"};
 	int			i;
-
+	if (!cmd)
+		return (0);
 	i = 0;
 	while (i < 7)
 	{

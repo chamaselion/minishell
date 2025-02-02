@@ -93,8 +93,7 @@ int	ft_export(t_command *cmd)
 			if (equal_sign)
 				handle_env_var_with_value(cmd, i, equal_sign);
 			else
-				set_or_create_env_var(&(cmd->shell->env_vars), cmd->args[i],
-					"");
+				set_or_create_hidden_env_var(&(cmd->shell->env_vars), cmd->args[i]);
 			i++;
 		}
 	}

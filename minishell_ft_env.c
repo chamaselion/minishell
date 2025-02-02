@@ -28,9 +28,9 @@ int	ft_env(t_command *cmd)
 	{
 		while (current)
 		{
-			if (current->value)
+			if (current->value && current->format)
 				printf("%s=%s\n", current->key, current->value);
-			else
+			else if (current->format)
 				printf("%s\n", current->key);
 			current = current->next;
 		}

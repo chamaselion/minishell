@@ -170,6 +170,8 @@ int			ft_cd(t_command *cmd);
 int			ft_exit(t_command *cmd);
 void		set_or_create_env_var(t_env_var **env_vars, const char *key,
 				const char *value);
+void		create_new_env_var_hidden(t_env_var **env_vars, const char *key);
+void		set_or_create_hidden_env_var(t_env_var **env_vars, const char *key);
 
 // Init:
 void		init_token(t_token *token);
