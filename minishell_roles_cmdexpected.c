@@ -36,9 +36,9 @@ void	handle_first_token(t_token *token)
 		{
 			handle_redirect_token(token);
 		}
-		if (is_pipe(token->content))
+		else if (is_pipe(token->content))
 			handle_pipe_token(token);
-		else
+		else if (!is_pipe(token->content) && !is_redirection(token->content))
 		{
 			token->role = ROLE_EXECUTABLE;
 			token->command_expected = 1;
