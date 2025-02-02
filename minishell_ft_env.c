@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:02:05 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/31 14:40:47 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/02/02 00:42:13 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_env(t_command *cmd)
 	}
 	if (cmd->args[0] == NULL)
 	{
-		while (current && current->format == 1)
+		while (current)
 		{
 			if (current->value)
 				printf("%s=%s\n", current->key, current->value);
