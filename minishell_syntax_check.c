@@ -23,7 +23,7 @@ int	validate_token_syntax(t_token *token_list)
 	{
 		if (current->role == ROLE_PIPE)
 		{
-			if (!prev || !prev->content || (strcmp(prev->content, "\"\"") == 0))
+			if (!prev || !prev->content || (ft_strcmp(prev->content, "\"\"") == 0))
 				return (SYNTAX_ERROR);
 		}
 		if (current->role == ROLE_REDIRECT)
@@ -32,7 +32,7 @@ int	validate_token_syntax(t_token *token_list)
 				return (SYNTAX_ERROR);
 			if (current->next->role != ROLE_ARGUMENT)
 				return (SYNTAX_ERROR);
-			if (strcmp(current->next->content, "\"\"") == 0)
+			if (ft_strcmp(current->next->content, "\"\"") == 0)
 				return (SYNTAX_ERROR);
 		}
 		prev = current;
