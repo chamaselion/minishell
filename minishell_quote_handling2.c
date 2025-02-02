@@ -6,7 +6,7 @@
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 11:00:57 by root              #+#    #+#             */
-/*   Updated: 2025/02/02 16:46:28 by bszikora         ###   ########.fr       */
+/*   Updated: 2025/02/02 20:08:14 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_raw_token	*handle_non_quote_segment(const char **input, t_shell *shell)
 	char		*temp;
 	t_raw_token	*token;
 
+	token = NULL;
 	start = *input;
 	while (**input && !is_whitespace(**input) && !is_quote_char(**input)
 		&& !is_redirection((char*)*input) && !is_pipe((char*)*input))
