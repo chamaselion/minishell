@@ -11,7 +11,7 @@ SRC = minishell_loop.c\
 	minishell_variable_expansion2.c\
     minishell_roles_cmdexpected.c\
 	minishell_roles_cmdexpected2.c\
-    minishell_syntax_check.c\
+    minishell_syntax.c\
     minishell_signal.c\
     minishell_quote_handling.c\
 	minishell_quote_handling2.c\
