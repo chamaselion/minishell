@@ -61,6 +61,7 @@ $(NAME): $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LDFLAGS)
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -I. -c $< -o $@
 
 $(OBJ_DIR):
@@ -73,6 +74,7 @@ clean:
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
+	rm -rf $(OBJ_DIR)
 
 re: fclean all
 
