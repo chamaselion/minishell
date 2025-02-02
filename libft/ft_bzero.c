@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef unsigned long long	t_size_t;
+#include "libft.h"
 
 void	ft_bzero(void *str, t_size_t len)
 {

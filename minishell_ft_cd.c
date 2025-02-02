@@ -1,50 +1,63 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_ft_cd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 19:10:19 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/20 19:16:18 by bszikora         ###   ########.fr       */
+/*   Created: 2025/02/02 20:05:42 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:05:42 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_cd(t_command *cmd)
+int	ft_cd_arg_checker(t_command *cmd)
 {
-    char *old_pwd;
-    char *new_pwd;
-    char *path;
+	char	*path;
 
-    path = cmd->args[0];
-    if (!path)
-    {
-        ft_putstr_fd("cd: path is required\n", STDERR_FILENO);
-        return;
-    }
-    old_pwd = getcwd(NULL, 0);
-    if (!old_pwd)
-    {
-        perror("cd: getcwd failed");
-        return;
-    }
-    if (chdir(path) != 0)
-    {
-        perror("cd");
-        free(old_pwd);
-        return;
-    }
-    new_pwd = getcwd(NULL, 0);
-    if (!new_pwd)
-    {
-        perror("cd: getcwd failed");
-        free(old_pwd);
-        return;
-    }
-    set_or_create_env_var(&cmd->shell->env_vars, "OLDPWD", old_pwd);
-    set_or_create_env_var(&cmd->shell->env_vars, "PWD", new_pwd);
-    free(old_pwd);
-    free(new_pwd);
+	if (cmd->arg_count > 1)
+	{
+		ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
+		return (1);
+	}
+	path = cmd->args[0];
+	if (path)
+	{
+		if (access(path, F_OK) != 0)
+			return (ft_putstr_fd("cd: no such file or directory\n",
+					STDERR_FILENO), 1);
+		if (access(path, X_OK) != 0)
+			return (ft_putstr_fd("cd: permission denied\n", STDERR_FILENO), 1);
+	}
+	return (0);
+}
+
+int	ft_cd(t_command *cmd)
+{
+	char	*old_pwd;
+	char	*new_pwd;
+	char	*path;
+
+	if (ft_cd_arg_checker(cmd) == 1)
+		return (1);
+	path = cmd->args[0];
+	if (!path)
+	{
+		path = ft_getenv(cmd->shell->env_vars, "HOME");
+		if (!path)
+			return (ft_putstr_fd("cd: HOME not set\n", STDERR_FILENO), 1);
+	}
+	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
+		return (ft_putstr_fd("cd: getcwd failed\n", STDERR_FILENO), 1);
+	if (chdir(path) != 0)
+		return (ft_putstr_fd("cd\n", STDERR_FILENO), free(old_pwd), 1);
+	new_pwd = getcwd(NULL, 0);
+	if (!new_pwd)
+		return (ft_putstr_fd("cd: getcwd failed\n", STDERR_FILENO),
+			free(old_pwd), 1);
+	set_or_create_env_var(&cmd->shell->env_vars, "OLDPWD", old_pwd);
+	set_or_create_env_var(&cmd->shell->env_vars, "PWD", new_pwd);
+	return (free(old_pwd), free(new_pwd), 0);
 }

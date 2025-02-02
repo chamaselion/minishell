@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-
-typedef unsigned long long	t_size_t;
+#include "libft.h"
 
 void	*ft_calloc(t_size_t count, t_size_t size)
 {

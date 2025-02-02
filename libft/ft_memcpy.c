@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef unsigned long long	t_size_t;
+#include "libft.h"
 
 void	*ft_memcpy(void *dst, const void *src, t_size_t n)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef unsigned long long	t_size_t;
+#include "libft.h"
 
 void	ft_norminettebs(unsigned char *pdst, const unsigned char *psrc,
 		t_size_t len)

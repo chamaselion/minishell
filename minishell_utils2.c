@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 10:52:31 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/02 18:07:35 by mnaumann         ###   ########.fr       */
+/*   Created: 2025/02/02 20:09:30 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:09:30 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	get_quote_state(char c)
 {

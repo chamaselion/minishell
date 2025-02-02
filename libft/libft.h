@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 19:37:51 by bszikora          #+#    #+#             */
-/*   Updated: 2024/03/16 16:39:09 by bszikora         ###   ########.fr       */
+/*   Created: 2025/02/02 20:12:16 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:12:16 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,15 @@ typedef struct s_list
 	struct s_list			*next;
 }							t_list;
 
-char						*ft_strjoin(char const *s1, char const *s2);
+typedef struct t_SplitData
+{
+	int			word_count;
+	char		**result;
+	int			i;
+	const char	*start;
+}				t_SplitData;
+
+char						*ft_strjoin(char *s1, char *s2);
 char						*ft_substr(char const *s, unsigned int start,
 								t_size_t len);
 void						ft_bzero(void *str, t_size_t len);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils4.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/09 12:55:37 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/09 18:19:29 by mnaumann         ###   ########.fr       */
+/*   Created: 2025/02/02 20:09:51 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:09:51 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,71 @@
 char	*skip_whitespace(char *input)
 {
 	while (*input && is_whitespace(*input))
+	{
 		input++;
+	}
 	return (input);
 }
 
-char	*expand_env_variable(const char *var_name)
+char	**convert_environment_to_array(t_env_var *environment)
 {
-	if (!var_name)
+	char		**envarr;
+	t_env_var	*current;
+	int			idx;
+
+	envarr = (char **)malloc(sizeof(char *) * (ft_lstsize(environment) + 1));
+	if (!envarr)
 		return (NULL);
-	return (getenv(var_name));
+	current = environment;
+	idx = 0;
+	while (current)
+	{
+		envarr[idx] = ft_strdup(current->string);
+		current = current->next;
+		idx++;
+	}
+	envarr[idx] = 0;
+	return (envarr);
 }
 
-int	is_builtin_command(const char *cmd)
+void	free_split_array(char **array)
 {
-	const char	*builtins[7] = {"echo", "cd", "pwd", "export", "unset",
-		"env", "exit"};
-	int			i;
+	int	i;
 
 	i = 0;
-	while (i < 7)
+	while (array[i])
 	{
-		if (ft_strcmp(cmd, builtins[i]) == 0)
-			return (1);
+		free(array[i]);
 		i++;
 	}
-	return (0);
+	free(array);
 }
 
-
-int	ft_strcmp(const char *s1, const char *s2)
+int	ft_lstsize(t_env_var *lst)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while ((unsigned char)s1[i] && (unsigned char)s1[i] == (unsigned char)s2[i])
+	while (lst)
+	{
+		lst = lst->next;
 		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	return (i);
+}
+
+void	remove_last_empty_command(t_command *head_cmd, t_command *current_cmd)
+{
+	t_command	*prev_cmd;
+
+	if (current_cmd->command == NULL && current_cmd->args == NULL)
+	{
+		prev_cmd = head_cmd;
+		while (prev_cmd->next != current_cmd)
+		{
+			prev_cmd = prev_cmd->next;
+		}
+		prev_cmd->next = NULL;
+		free(current_cmd);
+	}
 }

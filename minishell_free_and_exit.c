@@ -1,44 +1,44 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell_free_and_exit.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 13:09:32 by bszikora          #+#    #+#             */
-/*   Updated: 2025/01/20 16:19:55 by bszikora         ###   ########.fr       */
+/*   Created: 2025/02/02 20:05:22 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:05:22 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-
-//still a for loop!
 void	free_command(t_command *cmd)
 {
+	int	i;
+
+	i = 0;
 	if (cmd->command)
 		free(cmd->command);
 	if (cmd->input)
 		free(cmd->input);
 	if (cmd->args)
 	{
-		for (int i = 0; i < cmd->arg_count; i++)
+		while (i < cmd->arg_count)
 		{
 			if (cmd->args[i])
 				free(cmd->args[i]);
+			i++;
 		}
 		free(cmd->args);
 	}
-	if (cmd->output)
-		free(cmd->output);
-	if (cmd->input_redirection)
-		free(cmd->input_redirection);
-	if (cmd->output_redirection)
-		free(cmd->output_redirection);
-	if (cmd->append_redirection)
-		free(cmd->append_redirection);
-	if (cmd->heredoc_redirection)
-		free(cmd->heredoc_redirection);
+	if (cmd->output_redirections)
+		free_redirect_list(cmd->output_redirections);
+	if (cmd->input_redirections)
+		free_redirect_list(cmd->input_redirections);
+	if (cmd->append_redirections)
+		free_redirect_list(cmd->append_redirections);
+	if (cmd->heredoc_redirections)
+		free_redirect_list(cmd->heredoc_redirections);
 }
 
 void	free_commands(t_command *cmd)
@@ -49,6 +49,8 @@ void	free_commands(t_command *cmd)
 	{
 		temp = cmd;
 		cmd = cmd->next;
+		if (temp->output)
+			temp->output = NULL;
 		free_command(temp);
 		free(temp);
 	}
@@ -67,16 +69,17 @@ int	free_and_fail(char *content, char *message)
 	return (0);
 }
 
-void	free_tokens(t_token *token)
+void	free_tokens(t_token *tokens)
 {
-	t_token	*current;
-	t_token	*next;
+	t_token	*tmp;
 
-	current = token;
-	while (current)
+	while (tokens)
 	{
-		next = current->next;
-		free(current);
-		current = next;
+		tmp = tokens;
+		tokens = tokens->next;
+		if (tmp->content)
+			free(tmp->content);
+		free(tmp);
+		tmp = NULL;
 	}
 }

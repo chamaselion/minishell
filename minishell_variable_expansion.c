@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_variable_expansion.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/10 13:17:27 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/10 13:22:02 by mnaumann         ###   ########.fr       */
+/*   Created: 2025/02/02 20:10:04 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:10:04 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ const char	*extract_variable_name(const char *current, char *var_name)
 	return (current);
 }
 
-void	append_variable_value(const char *var_name, char **write_ptr)
+void	append_variable_value(const char *var_name,
+			char **write_ptr, t_env_var *env)
 {
 	char	*env_value;
 
 	if (is_valid_env_var_name(var_name))
 	{
-		env_value = expand_env_variable(var_name);
+		env_value = ft_getenv(env, var_name);
 		if (env_value != NULL)
 		{
 			ft_strcpy(*write_ptr, env_value);
@@ -55,7 +56,7 @@ void	append_character(char c, char **write_ptr)
 	(*write_ptr)++;
 }
 
-char	*expand_double_quote_content(const char *content)
+char	*expand_double_quote_content(const char *content, t_env_var *env)
 {
 	char		buffer[1024];
 	char		var_name[256];
@@ -71,7 +72,7 @@ char	*expand_double_quote_content(const char *content)
 		{
 			current++;
 			current = extract_variable_name(current, var_name);
-			append_variable_value(var_name, &write_ptr);
+			append_variable_value(var_name, &write_ptr, env);
 		}
 		else
 		{

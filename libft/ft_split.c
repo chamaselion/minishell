@@ -5,21 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/14 15:51:02 by bszikora          #+#    #+#             */
-/*   Updated: 2024/03/15 16:44:22 by bszikora         ###   ########.fr       */
+/*   Created: 2025/02/02 20:11:50 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:11:50 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
-
-typedef struct t_SplitData
-{
-	int			word_count;
-	char		**result;
-	int			i;
-	const char	*start;
-}				t_SplitData;
 
 static int	count_words(const char *s, char c)
 {

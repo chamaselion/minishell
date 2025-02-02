@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/06 16:42:16 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/01/20 19:15:39 by bszikora         ###   ########.fr       */
+/*   Created: 2025/02/02 20:10:41 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:10:41 by bszikora         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -16,8 +16,6 @@
 # include "libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -28,10 +26,16 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
+# include <sys/stat.h>
+# include <limits.h>
+
+# include <readline/history.h>
+# include <readline/readline.h>
 
 # define MAX_ARGS 64
 # define MAX_PATH 1024
 
+extern int					g_received_signal;
 typedef struct s_command	t_command;
 typedef unsigned long long	t_size_t;
 
@@ -80,9 +84,9 @@ typedef struct s_token
 	char			*content;
 	int				role;
 	int				quote_state;
-	int				position;
 	int				command_expected;
 	int				syntax_state;
+	int				separated;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -92,8 +96,6 @@ typedef enum e_quote_state
 	NO_QUOTE = 0,
 	WITHIN_SINGLE_QUOTE = 1,
 	WITHIN_DOUBLE_QUOTE = 2,
-	UNCLOSED_SINGLE_QUOTE = 3,
-	UNCLOSED_DOUBLE_QUOTE = 4
 }	t_quote_state;
 
 typedef struct s_env_var
@@ -112,98 +114,139 @@ typedef struct s_shell
 	t_command	*commands;
 	char		cwd[MAX_PATH];
 	t_env_var	*env_vars;
+	int			last_exit_code;
+	int			saved_stdin;
+	int			saved_stdout;
+	int			saved_stderr;
 }	t_shell;
+
+typedef struct s_redirect_list
+{
+	t_token					*token;
+	struct s_redirect_list	*next;
+}	t_redirect_list;
 
 struct s_command
 {
-	char		*command;
-	char		*input;
-	char		**args;
-	int			arg_count;
-	char		*output;
-	t_command	*related_to;
-	int			relation_type;
-	t_command	*next;
-	int			is_internal;
-	t_token		*input_redirection;
-	t_token		*output_redirection;
-	t_token		*append_redirection;
-	t_token		*heredoc_redirection;
-	t_shell		*shell;
+	char				*command;
+	char				*input;
+	char				**args;
+	int					arg_count;
+	char				*output;
+	t_command			*related_to;
+	int					relation_type;
+	t_command			*next;
+	int					is_internal;
+	t_redirect_list		*output_redirections;
+	t_redirect_list		*input_redirections;
+	t_redirect_list		*append_redirections;
+	t_redirect_list		*heredoc_redirections;
+	t_shell				*shell;
+	int					redir_count;
+	int					redir_order[64];
 };
 
 typedef struct s_raw_token
 {
 	char				*segment;
 	int					quote_state;
-	int					position;
+	int					separated;
 	struct s_raw_token	*next;
 	struct s_raw_token	*prev;
 }	t_raw_token;
 
-void	ft_echo(t_command *cmd);
-void	ft_env(t_command *cmd);
-void	ft_export(t_command *cmd);
-void	ft_unset(t_command *cmd);
-int		ft_pwd(void);
-void	ft_cd(t_command *cmd);
+typedef struct s_raw_list
+{
+	t_raw_token	*first;
+	t_raw_token	*last;
+}	t_raw_list;
 
-void set_or_create_env_var(t_env_var **env_vars, const char *key, const char *value);
+// Builtins:
+int			ft_echo(t_command *cmd);
+int			ft_env(t_command *cmd);
+int			ft_export(t_command *cmd);
+int			ft_unset(t_command *cmd);
+int			ft_pwd(void);
+int			ft_cd(t_command *cmd);
+int			ft_exit(t_command *cmd);
+void		set_or_create_env_var(t_env_var **env_vars, const char *key,
+				const char *value);
+void		create_new_env_var_hidden(t_env_var **env_vars, const char *key);
+void		set_or_create_hidden_env_var(t_env_var **env_vars, const char *key);
 
 // Init:
-void		init_token(t_token *token, t_raw_token *t_raw_token);
+void		init_token(t_token *token);
 void		order_extra(void);
 void		check_order(t_token *tokens);
-void 		init_shell(t_shell *shell, t_env_var *env_vars);
+void		init_shell(t_shell *shell, t_env_var *env_vars);
+t_raw_list	init_raw_list(void);
 
 // env_var:
-t_env_var		*init_env_vars(char **envp);
-int				identify_env_var(char *str);
-char			*expand_env_variable(const char *var_name);
-void			append_variable_value(const char *var_name, char **write_ptr);
+t_env_var	*init_env_vars(char **envp);
+int			identify_env_var(char *str);
+void		append_variable_value(const char *var_name, char **write_ptr,
+				t_env_var *env);
+void		update_exit_code(t_shell *shell, int exit_code);
+char		*get_exit_code_str(t_shell *shell);
+char		*ft_getenv(t_env_var *env_vars, const char *name);
+void		update_env_var(t_env_var *current, const char *key,
+				const char *value);
+void		create_new_env_var(t_env_var **env_vars, const char *key,
+				const char *value);
+char		*resolve_variables_str(char *str, t_shell *shell);
+char		*resolve_variable(const char *str, int *idx, t_shell *shell);
+void		update_quote_mode(char c, unsigned char *quote_mode);
+char		*handle_dollar_sign(const char *str, int *idx, char *output_str,
+				t_shell *shell);
+const char	*extract_variable_name(const char *current, char *var_name);
 
-// Parsing:
-t_raw_token	*handle_input(char *input);
-t_token		*allocate_token(int length);
-void		fill_token_fields(t_token *token, char *start, int length,
-				int quote_state);
-int			is_command_expected(t_token *prev_token);
-t_raw_token	*create_raw_token(const char *segment, t_quote_state quote_state,
-				int position);
+// Tokenizing and Parsing:
+t_raw_token	*handle_input(char *input, t_shell *shell);
+t_raw_token	*create_raw_token(const char *segment, t_quote_state quote_state);
 void		append_raw_token(t_raw_token **first, t_raw_token **last,
 				t_raw_token *new_token);
 void		append_character(char c, char **write_ptr);
-const char	*extract_variable_name(const char *current, char *var_name);
-char		*expand_double_quote_content(const char *content);
+char		*expand_double_quote_content(const char *content, t_env_var *env);
 t_token		*convert_raw_token(t_raw_token *raw_token);
 int			is_raw_token_list_empty(t_raw_token *raw_token_head);
 void		link_token_to_list(t_token **new_head, t_token **current_new,
 				t_token *new_token);
 t_token		*convert_raw_token_list(t_raw_token *raw_token_head);
-void		assign_token_role(t_token *token_list);
-void		handle_command_token(t_token *token);
-void		handle_redirect_token(t_token *token);
-void		handle_pipe_token(t_token *token);
 int			validate_token_syntax(t_token *token_list);
 t_token		*finalizing_token_list(t_token *token_list);
 void		remove_token(t_token **head, t_token *token);
-void		print_token_list(t_token *token_list);
+t_raw_token	*tokenize_pipe_redirection(const char **input);
+void		separation_check(const char **input, t_raw_token *token);
+void		concatenate_tokens(t_token **token_list);
+
+// Roles:
+void		handle_first_quote(t_token *token);
+void		handle_first_token(t_token *token);
+void		assign_token_role(t_token *token_list);
+void		handle_redirect_token(t_token *token);
+void		handle_pipe_token(t_token *token);
+void		handle_quote_token(t_token *token);
 
 // Quote handling:
 t_token		*pop_quotemark_tokens(t_token **token_list);
-void		single_quote_wrapper(const char **input, int *pos,
-				t_raw_token **first, t_raw_token **last);
-void		double_quote_wrapper(const char **input, int *pos,
-				t_raw_token **first, t_raw_token **last);
-t_raw_token	*handle_double_quote_segment(const char **input, int *pos);
-t_raw_token	*handle_single_quote_segment(const char **input, int *pos);
-t_raw_token	*handle_single_quote_mark(int *pos);
-t_raw_token	*handle_double_quote_mark(int *pos);
-t_raw_token	*handle_non_quote_segment(const char **input, int *pos);
-void		check_for_unclosed(t_token *token_list);
+void		single_quote_wrapper(const char **input, t_raw_list *list);
+void		double_quote_wrapper(const char **input, t_raw_list *list,
+				t_env_var *env, t_shell *shell);
+t_raw_token	*handle_double_quote_segment(const char **input,
+				t_env_var *env, t_shell *shell);
+t_raw_token	*handle_single_quote_segment(const char **input);
+t_raw_token	*handle_single_quote_mark(void);
+t_raw_token	*handle_double_quote_mark(void);
+t_raw_token	*handle_non_quote_segment(const char **input, t_shell *shell);
+int			check_for_unclosed(t_raw_token *list, t_shell *shell);
+char		**purge_quotes_from_args(t_command *cmd);
+char		*purge_quotes_from_arg(char *args);
+void		update_quote_state(const char *p, int *quote_state);
 
 // Utils:
 char		*ft_strtok(char *str, const char *delimiters);
+int			ft_atoi(const char *str);
+char		*ft_strchr(const char *s, int c);
 char		*ft_strncpy(char *dest, const char *src, size_t n);
 char		*ft_strtok_r(char *str, const char *delim, char **saveptr);
 char		*ft_strjoin_and_free(char *s1, char *s2);
@@ -218,6 +261,12 @@ char		*ft_strndup(const char *s1, size_t n);
 char		*ft_strcpy(char *dst, const char *src);
 char		*skip_whitespace(char *input);
 int			is_valid_env_var_name(const char *str);
+char		**convert_environment_to_array(t_env_var *environment);
+int			ft_lstsize(t_env_var *lst);
+char		*ft_strjoin_and_free2(char *s1, char *s2);
+void		*ft_realloc(void *ptr, int old_size, int new_size);
+char		*ft_strcat(char *dest, const char *src);
+bool		is_valid_identifier(const char *str);
 
 // Command filler
 t_command	*create_new_command(void);
@@ -228,31 +277,47 @@ void		remove_last_empty_command(t_command *head_cmd,
 				t_command *current_cmd);
 int			process_tokens(t_token *ct, t_command *current_cmd);
 int			fill_command_from_tokens(t_token *tokens, t_command **cmd);
-void		link_commands_and_tokens(t_token *tokens, t_command *cmd);
+int			link_commands_and_tokens(t_token *tokens, t_command *cmd);
+void		remove_last_empty_command(t_command *head_cmd,
+				t_command *current_cmd);
+void		ft_function_marker(t_command *cmd);
+void		restore_shell_fds(t_shell *shell);
+void		save_shell_fds(t_shell *shell);
 
 // Execution
-void		handle_ft_command(t_command *cmd);
-char		*search_command(const char *command);
+int			handle_ft_command(t_command *cmd);
+char		*search_command(const char *command, t_env_var *env_var);
 char		**construct_exec_args(t_command *cmd);
 void		execute_command(t_command *cmd, char **exec_args);
 
 // Piping
-void		setup_redirection(t_command *cmd, int in_fd, int pipefd[2]);
+int			setup_redirection(t_command *cmd, int in_fd, int pipefd[2]);
 void		create_pipe(int pipefd[2]);
 pid_t		fork_process(void);
 void		handle_child_process(t_command *cmd, int in_fd, int pipefd[2]);
 void		handle_parent_process(t_command *cmd, int *in_fd, int pipefd[2]);
 void		handle_pipes(t_command *cmd);
+int			execute_builtin(t_command *cmd);
 
 // Redirection
-void		handle_input_redirection(t_command *cmd);
-void		handle_output_redirection(t_command *cmd);
-void		handle_append_redirection(t_command *cmd);
+int			handle_input_redirection(t_command *cmd);
+int			handle_output_redirection(t_command *cmd);
+int			handle_append_redirection(t_command *cmd);
 void		handle_pipe_redirection(t_command *cmd, int pipefd[2]);
-void		handle_heredoc_redirection(t_command *cmd);
+int			handle_heredoc_redirection(t_command *cmd);
+void		add_redirect(t_redirect_list **head, t_token *token);
+void		free_redirect_list(t_redirect_list *head);
+int			update_redir_lp(t_token *ct);
+
+// Loop:
+void		process_tokens_and_commands(t_token *tokens, t_shell *shell);
+void		shell_to_command(t_command **cmd, t_shell *shell);
 
 // Signal handling:
 void		setup_signal_handling(void);
+void		signal_interactive(void);
+void		signal_noninteractive(void);
+int			sigint_checker(int original);
 
 // Freeing:
 void		free_command(t_command *cmd);
@@ -261,10 +326,7 @@ void		free_tokens(t_token *token);
 void		free_raw_tokens(t_raw_token *first_token);
 void		free_env_vars(t_env_var *env_vars);
 void		free_shell(t_shell *shell);
-
-//debugging:
-void		print_raw_tokens(t_raw_token *first_token);
-void		print_tokens(t_token *first_token);
-void		print_commands(t_command *first_command);
+void		free_split_array(char **array);
+void		free_raw_and_input(t_raw_token *raw_tokens, char *input);
 
 #endif

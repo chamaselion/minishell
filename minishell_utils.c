@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 18:12:45 by root              #+#    #+#             */
-/*   Updated: 2024/12/04 17:45:14 by mnaumann         ###   ########.fr       */
+/*   Created: 2025/02/02 20:09:18 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:09:18 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,40 +63,15 @@ char	*ft_strncpy(char *dest, const char *src, size_t n)
 	return (dest);
 }
 
-int	ft_itoa_base(int value, int base, char *buffer, int size)
+int	update_redir_lp(t_token *ct)
 {
-	char	*digits;
-	char	tmp[32];
-	int		i;
-	int		j;
-	int		negative;
-
-	i = -1;
-	j = -1;
-	if (base < 2 || base > 16)
-		return (0);
-	negative = (value < 0 && base == 10);
-	digits = "0123456789abcdef";
-	if (negative)
-		value = -value;
-	while (value && ++i < 32)
-	{
-		tmp[i] = digits[value % base];
-		value /= base;
-	}
-	if (negative && ++j < size - 1)
-		buffer[j] = '-';
-	while (i >= 0 && ++j < size - 1)
-		buffer[j] = tmp[i--];
-	buffer[j] = '\0';
-	return (j);
-}
-
-char	*ft_strjoin_and_free(char *s1, char *s2)
-{
-	char	*result;
-
-	result = ft_strjoin(s1, s2);
-	free(s1);
-	return (result);
+	if (ft_strcmp(ct->content, ">") == 0)
+		return (1);
+	else if (ft_strcmp(ct->content, "<") == 0)
+		return (2);
+	else if (ft_strcmp(ct->content, ">>") == 0)
+		return (3);
+	else if (ft_strcmp(ct->content, "<<") == 0)
+		return (4);
+	return (0);
 }

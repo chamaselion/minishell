@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaumann <mnaumann@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 11:20:21 by mnaumann          #+#    #+#             */
-/*   Updated: 2024/12/09 12:56:36 by mnaumann         ###   ########.fr       */
+/*   Created: 2025/02/02 20:09:39 by bszikora          #+#    #+#             */
+/*   Updated: 2025/02/02 20:09:39 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ char	*ft_strcpy(char *dst, const char *src)
 
 int	is_pipe(char *str)
 {
-	return (ft_strcmp(str, "|") == 0);
+	if (!str)
+		return (0);
+	return (*str == '|');
 }
 
 int	identify_env_var(char *str)
@@ -59,8 +61,7 @@ int	identify_env_var(char *str)
 
 int	is_redirection(char *str)
 {
-	if (ft_strcmp(str, "<") == 0 || ft_strcmp(str, ">") == 0 || ft_strcmp(str,
-			"<<") == 0 || ft_strcmp(str, ">>") == 0)
-		return (1);
-	return (0);
+	if (!str)
+		return (0);
+	return (*str == '<' || *str == '>');
 }
