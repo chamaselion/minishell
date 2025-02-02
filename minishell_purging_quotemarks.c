@@ -90,7 +90,7 @@ char	**purge_quotes_from_args(t_command *cmd)
 	args = cmd->args;
 	purged_args = (char **)malloc(sizeof(char *) * (cmd->arg_count + 1));
 	if (!purged_args)
-		return ;
+		return (NULL);
 	while (*args)
 	{
 		purged_args[i] = purge_quotes_from_arg(*args);
@@ -110,7 +110,7 @@ char	*purge_quotes_from_arg(char *arg)
 
 	purged_arg = (char *)malloc(sizeof(char) * (ft_strlen(arg) + 1));
 	if (!purged_arg)
-		return ;
+		return (NULL);
 	current = arg;
 	write_ptr = purged_arg;
 	while (*current)
