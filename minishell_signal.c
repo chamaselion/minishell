@@ -26,6 +26,7 @@ void	sigquit_ignore(void)
 void	signal_prompt(int sig)
 {
 	(void)sig;
+	g_received_signal = SIGINT;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -45,6 +46,7 @@ void	signal_interactive(void)
 void	signal_newline(int sig)
 {
 	(void)sig;
+	g_received_signal = SIGINT;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
