@@ -59,6 +59,8 @@ void	create_new_env_var_hidden(t_env_var **env_vars, const char *key)
     new_var->value = ft_strdup("");
     len = ft_strlen(new_var->key) + ft_strlen(new_var->value) + 2;
     new_var->string = (char *)malloc(len);
+	if (!new_var->string)
+		return ;
     ft_strlcpy(new_var->string, new_var->key, len);
     ft_strlcat(new_var->string, "=", len);
     ft_strlcat(new_var->string, new_var->value, len);

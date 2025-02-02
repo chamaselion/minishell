@@ -89,6 +89,8 @@ char	**purge_quotes_from_args(t_command *cmd)
 	i = 0;
 	args = cmd->args;
 	purged_args = (char **)malloc(sizeof(char *) * (cmd->arg_count + 1));
+	if (!purged_args)
+		return ;
 	while (*args)
 	{
 		purged_args[i] = purge_quotes_from_arg(*args);
@@ -107,6 +109,8 @@ char	*purge_quotes_from_arg(char *arg)
 	char	*write_ptr;
 
 	purged_arg = (char *)malloc(sizeof(char) * (ft_strlen(arg) + 1));
+	if (!purged_arg)
+		return ;
 	current = arg;
 	write_ptr = purged_arg;
 	while (*current)

@@ -31,6 +31,8 @@ char	**convert_environment_to_array(t_env_var *environment)
 	int			idx;
 
 	envarr = (char **)malloc(sizeof(char *) * (ft_lstsize(environment) + 1));
+	if (!envarr)
+		return ;
 	current = environment;
 	idx = 0;
 	while (current)
