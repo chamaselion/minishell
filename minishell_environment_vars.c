@@ -83,7 +83,7 @@ void	update_env_var(t_env_var *current, const char *key,
 	free(current->string);
 	len = ft_strlen(key) + ft_strlen(value) + 2;
 	current->string = (char *)malloc(len);
-	if (!string)
+	if (!new_var->string)
 		return ;
 	ft_strlcpy(current->string, key, len);
 	ft_strlcat(current->string, "=", len);
@@ -104,7 +104,7 @@ void	create_new_env_var(t_env_var **env_vars, const char *key,
 	new_var->value = ft_strdup(value);
 	len = ft_strlen(key) + ft_strlen(value) + 2;
 	new_var->string = (char *)malloc(len);
-	if (!string)
+	if (!new_var->string)
 		return ;
 	ft_strlcpy(new_var->string, key, len);
 	ft_strlcat(new_var->string, "=", len);
