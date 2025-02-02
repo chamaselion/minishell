@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_variable_expansion2.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <mnaumann@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: bszikora <bszikora@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:48:09 by mnaumann          #+#    #+#             */
-/*   Updated: 2025/02/02 09:18:41 by root             ###   ########.fr       */
+/*   Updated: 2025/02/02 12:59:32 by bszikora         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*handle_dollar_sign(const char *str, int *idx,
 		output_str = ft_strjoin_and_free2(output_str, temp_char);
 		(*idx)++;
 	}
+	if (*output_str == '\0')
+		update_exit_code(shell, 0);
 	return (output_str);
 }
 
@@ -55,8 +57,6 @@ char	*resolve_variables_str(char *str, t_shell *shell)
 		if (str[idx] == '$' && (!quote_mode || (quote_mode & 2)))
 		{
 			output_str = handle_dollar_sign(str, &idx, output_str, shell);
-			if (*output_str == '\0')
-				update_exit_code(shell, 0);
 		}
 		else
 		{
