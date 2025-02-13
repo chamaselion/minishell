@@ -51,9 +51,7 @@ int	main_loop(t_shell *shell)
 	char		*input;
 	t_raw_token	*raw_tokens;
 	t_token		*tokens;
-	t_command	*commands;
-
-	commands = NULL;
+	
 	while (1)
 	{
 		signal_interactive();
