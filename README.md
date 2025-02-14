@@ -16,7 +16,7 @@ Minishell is a simple shell implementation written in C. It provides basic funct
 ## Installation
 1. Clone the repository:
 ```sh
-git clone <repository_url>
+git clone https://github.com/chamaselion/minishell
 ```
 2. Navigate to the project directory:
 ```sh
